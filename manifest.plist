@@ -11,8 +11,7 @@
           <key>kind</key>
           <string>software-package</string>
           <key>url</key>
-          <string>https://app.koofr.net/content/api/v2/mounts/ba85f16d-5600-4992-b8e3-6160e242a735/files/get/PUBG%20MOBILE_4.2.0_%E5%85%A8%E7%90%83S3F.ipa?path=%2FPUBG%20MOBILE_4.2.0_%E5%85%A8%E7%90%83S3F.ipa&hash=4c8ac87a063cc9f6c21c43e5a5a5e8ab&force</string></dict>
-        <dict>
+          <string>https://app.koofr.net/content/api/v2/mounts/ba85f16d-5600-4992-b8e3-6160e242a735/files/get/PUBG%20MOBILE_4.2.0_%E5%85%A8%E7%90%83S3F.ipa?path=%2FPUBG%20MOBILE_4.2.0_%E5%85%A8%E7%90%83S3F.ipa>
           <key>kind</key>
           <string>display-image</string>
           <string>https://picsum.photos/120/120</string>
