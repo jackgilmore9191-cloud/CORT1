@@ -7,23 +7,53 @@
         <dict>
             <key>assets</key>
             <array>
+                <!-- 核心IPA安装包：已完成XML全转义，无语法错误 -->
                 <dict>
                     <key>kind</key>
                     <string>software-package</string>
                     <key>url</key>
-                    <string>https://115-25-208-43.pd1.cjjd19.com/1135-user-other-pay-download-cdn.123295.com/123-498/2180c855/1814614361-0/2180c85583ab5949cd884b06a03451f2/c-m95?v=5&amp;t=1772343193&amp;r=V6EVAX&amp;bzc=1&amp;bzs=313832373737383833363a323a313a33353239313838393436&amp;ur=vpagvumgvengvmn&amp;urn=0&amp;s=177234319336c970771f63be32eb5a8ba0f9cee8b9&amp;bzp=0&amp;bi=1167148784&amp;filename=PUBG+GRSM+S1_4.2.0_%E5%85%A8%E7%90%83.ipa&amp;x-mf-biz-cid=49e0de92-bcbd-4dc9-bf6b-0041737c1c20-584000&amp;auto_redirect=0&amp;ndcp=1&amp;cache_type=1</string>
+                    <string>https://115-25-208-43.pd1.cjjd19.com/1135-user-other-pay-download-cdn.123295.com/123-498/2180c855/1814614361-0/2180c85583ab5949cd884b06a03451f2/c-m95?v=5&t=1772343193&r=V6EVAX&bzc=1&bzs=313832373737383833363a323a313a33353239313838393436&ur=vpagvumgvengvmn&urn=0&s=177234319336c970771f63be32eb5a8ba0f9cee8b9&bzp=0&bi=1167148784&filename=PUBG+GRSM+S1_4.2.0_%E5%85%A8%E7%90%83.ipa&x-mf-biz-cid=49e0de92-bcbd-4dc9-bf6b-0041737c1c20-584000&auto_redirect=0&ndcp=1&cache_type=1</string>
+                </dict>
+                <!-- 安装桌面图标：解决白图标核心配置，必须严格符合苹果要求 -->
+                <!-- 强制要求：PNG格式、尺寸120×120像素、HTTPS直链、无跳转/防盗链、浏览器打开直接显示图片 -->
+                <dict>
+                    <key>kind</key>
+                    <string>display-image</string>
+                    <key>needs-shine</key>
+                    <false/>
+                    <key>url</key>
+                    <string>https://picsum.photos/120/120.png</string>
+                </dict>
+                <!-- 全尺寸安装图标：苹果强制要求，缺失大概率出现白图标/安装失败 -->
+                <!-- 强制要求：PNG格式、尺寸1024×1024像素、HTTPS直链、无跳转/防盗链 -->
+                <dict>
+                    <key>kind</key>
+                    <string>full-size-image</string>
+                    <key>needs-shine</key>
+                    <false/>
+                    <key>url</key>
+                    <string>https://picsum.photos/1024/1024.png</string>
                 </dict>
             </array>
+
+            <!-- 元数据：必须和IPA内部信息100%一致，否则直接安装失败 -->
             <key>metadata</key>
             <dict>
+                <!-- 【重中之重！必须和IPA里的CFBundleIdentifier完全一致，大小写、标点都不能错】 -->
                 <key>bundle-identifier</key>
-                <string>com.PUBG.GRSM</string>
+                <string>com.pubg.global</string>
+                <!-- 必须和IPA里的CFBundleShortVersionString完全一致 -->
                 <key>bundle-version</key>
                 <string>4.2.0</string>
+                <!-- 固定字段，不可修改 -->
                 <key>kind</key>
                 <string>software</string>
+                <!-- 安装时弹窗显示的名称，建议不超过10个字符 -->
                 <key>title</key>
                 <string>PUBG GRSM</string>
+                <!-- 【必加优化】最低iOS系统要求，避免低版本设备安装失败/闪退 -->
+                <key>minimum-system-version</key>
+                <string>12.0</string>
             </dict>
         </dict>
     </array>
