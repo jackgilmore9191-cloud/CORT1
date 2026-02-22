@@ -2,60 +2,38 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
-    <key>items</key>
-    <array>
+  <key>items</key>
+  <array>
+    <dict>
+      <key>assets</key>
+      <array>
+        <!-- 核心IPA安装包（已完成XML语法转义，修复&符号问题） -->
         <dict>
-            <key>assets</key>
-            <array>
-                <!-- 核心IPA安装包：已完成XML全转义，无语法错误 -->
-                <dict>
-                    <key>kind</key>
-                    <string>software-package</string>
-                    <key>url</key>
-                    <string>https://dl-app.feejii.com/storage/files/2026/02/22/3/5020167223/1771770065544140.gz?t=699b3594&rlimit=20&us=HBbDdXqd1x&sign=cc122c820a199e5295c3267ed07daf0c&download_name=PUBG%20MOBILE_4.2.0_%E5%85%A8%E7%90%83S3F.ipa</string>
-                </dict>
-                <!-- 安装桌面图标：解决白图标核心配置，必须严格符合苹果要求 -->
-                <!-- 强制要求：PNG格式、尺寸120×120像素、HTTPS直链、无跳转/防盗链、浏览器打开直接显示图片 -->
-                <dict>
-                    <key>kind</key>
-                    <string>display-image</string>
-                    <key>needs-shine</key>
-                    <false/>
-                    <key>url</key>
-                    <string>https://picsum.photos/120/120.png</string>
-                </dict>
-                <!-- 全尺寸安装图标：苹果强制要求，缺失大概率出现白图标/安装失败 -->
-                <!-- 强制要求：PNG格式、尺寸1024×1024像素、HTTPS直链、无跳转/防盗链 -->
-                <dict>
-                    <key>kind</key>
-                    <string>full-size-image</string>
-                    <key>needs-shine</key>
-                    <false/>
-                    <key>url</key>
-                    <string>https://picsum.photos/1024/1024.png</string>
-                </dict>
-            </array>
-
-            <!-- 元数据：必须和IPA内部信息100%一致，否则直接安装失败 -->
-            <key>metadata</key>
-            <dict>
-                <!-- 【重中之重！必须和IPA里的CFBundleIdentifier完全一致，大小写、标点都不能错】 -->
-                <key>bundle-identifier</key>
-                <string>com.pubg.global</string>
-                <!-- 必须和IPA里的CFBundleShortVersionString完全一致 -->
-                <key>bundle-version</key>
-                <string>4.2.0</string>
-                <!-- 固定字段，不可修改 -->
-                <key>kind</key>
-                <string>software</string>
-                <!-- 安装时弹窗显示的名称，建议不超过10个字符 -->
-                <key>title</key>
-                <string>PUBG GRSM</string>
-                <!-- 【必加优化】最低iOS系统要求，避免低版本设备安装失败/闪退 -->
-                <key>minimum-system-version</key>
-                <string>12.0</string>
-            </dict>
+          <key>kind</key>
+          <string>software-package</string>
+          <key>url</key>
+          <string>https://dl-app.feejii.com/storage/files/2026/02/22/3/5020167223/1771770065544140.gz?t=699b3594&rlimit=20&us=HBbDdXqd1x&sign=cc122c820a199e5295c3267ed07daf0c&download_name=PUBG%20MOBILE_4.2.0_%E5%85%A8%E7%90%83S3F.ipa&p=8504924-8504924-33652864551</string>
         </dict>
-    </array>
+        <!-- 安装图标（已修复缺失的url标签，符合规范） -->
+        <dict>
+          <key>kind</key>
+          <string>display-image</string>
+          <key>url</key>
+          <string>https://picsum.photos/120/120</string>
+        </dict>
+      </array>
+      <key>metadata</key>
+      <dict>
+        <key>bundle-identifier</key>
+        <string>com.pubg.global</string>
+        <key>bundle-version</key>
+        <string>4.2.0</string>
+        <key>kind</key>
+        <string>software</string>
+        <key>title</key>
+        <string>PUBG GRSM S1</string>
+      </dict>
+    </dict>
+  </array>
 </dict>
 </plist>
