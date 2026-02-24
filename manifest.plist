@@ -7,14 +7,12 @@
     <dict>
       <key>assets</key>
       <array>
-        <!-- 核心IPA安装包（已完成XML语法转义，修复&符号问题） -->
         <dict>
           <key>kind</key>
           <string>software-package</string>
           <key>url</key>
-          <string>https://dl-app.feejii.com/storage/files/2026/02/22/3/5020167223/1771770065544140.gz?t=699b3594&rlimit=20&us=HBbDdXqd1x&sign=cc122c820a199e5295c3267ed07daf0c&download_name=PUBG%20MOBILE_4.2.0_%E5%85%A8%E7%90%83S3F.ipa&p=8504924-8504924-33652864551</string>
+          <string>https://dl-app.feejii.com/storage/files/2026/02/24/3/5020167223/1771918014899333.gz?t=699d736d&rlimit=20&us=WtRJi7fzWC&sign=5d19c1078f6c602be6206839b67f654d&download_name=%E6%B3%BD%E5%A1%94ZETA_%E5%85%A8%E7%90%83S6.ipa</string>
         </dict>
-        <!-- 安装图标（已修复缺失的url标签，符合规范） -->
         <dict>
           <key>kind</key>
           <string>display-image</string>
