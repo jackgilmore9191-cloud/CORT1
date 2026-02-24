@@ -2,36 +2,30 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
-  <key>items</key>
-  <array>
-    <dict>
-      <key>assets</key>
-      <array>
+    <key>items</key>
+    <array>
         <dict>
-          <key>kind</key>
-          <string>software-package</string>
-          <key>url</key>
-          <string>https://dl-app.feejii.com/storage/files/2026/02/24/3/5020167223/1771918014899333.gz?t=699d736d&rlimit=20&us=WtRJi7fzWC&sign=5d19c1078f6c602be6206839b67f654d&download_name=%E6%B3%BD%E5%A1%94ZETA_%E5%85%A8%E7%90%83S6.ipa</string>
+            <key>assets</key>
+            <array>
+                <dict>
+                    <key>kind</key>
+                    <string>software-package</string>
+                    <key>url</key>
+                    <string>https://dl-app.feejii.com/storage/files/2026/02/24/3/5020167223/1771918014899333.gz?t=699d736d&rlimit=20&us=WtRJi7fzWC&sign=5d19c1078f6c602be6206839b67f654d&download_name=%E6%B3%BD%E5%A1%94ZETA_%E5%85%A8%E7%90%83S6.ipa&p=8504924-8504924-33962485638</string>
+                </dict>
+            </array>
+            <key>metadata</key>
+            <dict>
+                <key>bundle-identifier</key>
+                <string>com.pubg.grsm.s1</string>
+                <key>bundle-version</key>
+                <string>4.2.0</string>
+                <key>kind</key>
+                <string>software</string>
+                <key>title</key>
+                <string>PUBG GRSM</string>
+            </dict>
         </dict>
-        <dict>
-          <key>kind</key>
-          <string>display-image</string>
-          <key>url</key>
-          <string>https://picsum.photos/120/120</string>
-        </dict>
-      </array>
-      <key>metadata</key>
-      <dict>
-        <key>bundle-identifier</key>
-        <string>com.pubg.global</string>
-        <key>bundle-version</key>
-        <string>4.2.0</string>
-        <key>kind</key>
-        <string>software</string>
-        <key>title</key>
-        <string>PUBG GRSM S1</string>
-      </dict>
-    </dict>
-  </array>
+    </array>
 </dict>
 </plist>
