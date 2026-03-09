@@ -14,18 +14,7 @@
                     <string>https://app.koofr.net/content/api/v2/mounts/ba85f16d-5600-4992-b8e3-6160e242a735/files/get/ZETA%20%E6%B3%BD%E5%A1%94.ipa?path=%2FZETA%20%E6%B3%BD%E5%A1%94.ipa</string>
                 </dict>
                 <dict>
-                    <key>kind</key>
-                    <string>display-image</string>
-                    <key>url</key>
-                    <string>https://od.lk/d/M18zMjU5MjEzMTJf/Icon29%402x.png</string>
-                </dict>
-                <dict>
-                    <key>kind</key>
-                    <string>full-size-image</string>
-                    <key>url</string>
-                    <string>https://od.lk/d/M18zMjU5MjEzMTNf/1aae7ffb453729cf2a825d547e8334c9.png</string>
-                </dict>
-            </array>
+                 </array>
             <key>metadata</key>
             <dict>
                 <key>bundle-identifier</key>
