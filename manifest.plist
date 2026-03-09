@@ -13,23 +13,11 @@
                     <key>url</key>
                     <string>https://app.koofr.net/content/api/v2/mounts/ba85f16d-5600-4992-b8e3-6160e242a735/files/get/ZETA%20%E6%B3%BD%E5%A1%94.ipa?path=%2FZETA%20%E6%B3%BD%E5%A1%94.ipa</string>
                 </dict>
-                <dict>
-                    <key>kind</key>
-                    <string>display-image</string>
-                    <key>url</key>
-                    <string>https://你的域名/icon_57x57.png</string>
-                </dict>
-                <dict>
-                    <key>kind</key>
-                    <string>full-size-image</string>
-                    <key>url</string>
-                    <string>https://你的域名/icon_512x512.png</string>
-                </dict>
             </array>
             <key>metadata</key>
             <dict>
                 <key>bundle-identifier</key>
-                <string>com.tencengt.ig6</string>
+                <string>com.tencent.ig6</string>
                 <key>bundle-version</key>
                 <string>4.2.0</string>
                 <key>kind</key>
