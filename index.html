@@ -303,11 +303,6 @@ h1 {
       particle.style.animationDelay = Math.random() * 8 + 's';
       particlesContainer.appendChild(particle);
     }
-    // 视频加载异常兜底：若视频无法播放，隐藏视频容器防止空白
-    const bgVideo = document.querySelector('.video-container video');
-    bgVideo.addEventListener('error', () => {
-      document.querySelector('.video-container').style.display = 'none';
-    });
   </script>
 </body>
 </html>
