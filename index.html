@@ -273,7 +273,7 @@ h1 {
 <body>
 
   <div class="video-container">
-    <video src="https://od.lk/s/M18zMjYxMTE3ODhf/123.zip.MP4" muted loop autoplay playsinline></video>
+    <video src="https://od.lk/s/M18zMjYxMTE3OTlf/save_feed_3A267127-0BDB-4BCD-9B7E-E68F521197B4.mov" muted loop autoplay playsinline preload="auto"></video>
   </div>
   <div class="bg-overlay"></div>
   <div class="scanline"></div>
@@ -303,6 +303,11 @@ h1 {
       particle.style.animationDelay = Math.random() * 8 + 's';
       particlesContainer.appendChild(particle);
     }
+    // 视频加载异常兜底：若视频无法播放，隐藏视频容器防止空白
+    const bgVideo = document.querySelector('.video-container video');
+    bgVideo.addEventListener('error', () => {
+      document.querySelector('.video-container').style.display = 'none';
+    });
   </script>
 </body>
 </html>
