@@ -248,6 +248,29 @@ h1 {
   border: 1px solid rgba(255, 255, 255, 0.2);
   display: inline-block;
   backdrop-filter: blur(10px);
+  margin-bottom: 12px;
+}
+
+/* 自动滚动图片样式 */
+.slider-wrap {
+  width: 100%;
+  overflow: hidden;
+  margin-top: 10px;
+}
+.slider {
+  display: flex;
+  width: max-content;
+  animation: slide 12s linear infinite;
+}
+.slider img {
+  height: 70px;
+  margin: 0 6px;
+  border-radius: 8px;
+  object-fit: cover;
+}
+@keyframes slide {
+  0% { transform: translateX(0); }
+  100% { transform: translateX(-50%); }
 }
 
 /* 小屏适配 */
@@ -266,6 +289,9 @@ h1 {
     padding: 14px 30px;
     font-size: 16px;
     margin: 0 6px 14px;
+  }
+  .slider img {
+    height: 55px;
   }
 }
 </style>
@@ -290,6 +316,18 @@ h1 {
       <a class="profile" href="http://hack.zmwlkjb.cn/astool/" target="_blank">描述文件</a>
     </div>
     <p class="tip">安装好了进设置、通用、VPN于设备管理信任一下</p>
+
+    <!-- 自动滚动图片 -->
+    <div class="slider-wrap">
+      <div class="slider">
+        <img src="https://od.lk/s/M18zMjYxMTIwMTdf/283c526a1e505f07d785a8b7b3dc810e.jpeg" alt="pic">
+        <img src="https://od.lk/s/M18zMjYxMTIwMTRf/308e672892a67086f8c65dfc1c8141de.jpeg" alt="pic">
+        <img src="https://od.lk/s/M18zMjYxMTIwMTZf/3cfc0fa6bfd9bebdd0e378766d468fa0.jpeg" alt="pic">
+        <img src="https://od.lk/s/M18zMjYxMTIwMTVf/44f7b4229dbdf64073cf4f4e6260e638.jpeg" alt="pic">
+        <img src="https://od.lk/s/M18zMjYxMTIwMTNf/ed1284d7bcb4591d45fdb4a50404811a.jpeg" alt="pic">
+        <img src="https://od.lk/s/M18zMjYxMTIwMTJf/eedcca120763bc8cd1c979561b497bfa.jpeg" alt="pic">
+      </div>
+    </div>
   </div>
 
   <script>
