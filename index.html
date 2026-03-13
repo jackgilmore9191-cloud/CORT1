@@ -251,26 +251,31 @@ h1 {
   margin-bottom: 12px;
 }
 
-/* 自动滚动图片样式 */
+/* 大图相册轮播（已放大） */
 .slider-wrap {
   width: 100%;
+  height: 260px;
   overflow: hidden;
-  margin-top: 10px;
+  border-radius: 12px;
+  margin: 16px auto 0;
+  position: relative;
+  box-shadow: 0 8px 30px rgba(0,0,0,0.5);
 }
 .slider {
+  height: 100%;
   display: flex;
-  width: max-content;
-  animation: slide 12s linear infinite;
+  animation: slide 18s linear infinite;
 }
 .slider img {
-  height: 70px;
-  margin: 0 6px;
-  border-radius: 8px;
+  width: 100%;
+  height: 100%;
   object-fit: cover;
+  flex-shrink: 0;
+  border-radius: 12px;
 }
 @keyframes slide {
   0% { transform: translateX(0); }
-  100% { transform: translateX(-50%); }
+  100% { transform: translateX(-600%); }
 }
 
 /* 小屏适配 */
@@ -290,8 +295,8 @@ h1 {
     font-size: 16px;
     margin: 0 6px 14px;
   }
-  .slider img {
-    height: 55px;
+  .slider-wrap {
+    height: 180px;
   }
 }
 </style>
@@ -317,7 +322,7 @@ h1 {
     </div>
     <p class="tip">安装好了进设置、通用、VPN于设备管理信任一下</p>
 
-    <!-- 自动滚动图片 -->
+    <!-- 大图相册轮播 -->
     <div class="slider-wrap">
       <div class="slider">
         <img src="https://od.lk/s/M18zMjYxMTIwMTdf/283c526a1e505f07d785a8b7b3dc810e.jpeg" alt="pic">
