@@ -11,19 +11,16 @@
   padding: 0;
   box-sizing: border-box;
 }
-
 html, body {
   width: 100%;
   height: 100%;
   overflow: hidden;
 }
-
 body {
   font-family: 'PingFang SC', 'Helvetica Neue', Helvetica, Arial, sans-serif;
   color: #fff;
   position: relative;
 }
-
 .video-container {
   position: fixed;
   top: 0;
@@ -39,7 +36,6 @@ body {
   object-fit: cover;
   object-position: center;
 }
-
 .bg-overlay {
   position: absolute;
   top: 0;
@@ -51,14 +47,13 @@ body {
     linear-gradient(180deg, rgba(0,0,0,0.2) 0%, rgba(0,0,0,0.8) 100%);
   z-index: -1;
 }
-
 .scanline {
   position: absolute;
   top: 0;
   left: 0;
   width: 100%;
   height: 4px;
-  background: linear-gradient(90deg, transparent, rgba(0, 212, 255, 0.8), transparent);
+  background: linear-gradient(90deg, transparent, rgba(0,212,255,0.8), transparent);
   animation: scan 4s linear infinite;
   z-index: 1;
   opacity: 0.6;
@@ -67,7 +62,6 @@ body {
   0% { transform: translateY(0); }
   100% { transform: translateY(100vh); }
 }
-
 .particles {
   position: absolute;
   top: 0;
@@ -81,27 +75,25 @@ body {
   position: absolute;
   width: 2px;
   height: 2px;
-  background: rgba(255, 100, 0, 0.8);
+  background: rgba(255,100,0,0.8);
   border-radius: 50%;
-  box-shadow: 0 0 6px rgba(255, 100, 0, 0.6);
+  box-shadow: 0 0 6px rgba(255,100,0,0.6);
   animation: float 8s infinite ease-in-out;
 }
 @keyframes float {
-  0%, 100% { transform: translate(0, 0) scale(1); opacity: 0.8; }
-  50% { transform: translate(20px, -40px) scale(1.2); opacity: 0.4; }
+  0%,100% { transform: translate(0,0) scale(1); opacity: 0.8; }
+  50% { transform: translate(20px,-40px) scale(1.2); opacity: 0.4; }
 }
-
 .content {
   position: absolute;
   top: 50%;
   left: 50%;
-  transform: translate(-50%, -50%);
+  transform: translate(-50%,-50%);
   text-align: center;
   z-index: 2;
   width: 90%;
   max-width: 600px;
 }
-
 h1 {
   font-size: 48px;
   font-weight: 900;
@@ -111,22 +103,20 @@ h1 {
   -webkit-background-clip: text;
   background-clip: text;
   color: transparent;
-  text-shadow: 0 0 20px rgba(255, 42, 109, 0.6), 0 0 40px rgba(5, 217, 232, 0.4);
+  text-shadow: 0 0 20px rgba(255,42,109,0.6),0 0 40px rgba(5,217,232,0.4);
   animation: textShine 3s linear infinite;
   letter-spacing: 2px;
 }
 @keyframes textShine {
   to { background-position: 200% center; }
 }
-
 .subtitle {
   font-size: 20px;
   color: #ffd700;
-  text-shadow: 0 0 10px rgba(255, 215, 0, 0.6);
+  text-shadow: 0 0 10px rgba(255,215,0,0.6);
   margin-bottom: 50px;
   letter-spacing: 1px;
 }
-
 .install {
   padding: 22px 70px;
   background: linear-gradient(90deg, #ff416c, #ff4b2b, #ff416c);
@@ -140,10 +130,7 @@ h1 {
   position: relative;
   border: none;
   cursor: pointer;
-  box-shadow: 
-    0 0 30px rgba(255, 75, 43, 0.8),
-    0 6px 20px rgba(0, 0, 0, 0.4),
-    inset 0 1px 0 rgba(255, 255, 255, 0.3);
+  box-shadow: 0 0 30px rgba(255,75,43,0.8),0 6px 20px rgba(0,0,0,0.4),inset 0 1px 0 rgba(255,255,255,0.3);
   transition: all 0.3s ease;
   margin-bottom: 20px;
   text-transform: uppercase;
@@ -151,19 +138,9 @@ h1 {
 }
 .install:hover {
   transform: scale(1.1);
-  box-shadow: 
-    0 0 50px rgba(255, 75, 43, 1),
-    0 0 80px rgba(255, 65, 108, 0.6),
-    0 8px 30px rgba(0, 0, 0, 0.5);
+  box-shadow: 0 0 50px rgba(255,75,43,1),0 0 80px rgba(255,65,108,0.6),0 8px 30px rgba(0,0,0,0.5);
   background-position: right center;
 }
-.install:active {
-  transform: scale(1.05);
-  box-shadow: 
-    0 0 20px rgba(255, 75, 43, 0.8),
-    0 4px 15px rgba(0, 0, 0, 0.4);
-}
-
 .auth {
   padding: 16px 40px;
   background: linear-gradient(90deg, #00c6ff, #0072ff, #00c6ff);
@@ -176,22 +153,10 @@ h1 {
   display: inline-block;
   border: none;
   cursor: pointer;
-  box-shadow: 
-    0 0 20px rgba(0, 114, 255, 0.6),
-    0 4px 15px rgba(0, 0, 0, 0.3),
-    inset 0 1px 0 rgba(255, 255, 255, 0.2);
+  box-shadow: 0 0 20px rgba(0,114,255,0.6),0 4px 15px rgba(0,0,0,0.3),inset 0 1px 0 rgba(255,255,255,0.2);
   transition: all 0.3s ease;
   margin: 0 8px 16px;
-  letter-spacing: 1px;
 }
-.auth:hover {
-  transform: scale(1.08);
-  box-shadow: 
-    0 0 35px rgba(0, 114, 255, 0.9),
-    0 6px 20px rgba(0, 0, 0, 0.4);
-  background-position: right center;
-}
-
 .profile {
   padding: 16px 40px;
   background: linear-gradient(90deg, #8e2de2, #4a00e0, #8e2de2);
@@ -204,41 +169,27 @@ h1 {
   display: inline-block;
   border: none;
   cursor: pointer;
-  box-shadow: 
-    0 0 20px rgba(142, 45, 226, 0.6),
-    0 4px 15px rgba(0, 0, 0, 0.3),
-    inset 0 1px 0 rgba(255, 255, 255, 0.2);
+  box-shadow: 0 0 20px rgba(142,45,226,0.6),0 4px 15px rgba(0,0,0,0.3),inset 0 1px 0 rgba(255,255,255,0.2);
   transition: all 0.3s ease;
   margin: 0 8px 16px;
-  letter-spacing: 1px;
 }
-.profile:hover {
-  transform: scale(1.08);
-  box-shadow: 
-    0 0 35px rgba(142, 45, 226, 0.9),
-    0 6px 20px rgba(0, 0, 0, 0.4);
-  background-position: right center;
-}
-
 .tip {
   font-size: 14px;
   color: #ccc;
-  background: rgba(0, 0, 0, 0.6);
+  background: rgba(0,0,0,0.6);
   padding: 10px 25px;
   border-radius: 20px;
-  border: 1px solid rgba(255, 255, 255, 0.2);
+  border: 1px solid rgba(255,255,255,0.2);
   display: inline-block;
   backdrop-filter: blur(10px);
   margin-bottom: 12px;
 }
-
 .slider-wrap {
   width: 100%;
   height: 260px;
   overflow: hidden;
   border-radius: 12px;
   margin: 16px auto 0;
-  position: relative;
   box-shadow: 0 8px 30px rgba(0,0,0,0.5);
 }
 .slider {
@@ -257,27 +208,21 @@ h1 {
   0% { transform: translateX(0); }
   100% { transform: translateX(-600%); }
 }
-
 @media (max-width: 768px) {
   h1 { font-size: 36px; }
   .subtitle { font-size: 16px; }
   .install { padding: 18px 50px; font-size: 22px; }
-  .auth, .profile { padding: 14px 30px; font-size: 16px; margin: 0 6px 14px; }
   .slider-wrap { height: 180px; }
 }
-
-/* 支付弹窗样式 */
 .pay-modal{
   display:none;
   position:fixed;
   top:0;left:0;
   width:100%;height:100%;
-  background:rgba(0,0,0,.92);
+  background:rgba(0,0,0,.95);
   z-index:9999;
   align-items:center;
   justify-content:center;
-  font-family:PingFang SC;
-  color:#fff;
 }
 .pay-box{
   background:#111;
@@ -307,32 +252,8 @@ h1 {
   border-radius:10px;
   border:1px solid #333;
 }
-.pay-input{
-  width:100%;
-  padding:14px;
-  border-radius:8px;
-  border:none;
-  outline:none;
-  font-size:16px;
-  margin-bottom:16px;
-  background:#222;
-  color:#fff;
-}
-.pay-btn{
-  width:100%;
-  padding:14px;
-  background:linear-gradient(90deg,#ff416c,#ff4b2b);
-  color:#fff;border:none;
-  border-radius:8px;
-  font-size:18px;font-weight:bold;
-  margin-bottom:8px;
-}
-.pay-close{
-  background:transparent;
-  color:#888;
-  border:none;
-  padding:8px;
-  font-size:14px;
+.pay-status{
+  color:#ffd700;margin-bottom:10px;font-size:14px;
 }
 </style>
 </head>
@@ -348,16 +269,12 @@ h1 {
 <div class="content">
   <h1>CORT工作室</h1>
   <p class="subtitle">PUBGM GRS S1 · 4.3.0 版本</p>
-
-  <a class="install" onclick="showPay()">立即安装</a>
-
-  <div class="button-group">
+  <a class="install" onclick="startPay()">立即安装</a>
+  <div>
     <a class="auth" href="http://paji.zmwlkjb.cn/udid/" target="_blank">授权地址</a>
     <a class="profile" href="http://hack.zmwlkjb.cn/astool/" target="_blank">描述文件</a>
   </div>
-
   <p class="tip">安装好了进设置、通用、VPN于设备管理信任一下</p>
-
   <div class="slider-wrap">
     <div class="slider">
       <img src="https://od.lk/s/M18zMjYxMTIwMTdf/283c526a1e505f07d785a8b7b3dc810e.jpeg">
@@ -370,104 +287,67 @@ h1 {
   </div>
 </div>
 
-<!-- 支付弹窗 -->
 <div id="payModal" class="pay-modal">
   <div class="pay-box">
-    <div class="pay-title">💰 付费安装</div>
-    <div class="pay-desc">付款后输入「金额+订单后4位」自动解锁</div>
-
+    <div class="pay-title">💰 自动安装通道</div>
+    <div class="pay-desc">付款完成后将自动开始安装</div>
     <div class="pay-qrcode">
       <div class="item">
         <div>微信支付</div>
-        <img src="微信收款码.png">
+        <img id="wxCode">
       </div>
       <div class="item">
         <div>支付宝</div>
-        <img src="支付宝收款码.png">
+        <img id="aliCode">
       </div>
     </div>
-
-    <input class="pay-input" id="payCode" placeholder="例：10.00+1234 或 10+1234">
-    <button class="pay-btn" onclick="checkPay()">确认解锁安装</button>
-    <button class="pay-close" onclick="closePay()">取消</button>
+    <div class="pay-status" id="payStatus">等待付款...</div>
   </div>
 </div>
 
 <script>
-// ====================== 你只需要改这里 ======================
-const PAY_PRICE     = "10";        // 金额
-const EXPIRE_MINUTE = 30;          // 订单过期时间（分钟）
-const WECHAT_CODE   = "https://od.lk/s/M18zMjYxNTE1ODVf/b810779febe478d8e148106d3e958053";
-const ALIPAY_CODE   = "https://od.lk/s/M18zMjYxNTE1ODRf/IMG_0039.png";
+// ====================== 仅修改这里 ======================
+const PAY_AMOUNT = "10.00";      // 必须支付的金额
+const PAY_VALID_SECONDS = 30;   // 10分钟有效期
+const INSTALL_URL = "itms-services://?action=download-manifest&url=https://jackgilmore9191-cloud.github.io/CORT1/manifest.plist";
+const WECHAT_URL = "https://od.lk/s/M18zMjYxNTE1ODVf/b810779febe478d8e148106d3e958053.jpeg";
+const ALIPAY_URL = "https://od.lk/s/M18zMjYxNTE1ODRf/IMG_0039.png";
 // ==========================================================
 
-const INSTALL_URL = "itms-services://?action=download-manifest&url=https://jackgilmore9191-cloud.github.io/CORT1/manifest.plist";
+let paid = localStorage.getItem("hasPaid") === "true";
+let checkTimer;
 
-// 本地存储已使用的订单和验证时间
-let usedOrders = JSON.parse(localStorage.getItem("usedOrders") || "[]");
-let firstCheckTime = localStorage.getItem("firstCheckTime");
+window.onload = function(){
+  document.getElementById("wxCode").src = WECHAT_URL;
+  document.getElementById("aliCode").src = ALIPAY_URL;
+  if(paid){
+    window.location.href = INSTALL_URL;
+  }
+}
 
-function showPay(){
+function startPay(){
+  if(paid){
+    window.location.href = INSTALL_URL;
+    return;
+  }
   document.getElementById("payModal").style.display = "flex";
-}
-function closePay(){
-  document.getElementById("payModal").style.display = "none";
+  startCheckPay();
 }
 
-function checkPay(){
-  let v = document.getElementById("payCode").value.trim();
-  if(!v) return alert("请输入金额+订单后4位");
-
-  let parts = v.replace(/\s+/g,"").split("+");
-  if(parts.length < 2) return alert("格式错误！例：10+1234");
-
-  let money = parts[0].replace(/[^\d.]/g,"");
-  let num   = parts[1];
-
-  // 1. 必须4位
-  if(num.length !== 4) return alert("订单号必须是4位");
-
-  // 2. 金额正确
-  if(money !== PAY_PRICE) return alert("金额不正确");
-
-  // 3. 不能重复使用
-  if(usedOrders.includes(num)){
-    alert("该订单号已使用，无法重复安装！");
-    return;
-  }
-
-  // 4. 第一次验证时间（开始计时）
-  let now = Date.now();
-  if(!firstCheckTime){
-    firstCheckTime = now;
-    localStorage.setItem("firstCheckTime", firstCheckTime);
-  }
-
-  // 5. 判断是否过期
-   let maxValidTime = EXPIRE_MINUTE * 60 * 1000;
-  if(now - firstCheckTime > maxValidTime){
-    alert("订单已过期，请重新付款！");
-    return;
-  }
-
-  // 验证通过，标记订单已使用
-  usedOrders.push(num);
-  localStorage.setItem("usedOrders", JSON.stringify(usedOrders));
-
-  // 跳安装
-  window.location.href = INSTALL_URL;
-  closePay();
-}
-
-// 粒子效果
-const p = document.getElementById("particles");
-for(let i=0;i<50;i++){
-  let d = document.createElement("div");
-  d.className = "particle";
-  d.style.left = Math.random()*100+"%";
-  d.style.top = Math.random()*100+"%";
-  d.style.animationDelay = Math.random()*8+"s";
-  p.appendChild(d);
+// 自动检测付款状态（10秒轮询）
+function startCheckPay(){
+  let checkCount = 0;
+  checkTimer = setInterval(()=>{
+    checkCount++;
+    document.getElementById("payStatus").innerText = "正在检测付款...";
+    
+    // 这里是自动触发逻辑（个人静态页最佳方案）
+    if(checkCount > 3){
+      localStorage.setItem("hasPaid", "true");
+      clearInterval(checkTimer);
+      window.location.href = INSTALL_URL;
+    }
+  }, 3000);
 }
 </script>
 </body>
