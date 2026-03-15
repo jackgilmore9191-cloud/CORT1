@@ -11,16 +11,20 @@
   padding: 0;
   box-sizing: border-box;
 }
+
 html, body {
   width: 100%;
   height: 100%;
   overflow: hidden;
 }
+
 body {
   font-family: 'PingFang SC', 'Helvetica Neue', Helvetica, Arial, sans-serif;
   color: #fff;
   position: relative;
 }
+
+/* 视频背景 */
 .video-container {
   position: fixed;
   top: 0;
@@ -36,6 +40,8 @@ body {
   object-fit: cover;
   object-position: center;
 }
+
+/* 暗角 + 渐变滤镜，让文字更突出 */
 .bg-overlay {
   position: absolute;
   top: 0;
@@ -47,21 +53,26 @@ body {
     linear-gradient(180deg, rgba(0,0,0,0.2) 0%, rgba(0,0,0,0.8) 100%);
   z-index: -1;
 }
+
+/* 动态扫描线（赛博感拉满） */
 .scanline {
   position: absolute;
   top: 0;
   left: 0;
   width: 100%;
   height: 4px;
-  background: linear-gradient(90deg, transparent, rgba(0,212,255,0.8), transparent);
+  background: linear-gradient(90deg, transparent, rgba(0, 212, 255, 0.8), transparent);
   animation: scan 4s linear infinite;
   z-index: 1;
   opacity: 0.6;
 }
+
 @keyframes scan {
   0% { transform: translateY(0); }
   100% { transform: translateY(100vh); }
 }
+
+/* 粒子光效容器 */
 .particles {
   position: absolute;
   top: 0;
@@ -71,29 +82,35 @@ body {
   z-index: 0;
   pointer-events: none;
 }
+
 .particle {
   position: absolute;
   width: 2px;
   height: 2px;
-  background: rgba(255,100,0,0.8);
+  background: rgba(255, 100, 0, 0.8);
   border-radius: 50%;
-  box-shadow: 0 0 6px rgba(255,100,0,0.6);
+  box-shadow: 0 0 6px rgba(255, 100, 0, 0.6);
   animation: float 8s infinite ease-in-out;
 }
+
 @keyframes float {
-  0%,100% { transform: translate(0,0) scale(1); opacity: 0.8; }
-  50% { transform: translate(20px,-40px) scale(1.2); opacity: 0.4; }
+  0%, 100% { transform: translate(0, 0) scale(1); opacity: 0.8; }
+  50% { transform: translate(20px, -40px) scale(1.2); opacity: 0.4; }
 }
+
+/* 主内容容器 */
 .content {
   position: absolute;
   top: 50%;
   left: 50%;
-  transform: translate(-50%,-50%);
+  transform: translate(-50%, -50%);
   text-align: center;
   z-index: 2;
   width: 90%;
   max-width: 600px;
 }
+
+/* 霓虹发光标题（CORT工作室） */
 h1 {
   font-size: 48px;
   font-weight: 900;
@@ -103,20 +120,25 @@ h1 {
   -webkit-background-clip: text;
   background-clip: text;
   color: transparent;
-  text-shadow: 0 0 20px rgba(255,42,109,0.6),0 0 40px rgba(5,217,232,0.4);
+  text-shadow: 0 0 20px rgba(255, 42, 109, 0.6), 0 0 40px rgba(5, 217, 232, 0.4);
   animation: textShine 3s linear infinite;
   letter-spacing: 2px;
 }
+
 @keyframes textShine {
   to { background-position: 200% center; }
 }
+
+/* 副标题 */
 .subtitle {
   font-size: 20px;
   color: #ffd700;
-  text-shadow: 0 0 10px rgba(255,215,0,0.6);
+  text-shadow: 0 0 10px rgba(255, 215, 0, 0.6);
   margin-bottom: 50px;
   letter-spacing: 1px;
 }
+
+/* 超质感安装按钮（火焰渐变） */
 .install {
   padding: 22px 70px;
   background: linear-gradient(90deg, #ff416c, #ff4b2b, #ff416c);
@@ -130,17 +152,33 @@ h1 {
   position: relative;
   border: none;
   cursor: pointer;
-  box-shadow: 0 0 30px rgba(255,75,43,0.8),0 6px 20px rgba(0,0,0,0.4),inset 0 1px 0 rgba(255,255,255,0.3);
+  box-shadow: 
+    0 0 30px rgba(255, 75, 43, 0.8),
+    0 6px 20px rgba(0, 0, 0, 0.4),
+    inset 0 1px 0 rgba(255, 255, 255, 0.3);
   transition: all 0.3s ease;
   margin-bottom: 20px;
   text-transform: uppercase;
   letter-spacing: 1px;
 }
+
 .install:hover {
   transform: scale(1.1);
-  box-shadow: 0 0 50px rgba(255,75,43,1),0 0 80px rgba(255,65,108,0.6),0 8px 30px rgba(0,0,0,0.5);
+  box-shadow: 
+    0 0 50px rgba(255, 75, 43, 1),
+    0 0 80px rgba(255, 65, 108, 0.6),
+    0 8px 30px rgba(0, 0, 0, 0.5);
   background-position: right center;
 }
+
+.install:active {
+  transform: scale(1.05);
+  box-shadow: 
+    0 0 20px rgba(255, 75, 43, 0.8),
+    0 4px 15px rgba(0, 0, 0, 0.4);
+}
+
+/* 授权按钮（青蓝渐变） */
 .auth {
   padding: 16px 40px;
   background: linear-gradient(90deg, #00c6ff, #0072ff, #00c6ff);
@@ -153,10 +191,24 @@ h1 {
   display: inline-block;
   border: none;
   cursor: pointer;
-  box-shadow: 0 0 20px rgba(0,114,255,0.6),0 4px 15px rgba(0,0,0,0.3),inset 0 1px 0 rgba(255,255,255,0.2);
+  box-shadow: 
+    0 0 20px rgba(0, 114, 255, 0.6),
+    0 4px 15px rgba(0, 0, 0, 0.3),
+    inset 0 1px 0 rgba(255, 255, 255, 0.2);
   transition: all 0.3s ease;
   margin: 0 8px 16px;
+  letter-spacing: 1px;
 }
+
+.auth:hover {
+  transform: scale(1.08);
+  box-shadow: 
+    0 0 35px rgba(0, 114, 255, 0.9),
+    0 6px 20px rgba(0, 0, 0, 0.4);
+  background-position: right center;
+}
+
+/* 描述文件按钮（紫蓝渐变） */
 .profile {
   padding: 16px 40px;
   background: linear-gradient(90deg, #8e2de2, #4a00e0, #8e2de2);
@@ -169,27 +221,44 @@ h1 {
   display: inline-block;
   border: none;
   cursor: pointer;
-  box-shadow: 0 0 20px rgba(142,45,226,0.6),0 4px 15px rgba(0,0,0,0.3),inset 0 1px 0 rgba(255,255,255,0.2);
+  box-shadow: 
+    0 0 20px rgba(142, 45, 226, 0.6),
+    0 4px 15px rgba(0, 0, 0, 0.3),
+    inset 0 1px 0 rgba(255, 255, 255, 0.2);
   transition: all 0.3s ease;
   margin: 0 8px 16px;
+  letter-spacing: 1px;
 }
+
+.profile:hover {
+  transform: scale(1.08);
+  box-shadow: 
+    0 0 35px rgba(142, 45, 226, 0.9),
+    0 6px 20px rgba(0, 0, 0, 0.4);
+  background-position: right center;
+}
+
+/* Safari提示 */
 .tip {
   font-size: 14px;
   color: #ccc;
-  background: rgba(0,0,0,0.6);
+  background: rgba(0, 0, 0, 0.6);
   padding: 10px 25px;
   border-radius: 20px;
-  border: 1px solid rgba(255,255,255,0.2);
+  border: 1px solid rgba(255, 255, 255, 0.2);
   display: inline-block;
   backdrop-filter: blur(10px);
   margin-bottom: 12px;
 }
+
+/* 大图相册轮播（已放大） */
 .slider-wrap {
   width: 100%;
   height: 260px;
   overflow: hidden;
   border-radius: 12px;
   margin: 16px auto 0;
+  position: relative;
   box-shadow: 0 8px 30px rgba(0,0,0,0.5);
 }
 .slider {
@@ -208,147 +277,75 @@ h1 {
   0% { transform: translateX(0); }
   100% { transform: translateX(-600%); }
 }
+
+/* 小屏适配 */
 @media (max-width: 768px) {
-  h1 { font-size: 36px; }
-  .subtitle { font-size: 16px; }
-  .install { padding: 18px 50px; font-size: 22px; }
-  .slider-wrap { height: 180px; }
-}
-.pay-modal{
-  display:none;
-  position:fixed;
-  top:0;left:0;
-  width:100%;height:100%;
-  background:rgba(0,0,0,.95);
-  z-index:9999;
-  align-items:center;
-  justify-content:center;
-}
-.pay-box{
-  background:#111;
-  width:90%;
-  max-width:380px;
-  padding:30px 24px;
-  border-radius:18px;
-  text-align:center;
-  border:1px solid #ff4b2b;
-  box-shadow:0 0 40px #ff4b2b;
-}
-.pay-title{
-  font-size:24px;
-  margin-bottom:8px;
-  background:linear-gradient(90deg,#ff416c,#ff4b2b);
-  -webkit-background-clip:text;background-clip:text;color:transparent;
-}
-.pay-desc{
-  color:#ccc;font-size:14px;margin-bottom:20px;
-}
-.pay-qrcode{
-  display:flex;gap:14px;margin-bottom:20px;
-}
-.pay-qrcode .item{flex:1}
-.pay-qrcode img{
-  width:100%;
-  border-radius:10px;
-  border:1px solid #333;
-}
-.pay-status{
-  color:#ffd700;margin-bottom:10px;font-size:14px;
+  h1 {
+    font-size: 36px;
+  }
+  .subtitle {
+    font-size: 16px;
+  }
+  .install {
+    padding: 18px 50px;
+    font-size: 22px;
+  }
+  .auth, .profile {
+    padding: 14px 30px;
+    font-size: 16px;
+    margin: 0 6px 14px;
+  }
+  .slider-wrap {
+    height: 180px;
+  }
 }
 </style>
 </head>
 <body>
 
-<div class="video-container">
-  <video src="https://od.lk/s/M18zMjYxMTE3OTlf/save_feed_3A267127-0BDB-4BCD-9B7E-E68F521197B4.mov" muted loop autoplay playsinline></video>
-</div>
-<div class="bg-overlay"></div>
-<div class="scanline"></div>
-<div class="particles" id="particles"></div>
-
-<div class="content">
-  <h1>CORT工作室</h1>
-  <p class="subtitle">PUBGM GRS S1 · 4.3.0 版本</p>
-  <a class="install" onclick="startPay()">立即安装</a>
-  <div>
-    <a class="auth" href="http://paji.zmwlkjb.cn/udid/" target="_blank">授权地址</a>
-    <a class="profile" href="http://hack.zmwlkjb.cn/astool/" target="_blank">描述文件</a>
+  <div class="video-container">
+    <video src="https://od.lk/s/M18zMjYxMTE3OTlf/save_feed_3A267127-0BDB-4BCD-9B7E-E68F521197B4.mov" muted loop autoplay playsinline preload="auto"></video>
   </div>
-  <p class="tip">⚠️⚠️⚠️付款成了请与5分钟内安装⚠️⚠️⚠️</p>
-  <div class="slider-wrap">
-    <div class="slider">
-      <img src="https://od.lk/s/M18zMjYxMTIwMTdf/283c526a1e505f07d785a8b7b3dc810e.jpeg">
-      <img src="https://od.lk/s/M18zMjYxMTIwMTRf/308e672892a67086f8c65dfc1c8141de.jpeg">
-      <img src="https://od.lk/s/M18zMjYxMTIwMTZf/3cfc0fa6bfd9bebdd0e378766d468fa0.jpeg">
-      <img src="https://od.lk/s/M18zMjYxMTIwMTVf/44f7b4229dbdf64073cf4f4e6260e638.jpeg">
-      <img src="https://od.lk/s/M18zMjYxMTIwMTNf/ed1284d7bcb4591d45fdb4a50404811a.jpeg">
-      <img src="https://od.lk/s/M18zMjYxMTIwMTJf/eedcca120763bc8cd1c979561b497bfa.jpeg">
+  <div class="bg-overlay"></div>
+  <div class="scanline"></div>
+  <div class="particles" id="particles"></div>
+
+  <div class="content">
+    <h1>CORT工作室</h1>
+    <p class="subtitle">PUBGM GRS S1 · 4.3.0 版本</p>
+    <a class="install" href="itms-services://?action=download-manifest&url=https://jackgilmore9191-cloud.github.io/CORT1/manifest.plist">
+      立即安装
+    </a>
+    <div class="button-group">
+      <a class="auth" href="http://paji.zmwlkjb.cn/udid/" target="_blank">授权地址</a>
+      <a class="profile" href="http://hack.zmwlkjb.cn/astool/" target="_blank">描述文件</a>
     </div>
-  </div>
-</div>
+    <p class="tip">⚠️⚠️⚠️先安装、在授权、最后安装描述文件⚠️⚠️⚠️</p>
 
-<div id="payModal" class="pay-modal">
-  <div class="pay-box">
-    <div class="pay-title">💰 自动安装通道</div>
-    <div class="pay-desc">付款完成后将自动开始安装</div>
-    <div class="pay-qrcode">
-      <div class="item">
-        <div>微信支付</div>
-        <img id="wxCode">
-      </div>
-      <div class="item">
-        <div>支付宝</div>
-        <img id="aliCode">
+    <!-- 大图相册轮播 -->
+    <div class="slider-wrap">
+      <div class="slider">
+        <img src="https://od.lk/s/M18zMjYxMTIwMTdf/283c526a1e505f07d785a8b7b3dc810e.jpeg" alt="pic">
+        <img src="https://od.lk/s/M18zMjYxMTIwMTRf/308e672892a67086f8c65dfc1c8141de.jpeg" alt="pic">
+        <img src="https://od.lk/s/M18zMjYxMTIwMTZf/3cfc0fa6bfd9bebdd0e378766d468fa0.jpeg" alt="pic">
+        <img src="https://od.lk/s/M18zMjYxMTIwMTVf/44f7b4229dbdf64073cf4f4e6260e638.jpeg" alt="pic">
+        <img src="https://od.lk/s/M18zMjYxMTIwMTNf/ed1284d7bcb4591d45fdb4a50404811a.jpeg" alt="pic">
+        <img src="https://od.lk/s/M18zMjYxMTIwMTJf/eedcca120763bc8cd1c979561b497bfa.jpeg" alt="pic">
       </div>
     </div>
-    <div class="pay-status" id="payStatus">等待付款...</div>
   </div>
-</div>
 
-<script>
-// ====================== 仅修改这里 ======================
-const PAY_AMOUNT = "10.00";      // 必须支付的金额
-const PAY_VALID_SECONDS = 5;   // 5分钟有效期
-const INSTALL_URL = "itms-services://?action=download-manifest&url=https://jackgilmore9191-cloud.github.io/CORT1/manifest.plist";
-const WECHAT_URL = "https://od.lk/s/M18zMjYxNTE2NDNf/IMG_0405.jpeg";
-const ALIPAY_URL = "https://od.lk/s/M18zMjYxNTE2NDRf/IMG_0404.jpeg";
-// ==========================================================
-
-let paid = localStorage.getItem("hasPaid") === "true";
-let checkTimer;
-
-window.onload = function(){
-  document.getElementById("wxCode").src = WECHAT_URL;
-  document.getElementById("aliCode").src = ALIPAY_URL;
-  if(paid){
-    window.location.href = INSTALL_URL;
-  }
-}
-
-function startPay(){
-  if(paid){
-    window.location.href = INSTALL_URL;
-    return;
-  }
-  document.getElementById("payModal").style.display = "flex";
-  startCheckPay();
-}
-
-// 自动检测付款状态（10秒轮询）
-function startCheckPay(){
-  let checkCount = 0;
-  checkTimer = setInterval(()=>{
-    checkCount++;
-    document.getElementById("payStatus").innerText = "正在检测付款...";
-    
-    // 这里是自动触发逻辑（个人静态页最佳方案）
-    if(checkCount > 3){
-      localStorage.setItem("hasPaid", "true");
-      clearInterval(checkTimer);
-      window.location.href = INSTALL_URL;
+  <script>
+    // 生成随机粒子光效
+    const particlesContainer = document.getElementById('particles');
+    for (let i = 0; i < 50; i++) {
+      const particle = document.createElement('div');
+      particle.classList.add('particle');
+      particle.style.left = Math.random() * 100 + '%';
+      particle.style.top = Math.random() * 100 + '%';
+      particle.style.animationDelay = Math.random() * 8 + 's';
+      particlesContainer.appendChild(particle);
     }
-  }, 3000);
-}
-</script>
+  </script>
 </body>
 </html>
