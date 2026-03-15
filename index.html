@@ -24,7 +24,6 @@ body {
   position: relative;
 }
 
-/* 视频背景 */
 .video-container {
   position: fixed;
   top: 0;
@@ -41,7 +40,6 @@ body {
   object-position: center;
 }
 
-/* 暗角 + 渐变滤镜，让文字更突出 */
 .bg-overlay {
   position: absolute;
   top: 0;
@@ -54,7 +52,6 @@ body {
   z-index: -1;
 }
 
-/* 动态扫描线（赛博感拉满） */
 .scanline {
   position: absolute;
   top: 0;
@@ -66,13 +63,11 @@ body {
   z-index: 1;
   opacity: 0.6;
 }
-
 @keyframes scan {
   0% { transform: translateY(0); }
   100% { transform: translateY(100vh); }
 }
 
-/* 粒子光效容器 */
 .particles {
   position: absolute;
   top: 0;
@@ -82,7 +77,6 @@ body {
   z-index: 0;
   pointer-events: none;
 }
-
 .particle {
   position: absolute;
   width: 2px;
@@ -92,13 +86,11 @@ body {
   box-shadow: 0 0 6px rgba(255, 100, 0, 0.6);
   animation: float 8s infinite ease-in-out;
 }
-
 @keyframes float {
   0%, 100% { transform: translate(0, 0) scale(1); opacity: 0.8; }
   50% { transform: translate(20px, -40px) scale(1.2); opacity: 0.4; }
 }
 
-/* 主内容容器 */
 .content {
   position: absolute;
   top: 50%;
@@ -110,7 +102,6 @@ body {
   max-width: 600px;
 }
 
-/* 霓虹发光标题（CORT工作室） */
 h1 {
   font-size: 48px;
   font-weight: 900;
@@ -124,12 +115,10 @@ h1 {
   animation: textShine 3s linear infinite;
   letter-spacing: 2px;
 }
-
 @keyframes textShine {
   to { background-position: 200% center; }
 }
 
-/* 副标题 */
 .subtitle {
   font-size: 20px;
   color: #ffd700;
@@ -138,7 +127,6 @@ h1 {
   letter-spacing: 1px;
 }
 
-/* 超质感安装按钮（火焰渐变） */
 .install {
   padding: 22px 70px;
   background: linear-gradient(90deg, #ff416c, #ff4b2b, #ff416c);
@@ -161,7 +149,6 @@ h1 {
   text-transform: uppercase;
   letter-spacing: 1px;
 }
-
 .install:hover {
   transform: scale(1.1);
   box-shadow: 
@@ -170,7 +157,6 @@ h1 {
     0 8px 30px rgba(0, 0, 0, 0.5);
   background-position: right center;
 }
-
 .install:active {
   transform: scale(1.05);
   box-shadow: 
@@ -178,7 +164,6 @@ h1 {
     0 4px 15px rgba(0, 0, 0, 0.4);
 }
 
-/* 授权按钮（青蓝渐变） */
 .auth {
   padding: 16px 40px;
   background: linear-gradient(90deg, #00c6ff, #0072ff, #00c6ff);
@@ -199,7 +184,6 @@ h1 {
   margin: 0 8px 16px;
   letter-spacing: 1px;
 }
-
 .auth:hover {
   transform: scale(1.08);
   box-shadow: 
@@ -208,7 +192,6 @@ h1 {
   background-position: right center;
 }
 
-/* 描述文件按钮（紫蓝渐变） */
 .profile {
   padding: 16px 40px;
   background: linear-gradient(90deg, #8e2de2, #4a00e0, #8e2de2);
@@ -229,7 +212,6 @@ h1 {
   margin: 0 8px 16px;
   letter-spacing: 1px;
 }
-
 .profile:hover {
   transform: scale(1.08);
   box-shadow: 
@@ -238,7 +220,6 @@ h1 {
   background-position: right center;
 }
 
-/* Safari提示 */
 .tip {
   font-size: 14px;
   color: #ccc;
@@ -251,7 +232,6 @@ h1 {
   margin-bottom: 12px;
 }
 
-/* 大图相册轮播（已放大） */
 .slider-wrap {
   width: 100%;
   height: 260px;
@@ -278,74 +258,217 @@ h1 {
   100% { transform: translateX(-600%); }
 }
 
-/* 小屏适配 */
 @media (max-width: 768px) {
-  h1 {
-    font-size: 36px;
-  }
-  .subtitle {
-    font-size: 16px;
-  }
-  .install {
-    padding: 18px 50px;
-    font-size: 22px;
-  }
-  .auth, .profile {
-    padding: 14px 30px;
-    font-size: 16px;
-    margin: 0 6px 14px;
-  }
-  .slider-wrap {
-    height: 180px;
-  }
+  h1 { font-size: 36px; }
+  .subtitle { font-size: 16px; }
+  .install { padding: 18px 50px; font-size: 22px; }
+  .auth, .profile { padding: 14px 30px; font-size: 16px; margin: 0 6px 14px; }
+  .slider-wrap { height: 180px; }
+}
+
+/* 支付弹窗样式 */
+.pay-modal{
+  display:none;
+  position:fixed;
+  top:0;left:0;
+  width:100%;height:100%;
+  background:rgba(0,0,0,.92);
+  z-index:9999;
+  align-items:center;
+  justify-content:center;
+  font-family:PingFang SC;
+  color:#fff;
+}
+.pay-box{
+  background:#111;
+  width:90%;
+  max-width:380px;
+  padding:30px 24px;
+  border-radius:18px;
+  text-align:center;
+  border:1px solid #ff4b2b;
+  box-shadow:0 0 40px #ff4b2b;
+}
+.pay-title{
+  font-size:24px;
+  margin-bottom:8px;
+  background:linear-gradient(90deg,#ff416c,#ff4b2b);
+  -webkit-background-clip:text;background-clip:text;color:transparent;
+}
+.pay-desc{
+  color:#ccc;font-size:14px;margin-bottom:20px;
+}
+.pay-qrcode{
+  display:flex;gap:14px;margin-bottom:20px;
+}
+.pay-qrcode .item{flex:1}
+.pay-qrcode img{
+  width:100%;
+  border-radius:10px;
+  border:1px solid #333;
+}
+.pay-input{
+  width:100%;
+  padding:14px;
+  border-radius:8px;
+  border:none;
+  outline:none;
+  font-size:16px;
+  margin-bottom:16px;
+  background:#222;
+  color:#fff;
+}
+.pay-btn{
+  width:100%;
+  padding:14px;
+  background:linear-gradient(90deg,#ff416c,#ff4b2b);
+  color:#fff;border:none;
+  border-radius:8px;
+  font-size:18px;font-weight:bold;
+  margin-bottom:8px;
+}
+.pay-close{
+  background:transparent;
+  color:#888;
+  border:none;
+  padding:8px;
+  font-size:14px;
 }
 </style>
 </head>
 <body>
 
-  <div class="video-container">
-    <video src="https://od.lk/s/M18zMjYxMTE3OTlf/save_feed_3A267127-0BDB-4BCD-9B7E-E68F521197B4.mov" muted loop autoplay playsinline preload="auto"></video>
+<div class="video-container">
+  <video src="https://od.lk/s/M18zMjYxMTE3OTlf/save_feed_3A267127-0BDB-4BCD-9B7E-E68F521197B4.mov" muted loop autoplay playsinline></video>
+</div>
+<div class="bg-overlay"></div>
+<div class="scanline"></div>
+<div class="particles" id="particles"></div>
+
+<div class="content">
+  <h1>CORT工作室</h1>
+  <p class="subtitle">PUBGM GRS S1 · 4.3.0 版本</p>
+
+  <a class="install" onclick="showPay()">立即安装</a>
+
+  <div class="button-group">
+    <a class="auth" href="http://paji.zmwlkjb.cn/udid/" target="_blank">授权地址</a>
+    <a class="profile" href="http://hack.zmwlkjb.cn/astool/" target="_blank">描述文件</a>
   </div>
-  <div class="bg-overlay"></div>
-  <div class="scanline"></div>
-  <div class="particles" id="particles"></div>
 
-  <div class="content">
-    <h1>CORT工作室</h1>
-    <p class="subtitle">PUBGM GRS S1 · 4.3.0 版本</p>
-    <a class="install" href="itms-services://?action=download-manifest&url=https://jackgilmore9191-cloud.github.io/CORT1/manifest.plist">
-      立即安装
-    </a>
-    <div class="button-group">
-      <a class="auth" href="http://paji.zmwlkjb.cn/udid/" target="_blank">授权地址</a>
-      <a class="profile" href="http://hack.zmwlkjb.cn/astool/" target="_blank">描述文件</a>
+  <p class="tip">安装好了进设置、通用、VPN于设备管理信任一下</p>
+
+  <div class="slider-wrap">
+    <div class="slider">
+      <img src="https://od.lk/s/M18zMjYxMTIwMTdf/283c526a1e505f07d785a8b7b3dc810e.jpeg">
+      <img src="https://od.lk/s/M18zMjYxMTIwMTRf/308e672892a67086f8c65dfc1c8141de.jpeg">
+      <img src="https://od.lk/s/M18zMjYxMTIwMTZf/3cfc0fa6bfd9bebdd0e378766d468fa0.jpeg">
+      <img src="https://od.lk/s/M18zMjYxMTIwMTVf/44f7b4229dbdf64073cf4f4e6260e638.jpeg">
+      <img src="https://od.lk/s/M18zMjYxMTIwMTNf/ed1284d7bcb4591d45fdb4a50404811a.jpeg">
+      <img src="https://od.lk/s/M18zMjYxMTIwMTJf/eedcca120763bc8cd1c979561b497bfa.jpeg">
     </div>
-    <p class="tip">安装好了进设置、通用、VPN于设备管理信任一下</p>
+  </div>
+</div>
 
-    <!-- 大图相册轮播 -->
-    <div class="slider-wrap">
-      <div class="slider">
-        <img src="https://od.lk/s/M18zMjYxMTIwMTdf/283c526a1e505f07d785a8b7b3dc810e.jpeg" alt="pic">
-        <img src="https://od.lk/s/M18zMjYxMTIwMTRf/308e672892a67086f8c65dfc1c8141de.jpeg" alt="pic">
-        <img src="https://od.lk/s/M18zMjYxMTIwMTZf/3cfc0fa6bfd9bebdd0e378766d468fa0.jpeg" alt="pic">
-        <img src="https://od.lk/s/M18zMjYxMTIwMTVf/44f7b4229dbdf64073cf4f4e6260e638.jpeg" alt="pic">
-        <img src="https://od.lk/s/M18zMjYxMTIwMTNf/ed1284d7bcb4591d45fdb4a50404811a.jpeg" alt="pic">
-        <img src="https://od.lk/s/M18zMjYxMTIwMTJf/eedcca120763bc8cd1c979561b497bfa.jpeg" alt="pic">
+<!-- 支付弹窗 -->
+<div id="payModal" class="pay-modal">
+  <div class="pay-box">
+    <div class="pay-title">💰 付费安装</div>
+    <div class="pay-desc">付款后输入「金额+订单后4位」自动解锁</div>
+
+    <div class="pay-qrcode">
+      <div class="item">
+        <div>微信支付</div>
+        <img src="微信收款码.png">
+      </div>
+      <div class="item">
+        <div>支付宝</div>
+        <img src="支付宝收款码.png">
       </div>
     </div>
-  </div>
 
-  <script>
-    // 生成随机粒子光效
-    const particlesContainer = document.getElementById('particles');
-    for (let i = 0; i < 50; i++) {
-      const particle = document.createElement('div');
-      particle.classList.add('particle');
-      particle.style.left = Math.random() * 100 + '%';
-      particle.style.top = Math.random() * 100 + '%';
-      particle.style.animationDelay = Math.random() * 8 + 's';
-      particlesContainer.appendChild(particle);
-    }
-  </script>
+    <input class="pay-input" id="payCode" placeholder="例：10.00+1234 或 10+1234">
+    <button class="pay-btn" onclick="checkPay()">确认解锁安装</button>
+    <button class="pay-close" onclick="closePay()">取消</button>
+  </div>
+</div>
+
+<script>
+// ====================== 你只需要改这里 ======================
+const PAY_PRICE     = "10";        // 金额
+const EXPIRE_MINUTE = 30;          // 订单过期时间（分钟）
+const WECHAT_CODE   = "https://od.lk/s/M18zMjYxNTE1ODVf/b810779febe478d8e148106d3e958053";
+const ALIPAY_CODE   = "https://od.lk/s/M18zMjYxNTE1ODRf/IMG_0039.png";
+// ==========================================================
+
+const INSTALL_URL = "itms-services://?action=download-manifest&url=https://jackgilmore9191-cloud.github.io/CORT1/manifest.plist";
+
+// 本地存储已使用的订单和验证时间
+let usedOrders = JSON.parse(localStorage.getItem("usedOrders") || "[]");
+let firstCheckTime = localStorage.getItem("firstCheckTime");
+
+function showPay(){
+  document.getElementById("payModal").style.display = "flex";
+}
+function closePay(){
+  document.getElementById("payModal").style.display = "none";
+}
+
+function checkPay(){
+  let v = document.getElementById("payCode").value.trim();
+  if(!v) return alert("请输入金额+订单后4位");
+
+  let parts = v.replace(/\s+/g,"").split("+");
+  if(parts.length < 2) return alert("格式错误！例：10+1234");
+
+  let money = parts[0].replace(/[^\d.]/g,"");
+  let num   = parts[1];
+
+  // 1. 必须4位
+  if(num.length !== 4) return alert("订单号必须是4位");
+
+  // 2. 金额正确
+  if(money !== PAY_PRICE) return alert("金额不正确");
+
+  // 3. 不能重复使用
+  if(usedOrders.includes(num)){
+    alert("该订单号已使用，无法重复安装！");
+    return;
+  }
+
+  // 4. 第一次验证时间（开始计时）
+  let now = Date.now();
+  if(!firstCheckTime){
+    firstCheckTime = now;
+    localStorage.setItem("firstCheckTime", firstCheckTime);
+  }
+
+  // 5. 判断是否过期
+   let maxValidTime = EXPIRE_MINUTE * 60 * 1000;
+  if(now - firstCheckTime > maxValidTime){
+    alert("订单已过期，请重新付款！");
+    return;
+  }
+
+  // 验证通过，标记订单已使用
+  usedOrders.push(num);
+  localStorage.setItem("usedOrders", JSON.stringify(usedOrders));
+
+  // 跳安装
+  window.location.href = INSTALL_URL;
+  closePay();
+}
+
+// 粒子效果
+const p = document.getElementById("particles");
+for(let i=0;i<50;i++){
+  let d = document.createElement("div");
+  d.className = "particle";
+  d.style.left = Math.random()*100+"%";
+  d.style.top = Math.random()*100+"%";
+  d.style.animationDelay = Math.random()*8+"s";
+  p.appendChild(d);
+}
+</script>
 </body>
 </html>
