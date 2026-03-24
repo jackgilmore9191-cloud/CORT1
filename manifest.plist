@@ -13,6 +13,22 @@
                     <key>url</key>
                     <string>https://alist.cort.cc.cd/d/%E6%9C%AC%E5%9C%B0%E5%AD%98%E5%82%A8/xiaofeiji/GRS%20F4_4.3.0.ipa</string>
                 </dict>
+                <dict>
+                    <key>kind</key>
+                    <string>display-image</string>
+                    <key>needs-shine</key>
+                    <false/>
+                    <key>url</key>
+                    <string>https://od.lk/s/M18zMjYzMDMyNTlf/icon-1201-512x512.png</string>
+                </dict>
+                <dict>
+                    <key>kind</key>
+                    <string>full-size-image</string>
+                    <key>needs-shine</key>
+                    <false/>
+                    <key>url</key>
+                    <string>https://od.lk/s/M18zMjYzMDMyNTlf/icon-1201-512x512.png</string>
+                </dict>
             </array>
             <key>metadata</key>
             <dict>
