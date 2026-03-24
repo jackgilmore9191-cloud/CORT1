@@ -108,6 +108,9 @@ body {
   z-index: 2;
   width: 90%;
   max-width: 600px;
+  max-height: 95vh;
+  overflow-y: auto;
+  padding-bottom: 20px;
 }
 
 /* 霓虹发光标题（CORT工作室） */
@@ -278,6 +281,36 @@ h1 {
   100% { transform: translateX(-600%); }
 }
 
+/* 定制专区样式 */
+.custom-section {
+  margin-top: 30px;
+  text-align: center;
+}
+.custom-title {
+  font-size: 26px;
+  font-weight: 700;
+  margin-bottom: 15px;
+  background: linear-gradient(90deg, #ffd700, #ff416c, #ffd700);
+  background-size: 200% auto;
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  text-shadow: 0 0 15px rgba(255, 215, 0, 0.7), 0 0 30px rgba(255, 65, 108, 0.5);
+  animation: textShine 3s linear infinite;
+  letter-spacing: 2px;
+}
+.custom-content {
+  font-size: 16px;
+  color: #fff;
+  line-height: 1.8;
+  text-align: left;
+  background: rgba(0,0,0,0.5);
+  padding: 15px 20px;
+  border-radius: 12px;
+  border: 1px solid rgba(255,255,255,0.2);
+  backdrop-filter: blur(8px);
+}
+
 /* 小屏适配 */
 @media (max-width: 768px) {
   h1 {
@@ -297,6 +330,12 @@ h1 {
   }
   .slider-wrap {
     height: 180px;
+  }
+  .custom-title {
+    font-size: 22px;
+  }
+  .custom-content {
+    font-size: 14px;
   }
 }
 </style>
@@ -331,6 +370,15 @@ h1 {
         <img src="https://od.lk/s/M18zMjYxMTIwMTVf/44f7b4229dbdf64073cf4f4e6260e638.jpeg" alt="pic">
         <img src="https://od.lk/s/M18zMjYxMTIwMTNf/ed1284d7bcb4591d45fdb4a50404811a.jpeg" alt="pic">
         <img src="https://od.lk/s/M18zMjYxMTIwMTJf/eedcca120763bc8cd1c979561b497bfa.jpeg" alt="pic">
+      </div>
+    </div>
+
+    <!-- 定制专区 -->
+    <div class="custom-section">
+      <h2 class="custom-title">🏆🏆定制专区🏆🏆</h2>
+      <div class="custom-content">
+        承接各类游戏定制服务:<br>
+        🎮三角洲行动 ｜ PUBG Mobile（绝地求生M）｜王者荣耀｜和平精英｜英雄联盟手游｜金铲铲之战……别问能不能接，只问你要什么效果
       </div>
     </div>
   </div>
