@@ -2,398 +2,735 @@
 <html lang="zh-CN">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
-<meta name="apple-mobile-web-app-capable" content="yes">
-<title>CORT工作室 · PUBG GRSM</title>
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>米麒麟科技 · 资源下载中心</title>
 <style>
-* {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-}
-
-html, body {
-  width: 100%;
-  height: 100%;
-  overflow: hidden;
-}
-
-body {
-  font-family: 'PingFang SC', 'Helvetica Neue', Helvetica, Arial, sans-serif;
-  color: #fff;
-  position: relative;
-}
-
-/* 视频背景 */
-.video-container {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  z-index: -2;
-  overflow: hidden;
-}
-.video-container video {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  object-position: center;
-}
-
-/* 暗角 + 渐变滤镜，让文字更突出 */
-.bg-overlay {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background: 
-    radial-gradient(circle at center, transparent 30%, rgba(0,0,0,0.7) 100%),
-    linear-gradient(180deg, rgba(0,0,0,0.2) 0%, rgba(0,0,0,0.8) 100%);
-  z-index: -1;
-}
-
-/* 动态扫描线（赛博感拉满） */
-.scanline {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 4px;
-  background: linear-gradient(90deg, transparent, rgba(0, 212, 255, 0.8), transparent);
-  animation: scan 4s linear infinite;
-  z-index: 1;
-  opacity: 0.6;
-}
-
-@keyframes scan {
-  0% { transform: translateY(0); }
-  100% { transform: translateY(100vh); }
-}
-
-/* 粒子光效容器 */
-.particles {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  z-index: 0;
-  pointer-events: none;
-}
-
-.particle {
-  position: absolute;
-  width: 2px;
-  height: 2px;
-  background: rgba(255, 100, 0, 0.8);
-  border-radius: 50%;
-  box-shadow: 0 0 6px rgba(255, 100, 0, 0.6);
-  animation: float 8s infinite ease-in-out;
-}
-
-@keyframes float {
-  0%, 100% { transform: translate(0, 0) scale(1); opacity: 0.8; }
-  50% { transform: translate(20px, -40px) scale(1.2); opacity: 0.4; }
-}
-
-/* 主内容容器 */
-.content {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  text-align: center;
-  z-index: 2;
-  width: 90%;
-  max-width: 600px;
-  max-height: 95vh;
-  overflow-y: auto;
-  padding-bottom: 20px;
-}
-
-/* 霓虹发光标题（CORT工作室） */
-h1 {
-  font-size: 48px;
-  font-weight: 900;
-  margin-bottom: 20px;
-  background: linear-gradient(90deg, #ff2a6d, #d74177, #feffb7, #05d9e8, #ff2a6d);
-  background-size: 200% auto;
-  -webkit-background-clip: text;
-  background-clip: text;
-  color: transparent;
-  text-shadow: 0 0 20px rgba(255, 42, 109, 0.6), 0 0 40px rgba(5, 217, 232, 0.4);
-  animation: textShine 3s linear infinite;
-  letter-spacing: 2px;
-}
-
-@keyframes textShine {
-  to { background-position: 200% center; }
-}
-
-/* 副标题 */
-.subtitle {
-  font-size: 20px;
-  color: #ffd700;
-  text-shadow: 0 0 10px rgba(255, 215, 0, 0.6);
-  margin-bottom: 50px;
-  letter-spacing: 1px;
-}
-
-/* 超质感安装按钮（火焰渐变） */
-.install {
-  padding: 22px 70px;
-  background: linear-gradient(90deg, #ff416c, #ff4b2b, #ff416c);
-  background-size: 200% auto;
-  color: #fff;
-  border-radius: 50px;
-  text-decoration: none;
-  font-size: 26px;
-  font-weight: 700;
-  display: inline-block;
-  position: relative;
-  border: none;
-  cursor: pointer;
-  box-shadow: 
-    0 0 30px rgba(255, 75, 43, 0.8),
-    0 6px 20px rgba(0, 0, 0, 0.4),
-    inset 0 1px 0 rgba(255, 255, 255, 0.3);
-  transition: all 0.3s ease;
-  margin-bottom: 20px;
-  text-transform: uppercase;
-  letter-spacing: 1px;
-}
-
-.install:hover {
-  transform: scale(1.1);
-  box-shadow: 
-    0 0 50px rgba(255, 75, 43, 1),
-    0 0 80px rgba(255, 65, 108, 0.6),
-    0 8px 30px rgba(0, 0, 0, 0.5);
-  background-position: right center;
-}
-
-.install:active {
-  transform: scale(1.05);
-  box-shadow: 
-    0 0 20px rgba(255, 75, 43, 0.8),
-    0 4px 15px rgba(0, 0, 0, 0.4);
-}
-
-/* 授权按钮（青蓝渐变） */
-.auth {
-  padding: 16px 40px;
-  background: linear-gradient(90deg, #00c6ff, #0072ff, #00c6ff);
-  background-size: 200% auto;
-  color: #fff;
-  border-radius: 50px;
-  text-decoration: none;
-  font-size: 18px;
-  font-weight: 600;
-  display: inline-block;
-  border: none;
-  cursor: pointer;
-  box-shadow: 
-    0 0 20px rgba(0, 114, 255, 0.6),
-    0 4px 15px rgba(0, 0, 0, 0.3),
-    inset 0 1px 0 rgba(255, 255, 255, 0.2);
-  transition: all 0.3s ease;
-  margin: 0 8px 16px;
-  letter-spacing: 1px;
-}
-
-.auth:hover {
-  transform: scale(1.08);
-  box-shadow: 
-    0 0 35px rgba(0, 114, 255, 0.9),
-    0 6px 20px rgba(0, 0, 0, 0.4);
-  background-position: right center;
-}
-
-/* 描述文件按钮（紫蓝渐变） */
-.profile {
-  padding: 16px 40px;
-  background: linear-gradient(90deg, #8e2de2, #4a00e0, #8e2de2);
-  background-size: 200% auto;
-  color: #fff;
-  border-radius: 50px;
-  text-decoration: none;
-  font-size: 18px;
-  font-weight: 600;
-  display: inline-block;
-  border: none;
-  cursor: pointer;
-  box-shadow: 
-    0 0 20px rgba(142, 45, 226, 0.6),
-    0 4px 15px rgba(0, 0, 0, 0.3),
-    inset 0 1px 0 rgba(255, 255, 255, 0.2);
-  transition: all 0.3s ease;
-  margin: 0 8px 16px;
-  letter-spacing: 1px;
-}
-
-.profile:hover {
-  transform: scale(1.08);
-  box-shadow: 
-    0 0 35px rgba(142, 45, 226, 0.9),
-    0 6px 20px rgba(0, 0, 0, 0.4);
-  background-position: right center;
-}
-
-/* Safari提示 */
-.tip {
-  font-size: 14px;
-  color: #ccc;
-  background: rgba(0, 0, 0, 0.6);
-  padding: 10px 25px;
-  border-radius: 20px;
-  border: 1px solid rgba(255, 255, 255, 0.2);
-  display: inline-block;
-  backdrop-filter: blur(10px);
-  margin-bottom: 12px;
-}
-
-/* 大图相册轮播（已放大） */
-.slider-wrap {
-  width: 100%;
-  height: 260px;
-  overflow: hidden;
-  border-radius: 12px;
-  margin: 16px auto 0;
-  position: relative;
-  box-shadow: 0 8px 30px rgba(0,0,0,0.5);
-}
-.slider {
-  height: 100%;
-  display: flex;
-  animation: slide 18s linear infinite;
-}
-.slider img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  flex-shrink: 0;
-  border-radius: 12px;
-}
-@keyframes slide {
-  0% { transform: translateX(0); }
-  100% { transform: translateX(-600%); }
-}
-
-/* 定制专区样式 */
-.custom-section {
-  margin-top: 30px;
-  text-align: center;
-}
-.custom-title {
-  font-size: 26px;
-  font-weight: 700;
-  margin-bottom: 15px;
-  background: linear-gradient(90deg, #ffd700, #ff416c, #ffd700);
-  background-size: 200% auto;
-  -webkit-background-clip: text;
-  background-clip: text;
-  color: transparent;
-  text-shadow: 0 0 15px rgba(255, 215, 0, 0.7), 0 0 30px rgba(255, 65, 108, 0.5);
-  animation: textShine 3s linear infinite;
-  letter-spacing: 2px;
-}
-.custom-content {
-  font-size: 16px;
-  color: #fff;
-  line-height: 1.8;
-  text-align: left;
-  background: rgba(0,0,0,0.5);
-  padding: 15px 20px;
-  border-radius: 12px;
-  border: 1px solid rgba(255,255,255,0.2);
-  backdrop-filter: blur(8px);
-}
-
-/* 小屏适配 */
-@media (max-width: 768px) {
-  h1 {
-    font-size: 36px;
+  *{box-sizing:border-box;margin:0;padding:0}
+  :root{
+    --cyan:#22d3ee;
+    --cyan-dim:rgba(34,211,238,.28);
+    --purple:#a855f7;
+    --bg:#04060f;
+    --panel:rgba(10,16,30,.78);
+    --text:#e2e8f0;
+    --muted:#7d8ba5;
+    --ok:#34d399;
+    --err:#fb7185;
+    --mono:ui-monospace,SFMono-Regular,"JetBrains Mono",Consolas,monospace;
   }
-  .subtitle {
-    font-size: 16px;
+  html,body{height:100%}
+  body{
+    background:var(--bg);
+    color:var(--text);
+    font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Microsoft YaHei",sans-serif;
+    overflow-x:hidden;
+    -webkit-font-smoothing:antialiased;
   }
-  .install {
-    padding: 18px 50px;
-    font-size: 22px;
+  /* ===== 背景层 ===== */
+  #bg{position:fixed;inset:0;z-index:0;display:block}
+  .grid-overlay{
+    position:fixed;inset:0;z-index:1;pointer-events:none;
+    background-image:
+      linear-gradient(rgba(34,211,238,.055) 1px,transparent 1px),
+      linear-gradient(90deg,rgba(34,211,238,.055) 1px,transparent 1px);
+    background-size:58px 58px;
+    -webkit-mask-image:radial-gradient(ellipse 90% 60% at 50% 0%,#000 0%,transparent 78%);
+    mask-image:radial-gradient(ellipse 90% 60% at 50% 0%,#000 0%,transparent 78%);
   }
-  .auth, .profile {
-    padding: 14px 30px;
-    font-size: 16px;
-    margin: 0 6px 14px;
+  .glow-orb{
+    position:fixed;border-radius:50%;filter:blur(120px);z-index:0;pointer-events:none;opacity:.5;
   }
-  .slider-wrap {
-    height: 180px;
+  .orb-1{width:520px;height:520px;background:rgba(34,211,238,.20);top:-180px;left:-120px}
+  .orb-2{width:480px;height:480px;background:rgba(168,85,247,.18);top:20%;right:-160px}
+  .scanlines{
+    position:fixed;inset:0;z-index:3;pointer-events:none;opacity:.35;
+    background:repeating-linear-gradient(180deg,rgba(255,255,255,.03) 0 1px,transparent 1px 3px);
+    mix-blend-mode:overlay;
   }
-  .custom-title {
-    font-size: 22px;
+  /* ===== 头部 ===== */
+  header{
+    position:sticky;top:0;z-index:50;
+    display:flex;align-items:center;justify-content:space-between;
+    padding:14px clamp(16px,4vw,48px);
+    background:rgba(4,6,15,.62);
+    backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);
+    border-bottom:1px solid rgba(34,211,238,.12);
   }
-  .custom-content {
-    font-size: 14px;
+  .logo{display:flex;align-items:center;gap:12px}
+  .logo-mark{width:40px;height:40px;flex:none;filter:drop-shadow(0 0 10px rgba(34,211,238,.55))}
+  .logo-mark .ring{animation:spin 12s linear infinite;transform-origin:24px 24px}
+  @keyframes spin{to{transform:rotate(360deg)}}
+  .logo-text{font-size:19px;font-weight:800;letter-spacing:3px;line-height:1.1}
+  .logo-text b{
+    background:linear-gradient(90deg,#22d3ee,#a855f7);
+    -webkit-background-clip:text;background-clip:text;color:transparent;
   }
-}
+  .logo-sub{font-size:9px;letter-spacing:3.5px;color:var(--muted);font-family:var(--mono)}
+  .header-right{display:flex;align-items:center;gap:14px}
+  .status{
+    display:flex;align-items:center;gap:7px;font-size:12px;color:var(--muted);
+    font-family:var(--mono);letter-spacing:1px;
+  }
+  .status i{
+    width:7px;height:7px;border-radius:50%;background:var(--ok);
+    box-shadow:0 0 8px var(--ok);animation:pulse 1.8s ease-in-out infinite;
+  }
+  @keyframes pulse{0%,100%{opacity:1;transform:scale(1)}50%{opacity:.35;transform:scale(.8)}}
+  .btn-ghost{
+    padding:9px 18px;border-radius:9px;cursor:pointer;font-size:13px;letter-spacing:1px;
+    border:1px solid var(--cyan-dim);background:rgba(34,211,238,.07);color:#a5f3fc;
+    transition:.25s;font-family:inherit;
+  }
+  .btn-ghost:hover{background:rgba(34,211,238,.18);box-shadow:0 0 20px rgba(34,211,238,.3)}
+  .btn-ghost.done{border-color:rgba(52,211,153,.4);background:rgba(52,211,153,.1);color:#6ee7b7}
+  @media(max-width:600px){.status{display:none}.logo-text{font-size:16px}}
+  /* ===== 主体 ===== */
+  main{position:relative;z-index:5;padding:0 clamp(16px,4vw,48px) 80px;max-width:1240px;margin:0 auto}
+  .hero{padding:clamp(48px,9vw,96px) 0 44px;text-align:center}
+  .tag{
+    display:inline-flex;align-items:center;gap:8px;
+    font-family:var(--mono);font-size:11px;letter-spacing:2.5px;color:#67e8f9;
+    padding:7px 16px;border-radius:99px;
+    border:1px solid rgba(34,211,238,.28);background:rgba(34,211,238,.06);
+    box-shadow:inset 0 0 20px rgba(34,211,238,.08);
+    animation:fadeUp .7s both;
+  }
+  .hero h1{
+    margin:22px 0 16px;font-size:clamp(30px,6.4vw,60px);line-height:1.14;
+    font-weight:900;letter-spacing:2px;animation:fadeUp .7s .08s both;
+  }
+  .grad{
+    background:linear-gradient(100deg,#22d3ee 0%,#818cf8 45%,#e879f9 100%);
+    -webkit-background-clip:text;background-clip:text;color:transparent;
+    filter:drop-shadow(0 0 26px rgba(34,211,238,.35));
+  }
+  .lead{
+    color:var(--muted);font-size:clamp(13px,2.4vw,16px);letter-spacing:1.5px;
+    animation:fadeUp .7s .16s both;
+  }
+  .meta-row{
+    display:flex;justify-content:center;gap:clamp(20px,5vw,64px);
+    margin-top:38px;flex-wrap:wrap;animation:fadeUp .7s .24s both;
+  }
+  .meta{text-align:center}
+  .meta b{display:block;font-family:var(--mono);font-size:26px;color:#67e8f9;letter-spacing:1px;
+    text-shadow:0 0 18px rgba(34,211,238,.5)}
+  .meta span{font-size:11px;color:var(--muted);letter-spacing:2px}
+  @keyframes fadeUp{from{opacity:0;transform:translateY(18px)}to{opacity:1;transform:none}}
+  /* ===== 资源卡片 ===== */
+  .section-title{
+    display:flex;align-items:center;gap:14px;margin:24px 0 22px;
+    font-family:var(--mono);font-size:12px;letter-spacing:3px;color:var(--muted);
+  }
+  .section-title::after{content:'';flex:1;height:1px;
+    background:linear-gradient(90deg,rgba(34,211,238,.35),transparent)}
+  .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:18px}
+  .card{
+    position:relative;padding:22px;border-radius:16px;
+    background:linear-gradient(180deg,rgba(13,20,38,.82),rgba(7,11,22,.86));
+    border:1px solid rgba(34,211,238,.14);
+    backdrop-filter:blur(6px);
+    transition:.3s cubic-bezier(.2,.9,.3,1);
+    animation:rise .65s cubic-bezier(.2,.9,.3,1) both;
+    overflow:hidden;
+  }
+  @keyframes rise{from{opacity:0;transform:translateY(26px)}to{opacity:1;transform:none}}
+  .card::before,.card::after{
+    content:'';position:absolute;width:14px;height:14px;
+    border:1px solid rgba(34,211,238,.55);transition:.3s;
+  }
+  .card::before{top:6px;left:6px;border-right:0;border-bottom:0;border-radius:4px 0 0 0}
+  .card::after{bottom:6px;right:6px;border-left:0;border-top:0;border-radius:0 0 4px 0}
+  .card:hover{
+    transform:translateY(-5px);
+    border-color:rgba(34,211,238,.42);
+    box-shadow:0 18px 44px -18px rgba(34,211,238,.45),0 0 0 1px rgba(34,211,238,.08);
+  }
+  .card:hover::before,.card:hover::after{
+    width:22px;height:22px;border-color:var(--cyan);
+  }
+  .card-head{display:flex;gap:14px;align-items:flex-start;margin-bottom:14px}
+  .icon{
+    width:46px;height:46px;flex:none;border-radius:12px;display:grid;place-items:center;
+    background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.07);
+    transition:.3s;
+  }
+  .card:hover .icon{background:rgba(34,211,238,.09);box-shadow:0 0 22px rgba(34,211,238,.22)}
+  .icon svg{width:23px;height:23px;fill:none;stroke:currentColor;stroke-width:1.6;
+    stroke-linecap:round;stroke-linejoin:round}
+  .card h3{font-size:15.5px;font-weight:700;letter-spacing:.5px;margin-bottom:5px;color:#f1f5f9}
+  .ver{font-family:var(--mono);font-size:11px;color:var(--muted);letter-spacing:1px}
+  .desc{font-size:12.5px;line-height:1.75;color:#8fa0b8;margin-bottom:14px;min-height:44px}
+  .tags{display:flex;gap:7px;flex-wrap:wrap;margin-bottom:16px}
+  .tags span{
+    font-size:10.5px;font-family:var(--mono);letter-spacing:1px;color:#7dd3fc;
+    padding:3px 9px;border-radius:5px;
+    background:rgba(34,211,238,.08);border:1px solid rgba(34,211,238,.16);
+  }
+  .dl-btn{
+    width:100%;padding:12px;border-radius:10px;cursor:pointer;position:relative;overflow:hidden;
+    font-family:inherit;font-size:13.5px;font-weight:600;letter-spacing:2.5px;
+    color:#a5f3fc;border:1px solid var(--cyan-dim);
+    background:linear-gradient(135deg,rgba(34,211,238,.12),rgba(168,85,247,.12));
+    transition:.28s;
+  }
+  .dl-btn:hover{
+    color:#fff;border-color:rgba(34,211,238,.6);
+    background:linear-gradient(135deg,rgba(34,211,238,.3),rgba(168,85,247,.3));
+    box-shadow:0 0 26px rgba(34,211,238,.38);
+  }
+  .dl-btn::after{
+    content:'';position:absolute;top:0;left:-120%;width:60%;height:100%;
+    background:linear-gradient(90deg,transparent,rgba(255,255,255,.28),transparent);
+    transform:skewX(-20deg);transition:left .6s;
+  }
+  .dl-btn:hover::after{left:130%}
+  .dl-btn.unlocked{
+    color:#6ee7b7;border-color:rgba(52,211,153,.4);
+    background:linear-gradient(135deg,rgba(52,211,153,.14),rgba(34,211,238,.14));
+  }
+  .dl-btn.unlocked:hover{color:#fff;box-shadow:0 0 26px rgba(52,211,153,.4)}
+  /* ===== 弹窗 ===== */
+  .mask{
+    position:fixed;inset:0;z-index:100;display:flex;align-items:center;justify-content:center;
+    padding:18px;background:rgba(2,4,10,.86);
+    backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);
+    opacity:0;visibility:hidden;transition:.3s;
+  }
+  .mask.show{opacity:1;visibility:visible}
+  .modal{
+    position:relative;width:min(580px,100%);max-height:92vh;overflow-y:auto;
+    padding:30px clamp(20px,4vw,34px);border-radius:18px;
+    background:linear-gradient(180deg,rgba(13,20,38,.99),rgba(7,10,20,.99));
+    border:1px solid rgba(34,211,238,.26);
+    box-shadow:0 0 70px rgba(34,211,238,.16),inset 0 1px 0 rgba(255,255,255,.06);
+    transform:translateY(24px) scale(.95);
+    transition:.38s cubic-bezier(.2,.9,.3,1.25);
+  }
+  .mask.show .modal{transform:none}
+  .modal::before{
+    content:'';position:absolute;top:0;left:12%;right:12%;height:1px;
+    background:linear-gradient(90deg,transparent,var(--cyan),transparent);
+    box-shadow:0 0 14px var(--cyan);
+  }
+  .close{
+    position:absolute;top:14px;right:16px;width:32px;height:32px;border-radius:8px;
+    background:transparent;border:1px solid rgba(255,255,255,.1);color:var(--muted);
+    font-size:19px;line-height:1;cursor:pointer;transition:.25s;
+  }
+  .close:hover{color:#fff;border-color:rgba(251,113,133,.5);background:rgba(251,113,133,.1)}
+  .modal-head{text-align:center;margin-bottom:24px}
+  .lock-badge{
+    width:56px;height:56px;margin:0 auto 14px;border-radius:16px;display:grid;place-items:center;
+    background:linear-gradient(135deg,rgba(34,211,238,.16),rgba(168,85,247,.16));
+    border:1px solid rgba(34,211,238,.3);
+    box-shadow:0 0 30px rgba(34,211,238,.25),inset 0 0 20px rgba(34,211,238,.08);
+    font-size:24px;
+  }
+  .modal-head h2{font-size:20px;letter-spacing:2px;margin-bottom:8px;color:#f1f5f9}
+  .modal-head p{font-size:12.5px;color:var(--muted);letter-spacing:.5px}
+  .pay-area{
+    display:flex;gap:22px;align-items:center;
+    padding:20px;border-radius:14px;margin-bottom:22px;
+    background:rgba(255,255,255,.025);border:1px solid rgba(255,255,255,.06);
+  }
+  .qr-box{position:relative;flex:none;width:132px;height:132px;border-radius:10px;overflow:hidden;
+    background:#fff;padding:6px;box-shadow:0 0 24px rgba(34,211,238,.2)}
+  .qr-box canvas{width:100%;height:100%;display:block;border-radius:6px}
+  .qr-logo{
+    position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);
+    width:32px;height:32px;border-radius:8px;display:grid;place-items:center;
+    font-size:14px;font-weight:900;color:#04060f;
+    background:linear-gradient(135deg,#22d3ee,#a855f7);
+    box-shadow:0 0 0 3px #fff;
+  }
+  .pay-info{flex:1;min-width:0}
+  .price-line{display:flex;align-items:baseline;justify-content:space-between;margin-bottom:12px}
+  .price-line span{font-size:12px;color:var(--muted);letter-spacing:1px}
+  .price-line b{font-family:var(--mono);font-size:15px;color:#67e8f9}
+  .price-line b i{font-size:28px;font-style:normal;font-weight:800;
+    text-shadow:0 0 20px rgba(34,211,238,.55)}
+  .pay-info ul{list-style:none;display:grid;gap:7px;margin-bottom:12px}
+  .pay-info li{font-size:12px;color:#94a3b8;letter-spacing:.3px}
+  .pay-tip{font-size:10.5px;color:#64748b;line-height:1.6;
+    padding-top:10px;border-top:1px dashed rgba(255,255,255,.08)}
+  .divider{display:flex;align-items:center;gap:12px;margin:0 0 16px}
+  .divider::before,.divider::after{content:'';flex:1;height:1px;background:rgba(255,255,255,.08)}
+  .divider span{font-size:11px;color:var(--muted);letter-spacing:1.5px;white-space:nowrap}
+  .input-row{display:flex;gap:10px}
+  #pwd{
+    flex:1;min-width:0;padding:14px 16px;border-radius:11px;outline:none;
+    background:rgba(3,6,14,.9);border:1px solid rgba(34,211,238,.22);
+    color:#a5f3fc;font-family:var(--mono);font-size:15px;letter-spacing:4px;
+    transition:.25s;text-transform:uppercase;
+  }
+  #pwd::placeholder{letter-spacing:1.5px;color:#3f4d63;text-transform:none;font-size:13px}
+  #pwd:focus{border-color:var(--cyan);
+    box-shadow:0 0 0 3px rgba(34,211,238,.12),0 0 22px rgba(34,211,238,.22)}
+  #verifyBtn{
+    padding:0 26px;border:none;border-radius:11px;cursor:pointer;flex:none;
+    font-family:inherit;font-size:14px;font-weight:800;letter-spacing:3px;color:#04060f;
+    background:linear-gradient(135deg,#22d3ee,#a855f7);
+    transition:.25s;box-shadow:0 0 22px rgba(34,211,238,.3);
+  }
+  #verifyBtn:hover{transform:translateY(-1px);box-shadow:0 6px 28px rgba(34,211,238,.5)}
+  #verifyBtn:active{transform:translateY(0)}
+  .err{
+    min-height:18px;margin-top:11px;font-size:12px;letter-spacing:.5px;
+    color:var(--err);text-align:center;
+  }
+  .shake{animation:shake .4s}
+  @keyframes shake{
+    0%,100%{transform:translateX(0)}
+    20%{transform:translateX(-8px)}40%{transform:translateX(7px)}
+    60%{transform:translateX(-5px)}80%{transform:translateX(3px)}
+  }
+  @media(max-width:560px){
+    .pay-area{flex-direction:column;text-align:center}
+    .pay-info ul{justify-items:center}
+    .price-line{justify-content:center;gap:10px}
+    .input-row{flex-direction:column}
+    #verifyBtn{padding:14px}
+  }
+  /* ===== Toast ===== */
+  .toast{
+    position:fixed;left:50%;bottom:36px;z-index:200;
+    transform:translate(-50%,24px);opacity:0;pointer-events:none;
+    padding:13px 26px;border-radius:11px;font-size:13px;letter-spacing:1px;
+    background:rgba(8,14,28,.96);border:1px solid rgba(34,211,238,.35);
+    color:#a5f3fc;box-shadow:0 0 34px rgba(34,211,238,.28);
+    transition:.35s cubic-bezier(.2,.9,.3,1.2);white-space:nowrap;max-width:90vw;
+    overflow:hidden;text-overflow:ellipsis;
+  }
+  .toast.show{opacity:1;transform:translate(-50%,0)}
+  footer{
+    position:relative;z-index:5;text-align:center;padding:26px 20px 40px;
+    font-size:11px;color:#3f4d63;letter-spacing:1.5px;font-family:var(--mono);
+    border-top:1px solid rgba(255,255,255,.04);
+  }
 </style>
 </head>
 <body>
 
-  <div class="video-container">
-    <video src="https://od.lk/s/M18zMjYxMTE3OTlf/save_feed_3A267127-0BDB-4BCD-9B7E-E68F521197B4.mov" muted loop autoplay playsinline preload="auto"></video>
-  </div>
-  <div class="bg-overlay"></div>
-  <div class="scanline"></div>
-  <div class="particles" id="particles"></div>
+<canvas id="bg"></canvas>
+<div class="glow-orb orb-1"></div>
+<div class="glow-orb orb-2"></div>
+<div class="grid-overlay"></div>
+<div class="scanlines"></div>
 
-  <div class="content">
-    <h1>CORT工作室</h1>
-    <p class="subtitle">PUBGM GRS F6 · 4.3.0 版本</p>
-    <a class="install" href="itms-services://?action=download-manifest&url=https://jackgilmore9191-cloud.github.io/CORT1/manifest.plist">
-     免越狱安装
-    </a>
-    <div class="button-group">
-      <a class="auth" href="http://paji.zmwlkjb.cn/udid/" target="_blank">授权地址</a>
-      <a class="profile" href="http://hack.zmwlkjb.cn/astool/" target="_blank">描述文件</a>
+<header>
+  <div class="logo">
+    <svg class="logo-mark" viewBox="0 0 48 48">
+      <defs>
+        <linearGradient id="lg" x1="0" y1="0" x2="1" y2="1">
+          <stop offset="0%" stop-color="#22d3ee"/>
+          <stop offset="100%" stop-color="#a855f7"/>
+        </linearGradient>
+      </defs>
+      <path d="M24 3 43 14v20L24 45 5 34V14z" fill="none" stroke="url(#lg)" stroke-width="1.8"/>
+      <path class="ring" d="M24 10 37 17.5v13L24 38 11 30.5v-13z" fill="none"
+            stroke="url(#lg)" stroke-width="1" opacity=".55"/>
+      <circle cx="24" cy="24" r="3.2" fill="url(#lg)"/>
+      <circle cx="24" cy="24" r="6.5" fill="none" stroke="#22d3ee" stroke-width=".8" opacity=".45"/>
+    </svg>
+    <div>
+      <div class="logo-text">米麒麟<b>科技</b></div>
+      <div class="logo-sub">MIQILIN TECH</div>
     </div>
-    <p class="tip">⚠️⚠️⚠️先安装、在授权、最后安装描述文件⚠️⚠️⚠️</p>
+  </div>
+  <div class="header-right">
+    <span class="status"><i></i>NODE ONLINE</span>
+    <button class="btn-ghost" id="unlockTop">解锁下载</button>
+  </div>
+</header>
 
-    <!-- 大图相册轮播 -->
-    <div class="slider-wrap">
-      <div class="slider">
-        <img src="https://od.lk/s/M18zMjYxMTIwMTdf/283c526a1e505f07d785a8b7b3dc810e.jpeg" alt="pic">
-        <img src="https://od.lk/s/M18zMjYxMTIwMTRf/308e672892a67086f8c65dfc1c8141de.jpeg" alt="pic">
-        <img src="https://od.lk/s/M18zMjYxMTIwMTZf/3cfc0fa6bfd9bebdd0e378766d468fa0.jpeg" alt="pic">
-        <img src="https://od.lk/s/M18zMjYxMTIwMTVf/44f7b4229dbdf64073cf4f4e6260e638.jpeg" alt="pic">
-        <img src="https://od.lk/s/M18zMjYxMTIwMTNf/ed1284d7bcb4591d45fdb4a50404811a.jpeg" alt="pic">
-        <img src="https://od.lk/s/M18zMjYxMTIwMTJf/eedcca120763bc8cd1c979561b497bfa.jpeg" alt="pic">
+<main>
+  <section class="hero">
+    <div class="tag">▸ SECURE DOWNLOAD NODE // AES-256 加密传输</div>
+    <h1>米麒麟科技<br><span class="grad">资源下载中心</span></h1>
+    <p class="lead">高价值资源 · 一码一密 · 永久更新</p>
+    <div class="meta-row">
+      <div class="meta"><b id="statFiles">6</b><span>资源总数</span></div>
+      <div class="meta"><b>99.9%</b><span>节点可用率</span></div>
+      <div class="meta"><b>12ms</b><span>平均延迟</span></div>
+      <div class="meta"><b>24/7</b><span>技术支持</span></div>
+    </div>
+  </section>
+
+  <div class="section-title">// 可用资源列表</div>
+  <section class="grid" id="grid"></section>
+</main>
+
+<footer>© 2026 米麒麟科技 · MIQILIN TECH · ALL RIGHTS RESERVED</footer>
+
+<!-- ===== 付费解锁弹窗 ===== -->
+<div class="mask" id="mask">
+  <div class="modal" id="modal">
+    <button class="close" id="closeBtn" aria-label="关闭">×</button>
+
+    <div class="modal-head">
+      <div class="lock-badge">🔒</div>
+      <h2>解锁下载权限</h2>
+      <p>支付后获取专属密码 · 一次解锁 · 全站资源通用</p>
+    </div>
+
+    <div class="pay-area">
+      <div class="qr-box">
+        <canvas id="qr" width="240" height="240"></canvas>
+        <div class="qr-logo">米</div>
+      </div>
+      <div class="pay-info">
+        <div class="price-line">
+          <span>解锁费用</span>
+          <b>¥<i>9.90</i></b>
+        </div>
+        <ul>
+          <li>✓ 全站资源无限次下载</li>
+          <li>✓ 永久有效 · 版本免费更新</li>
+          <li>✓ 一对一远程技术支持</li>
+        </ul>
+        <div class="pay-tip">扫码支付后，系统将自动把下载密码发送至您的微信 / 邮箱。</div>
       </div>
     </div>
 
-    <!-- 定制专区 -->
-    <div class="custom-section">
-      <h2 class="custom-title">🏆🏆定制专区🏆🏆</p>
-      <div class="custom-content">
-       <p class="tip"> 承接各类游戏定制服务:<br>
-        🎮三角洲 ｜ PUBGM｜王者｜和平｜英雄联盟手游｜金铲铲……别问能不能接，只问你要什么效果
-      </div>
-    </div>
-  </div>
+    <div class="divider"><span>已有密码？直接验证</span></div>
 
-  <script>
-    // 生成随机粒子光效
-    const particlesContainer = document.getElementById('particles');
-    for (let i = 0; i < 50; i++) {
-      const particle = document.createElement('div');
-      particle.classList.add('particle');
-      particle.style.left = Math.random() * 100 + '%';
-      particle.style.top = Math.random() * 100 + '%';
-      particle.style.animationDelay = Math.random() * 8 + 's';
-      particlesContainer.appendChild(particle);
+    <div class="input-row">
+      <input id="pwd" type="text" placeholder="请输入下载密码" autocomplete="off" spellcheck="false">
+      <button id="verifyBtn">验 证</button>
+    </div>
+    <div class="err" id="err"></div>
+  </div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script>
+/* =========================================================
+   1. 背景粒子网络
+   ========================================================= */
+(function(){
+  const cvs = document.getElementById('bg');
+  const ctx = cvs.getContext('2d');
+  let W = 0, H = 0, DPR = 1, ps = [];
+
+  function init(){
+    DPR = Math.min(window.devicePixelRatio || 1, 2);
+    W = cvs.width  = Math.floor(innerWidth  * DPR);
+    H = cvs.height = Math.floor(innerHeight * DPR);
+    cvs.style.width  = innerWidth  + 'px';
+    cvs.style.height = innerHeight + 'px';
+
+    const count = Math.min(85, Math.max(30, Math.floor(innerWidth * innerHeight / 18000)));
+    ps = Array.from({length: count}, () => ({
+      x: Math.random() * W,
+      y: Math.random() * H,
+      vx: (Math.random() - .5) * .34 * DPR,
+      vy: (Math.random() - .5) * .34 * DPR,
+      r: (Math.random() * 1.5 + .6) * DPR
+    }));
+  }
+
+  const MAX = () => 150 * DPR;
+
+  function loop(){
+    ctx.clearRect(0, 0, W, H);
+    const max = MAX(), max2 = max * max;
+
+    for (let i = 0; i < ps.length; i++){
+      const p = ps[i];
+      p.x += p.vx; p.y += p.vy;
+      if (p.x < 0 || p.x > W) p.vx *= -1;
+      if (p.y < 0 || p.y > H) p.vy *= -1;
+
+      for (let j = i + 1; j < ps.length; j++){
+        const q = ps[j];
+        const dx = p.x - q.x, dy = p.y - q.y;
+        const d2 = dx * dx + dy * dy;
+        if (d2 < max2){
+          const a = (1 - Math.sqrt(d2) / max) * .26;
+          ctx.strokeStyle = 'rgba(34,211,238,' + a + ')';
+          ctx.lineWidth = DPR * .6;
+          ctx.beginPath();
+          ctx.moveTo(p.x, p.y);
+          ctx.lineTo(q.x, q.y);
+          ctx.stroke();
+        }
+      }
     }
-  </script>
+    for (const p of ps){
+      ctx.beginPath();
+      ctx.fillStyle = 'rgba(130,225,255,.55)';
+      ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
+      ctx.fill();
+    }
+    requestAnimationFrame(loop);
+  }
+
+  init();
+  loop();
+  let rt;
+  addEventListener('resize', () => { clearTimeout(rt); rt = setTimeout(init, 180); });
+})();
+
+/* =========================================================
+   2. 资源数据
+   ========================================================= */
+const ICONS = [
+  '<path d="M12 2 3 7v10l9 5 9-5V7z"/><path d="M3 7l9 5 9-5M12 12v10"/>',
+  '<ellipse cx="12" cy="6" rx="8" ry="3"/><path d="M4 6v12c0 1.7 3.6 3 8 3s8-1.3 8-3V6"/><path d="M4 12c0 1.7 3.6 3 8 3s8-1.3 8-3"/>',
+  '<circle cx="12" cy="12" r="9"/><path d="M10 8.5 16 12l-6 3.5z"/>',
+  '<circle cx="12" cy="12" r="3"/><path d="M12 2v3M12 19v3M2 12h3M19 12h3M4.9 4.9l2.1 2.1M17 17l2.1 2.1M19.1 4.9 17 7M7 17l-2.1 2.1"/>',
+  '<path d="M7 18a4 4 0 0 1 0-8 5.5 5.5 0 0 1 10.6 1.5A3.5 3.5 0 0 1 17 18z"/>',
+  '<rect x="3" y="4" width="18" height="16" rx="2"/><path d="m7 9 3 3-3 3M13 15h4"/>'
+];
+const ICON_COLORS = ['#22d3ee', '#a855f7', '#38bdf8', '#f472b6', '#34d399', '#fbbf24'];
+
+const RESOURCES = [
+  { name:'AI 图像超分工具 Pro', ver:'v3.2.1', size:'186 MB',
+    desc:'基于扩散模型的一键 4K 超分辨率，支持批量处理与 GPU 加速渲染。',
+    tags:['Windows','GPU 加速','免安装'] },
+  { name:'米麒麟数据恢复大师', ver:'v5.0.4', size:'92 MB',
+    desc:'深度扫描磁盘扇区，支持误删、格式化、分区丢失等多种恢复场景。',
+    tags:['Windows','数据安全'] },
+  { name:'全平台视频嗅探器', ver:'v2.8.0', size:'64 MB',
+    desc:'一键解析主流平台视频直链，支持 8K 下载与字幕自动提取。',
+    tags:['Win/Mac','批量下载'] },
+  { name:'系统优化引擎 Turbo', ver:'v1.9.7', size:'120 MB',
+    desc:'内存智能释放、启动项管理、驱动一键更新，让老机器重获新生。',
+    tags:['Windows','性能提升'] },
+  { name:'私有云盘部署套件', ver:'v4.1.2', size:'340 MB',
+    desc:'Docker 一键部署的私有云方案，支持多端同步、在线预览与权限管理。',
+    tags:['Linux','Docker','NAS'] },
+  { name:'智能字幕生成器', ver:'v2.3.5', size:'210 MB',
+    desc:'语音识别自动打轴，支持 32 种语言互译与 SRT / ASS 格式导出。',
+    tags:['全平台','AI 翻译'] }
+];
+
+/* =========================================================
+   3. 解锁状态
+   ========================================================= */
+const STORAGE_KEY = 'mq_unlocked';
+let unlocked = localStorage.getItem(STORAGE_KEY) === '1';
+
+// 下载密码（字符码混淆存储，避免明文出现在源码中）
+// 实际生产环境请务必改为服务端校验！
+const SECRET_CODE = [77,73,81,73,76,73,78,50,48,50,54]
+  .map(n => String.fromCharCode(n)).join('');
+
+/* =========================================================
+   4. 渲染资源卡片
+   ========================================================= */
+const grid = document.getElementById('grid');
+
+function renderCards(){
+  grid.innerHTML = RESOURCES.map((r, i) => `
+    <article class="card" style="animation-delay:${i * 70}ms">
+      <div class="card-head">
+        <div class="icon" style="color:${ICON_COLORS[i % ICON_COLORS.length]}">
+          <svg viewBox="0 0 24 24">${ICONS[i % ICONS.length]}</svg>
+        </div>
+        <div>
+          <h3>${r.name}</h3>
+          <div class="ver">${r.ver} · ${r.size}</div>
+        </div>
+      </div>
+      <p class="desc">${r.desc}</p>
+      <div class="tags">${r.tags.map(t => `<span>${t}</span>`).join('')}</div>
+      <button class="dl-btn ${unlocked ? 'unlocked' : ''}" data-idx="${i}">
+        ${unlocked ? '↓ 立即下载' : '🔒 密码下载'}
+      </button>
+    </article>
+  `).join('');
+  document.getElementById('statFiles').textContent = RESOURCES.length;
+}
+renderCards();
+
+/* =========================================================
+   5. 下载逻辑
+   ========================================================= */
+function doDownload(r){
+  // ⚠️ 演示：生成一个占位文件。真实项目请替换为后端签名下载地址
+  const content =
+`========================================
+  米麒麟科技 · 资源下载凭据
+========================================
+资源名称：${r.name}
+版本号　：${r.ver}
+文件大小：${r.size}
+生成时间：${new Date().toLocaleString('zh-CN')}
+下载令牌：${Math.random().toString(36).slice(2, 10).toUpperCase()}
+
+本文件为演示占位内容。
+请在后端将下载地址替换为真实的资源 CDN 链接。
+========================================`;
+
+  const blob = new Blob([content], { type: 'text/plain;charset=utf-8' });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = r.name + '_' + r.ver + '.txt';
+  document.body.appendChild(a);
+  a.click();
+  a.remove();
+  setTimeout(() => URL.revokeObjectURL(url), 2000);
+
+  toast('↓ 下载已开始：' + r.name);
+}
+
+grid.addEventListener('click', e => {
+  const btn = e.target.closest('.dl-btn');
+  if (!btn) return;
+  const idx = +btn.dataset.idx;
+
+  if (unlocked){
+    doDownload(RESOURCES[idx]);
+  } else {
+    openModal();
+  }
+});
+
+/* =========================================================
+   6. 弹窗控制
+   ========================================================= */
+const mask     = document.getElementById('mask');
+const modal    = document.getElementById('modal');
+const pwdInput = document.getElementById('pwd');
+const errBox   = document.getElementById('err');
+const topBtn   = document.getElementById('unlockTop');
+
+function openModal(){
+  mask.classList.add('show');
+  errBox.textContent = '';
+  pwdInput.value = '';
+  drawQR();
+  setTimeout(() => pwdInput.focus(), 320);
+}
+function closeModal(){
+  mask.classList.remove('show');
+}
+
+document.getElementById('closeBtn').onclick = closeModal;
+mask.addEventListener('click', e => { if (e.target === mask) closeModal(); });
+document.addEventListener('keydown', e => {
+  if (e.key === 'Escape') closeModal();
+});
+
+topBtn.onclick = () => {
+  if (unlocked){
+    document.getElementById('grid').scrollIntoView({ behavior: 'smooth', block: 'start' });
+    toast('已解锁，直接点击下载即可');
+  } else {
+    openModal();
+  }
+};
+
+/* =========================================================
+   7. 密码验证
+   ========================================================= */
+const verifyBtn = document.getElementById('verifyBtn');
+
+function showErr(msg){
+  errBox.textContent = msg;
+  modal.classList.remove('shake');
+  void modal.offsetWidth;
+  modal.classList.add('shake');
+}
+
+function verify(){
+  const val = pwdInput.value.trim().toUpperCase();
+  if (!val){ showErr('请输入下载密码'); return; }
+
+  if (val === SECRET_CODE){
+    unlocked = true;
+    localStorage.setItem(STORAGE_KEY, '1');
+    closeModal();
+    updateUI();
+    renderCards();
+    toast('✅ 解锁成功，全站资源已开放');
+  } else {
+    showErr('密码错误，请核对后重试');
+  }
+}
+
+verifyBtn.onclick = verify;
+pwdInput.addEventListener('keydown', e => { if (e.key === 'Enter') verify(); });
+
+/* =========================================================
+   8. UI 状态同步
+   ========================================================= */
+function updateUI(){
+  if (unlocked){
+    topBtn.textContent = '✓ 已解锁';
+    topBtn.classList.add('done');
+  } else {
+    topBtn.textContent = '解锁下载';
+    topBtn.classList.remove('done');
+  }
+}
+updateUI();
+
+/* =========================================================
+   9. 假二维码绘制（仅作视觉占位）
+   ========================================================= */
+function drawQR(){
+  const c = document.getElementById('qr');
+  const ctx = c.getContext('2d');
+  const N = 29;
+  const size = c.width;
+  const s = size / N;
+
+  ctx.fillStyle = '#ffffff';
+  ctx.fillRect(0, 0, size, size);
+  ctx.fillStyle = '#04060f';
+
+  // 伪随机（固定种子，保证每次一致）
+  let seed = 20260214;
+  const rnd = () => (seed = (seed * 1103515245 + 12345) & 0x7fffffff) / 0x7fffffff;
+
+  const inFinder = (x, y) => {
+    const box = (ox, oy) => x >= ox && x < ox + 8 && y >= oy && y < oy + 8;
+    return box(0, 0) || box(N - 8, 0) || box(0, N - 8);
+  };
+
+  for (let y = 0; y < N; y++){
+    for (let x = 0; x < N; x++){
+      if (inFinder(x, y)) continue;
+      if (rnd() > .52){
+        ctx.fillRect(Math.floor(x * s), Math.floor(y * s), Math.ceil(s), Math.ceil(s));
+      }
+    }
+  }
+
+  const finder = (ox, oy) => {
+    ctx.fillStyle = '#04060f';
+    ctx.fillRect(ox * s, oy * s, 7 * s, 7 * s);
+    ctx.fillStyle = '#ffffff';
+    ctx.fillRect((ox + 1) * s, (oy + 1) * s, 5 * s, 5 * s);
+    ctx.fillStyle = '#04060f';
+    ctx.fillRect((ox + 2) * s, (oy + 2) * s, 3 * s, 3 * s);
+  };
+  finder(0, 0);
+  finder(N - 7, 0);
+  finder(0, N - 7);
+
+  // 中心留白放 Logo
+  ctx.fillStyle = '#ffffff';
+  const pad = s * 5;
+  ctx.fillRect(size / 2 - pad, size / 2 - pad, pad * 2, pad * 2);
+}
+
+/* =========================================================
+   10. Toast
+   ========================================================= */
+let toastTimer;
+function toast(msg){
+  const t = document.getElementById('toast');
+  t.textContent = msg;
+  t.classList.add('show');
+  clearTimeout(toastTimer);
+  toastTimer = setTimeout(() => t.classList.remove('show'), 2800);
+}
+</script>
 </body>
 </html>
