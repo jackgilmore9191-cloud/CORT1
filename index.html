@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>米麒麟科技 · 资源下载中心</title>
+<title>米麒麟科技</title>
 <style>
   *{box-sizing:border-box;margin:0;padding:0}
   :root{
@@ -14,7 +14,6 @@
     --text:#e2e8f0;
     --muted:#7d8ba5;
     --ok:#34d399;
-    --err:#fb7185;
     --mono:ui-monospace,SFMono-Regular,"JetBrains Mono",Consolas,monospace;
   }
   html,body{height:100%}
@@ -113,6 +112,7 @@
   .desc{font-size:12.5px;line-height:1.75;color:#8fa0b8;margin-bottom:14px;min-height:44px}
   .tags{display:flex;gap:7px;flex-wrap:wrap;margin-bottom:16px}
   .tags span{font-size:10.5px;font-family:var(--mono);letter-spacing:1px;color:#7dd3fc;padding:3px 9px;border-radius:5px;background:rgba(34,211,238,.08);border:1px solid rgba(34,211,238,.16)}
+  /* 下载按钮 */
   .dl-btn{
     width:100%;padding:12px;border-radius:10px;cursor:pointer;position:relative;overflow:hidden;
     font-family:inherit;font-size:13.5px;font-weight:600;letter-spacing:2.5px;
@@ -123,105 +123,8 @@
   .dl-btn:hover{color:#fff;border-color:rgba(34,211,238,.6);background:linear-gradient(135deg,rgba(34,211,238,.3),rgba(168,85,247,.3));box-shadow:0 0 26px rgba(34,211,238,.38)}
   .dl-btn::after{content:'';position:absolute;top:0;left:-120%;width:60%;height:100%;background:linear-gradient(90deg,transparent,rgba(255,255,255,.28),transparent);transform:skewX(-20deg);transition:left .6s}
   .dl-btn:hover::after{left:130%}
-  /* ===== 弹窗 ===== */
-  .mask{
-    position:fixed;inset:0;z-index:100;display:flex;align-items:center;justify-content:center;
-    padding:18px;background:rgba(2,4,10,.86);
-    backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);
-    opacity:0;visibility:hidden;transition:.3s;
-  }
-  .mask.show{opacity:1;visibility:visible}
-  .modal{
-    position:relative;width:min(520px,100%);max-height:92vh;overflow-y:auto;
-    padding:28px clamp(18px,4vw,30px);border-radius:18px;
-    background:linear-gradient(180deg,rgba(13,20,38,.99),rgba(7,10,20,.99));
-    border:1px solid rgba(34,211,238,.26);
-    box-shadow:0 0 70px rgba(34,211,238,.16),inset 0 1px 0 rgba(255,255,255,.06);
-    transform:translateY(24px) scale(.95);
-    transition:.38s cubic-bezier(.2,.9,.3,1.25);
-  }
-  .mask.show .modal{transform:none}
-  .modal::before{content:'';position:absolute;top:0;left:12%;right:12%;height:1px;background:linear-gradient(90deg,transparent,var(--cyan),transparent);box-shadow:0 0 14px var(--cyan)}
-  .close{
-    position:absolute;top:14px;right:16px;width:32px;height:32px;border-radius:8px;
-    background:transparent;border:1px solid rgba(255,255,255,.1);color:var(--muted);
-    font-size:19px;line-height:1;cursor:pointer;transition:.25s;
-  }
-  .close:hover{color:#fff;border-color:rgba(251,113,133,.5);background:rgba(251,113,133,.1)}
-  .modal-head{text-align:center;margin-bottom:20px}
-  .lock-badge{
-    width:56px;height:56px;margin:0 auto 14px;border-radius:16px;display:grid;place-items:center;
-    background:linear-gradient(135deg,rgba(34,211,238,.16),rgba(168,85,247,.16));
-    border:1px solid rgba(34,211,238,.3);
-    box-shadow:0 0 30px rgba(34,211,238,.25),inset 0 0 20px rgba(34,211,238,.08);
-    font-size:24px;
-  }
-  .modal-head h2{font-size:19px;letter-spacing:2px;margin-bottom:8px;color:#f1f5f9}
-  .modal-head p{font-size:12.5px;color:var(--muted);letter-spacing:.5px}
-  .modal-head p b{color:#67e8f9;font-weight:600}
-  /* 价格条 */
-  .price-banner{
-    display:flex;align-items:center;justify-content:center;gap:14px;
-    padding:14px 20px;border-radius:12px;margin-bottom:20px;
-    background:linear-gradient(135deg,rgba(34,211,238,.10),rgba(168,85,247,.10));
-    border:1px solid rgba(34,211,238,.2);
-  }
-  .price-banner span{font-size:12.5px;color:var(--muted);letter-spacing:1px}
-  .price-banner b{font-family:var(--mono);font-size:15px;color:#67e8f9}
-  .price-banner b i{font-size:30px;font-style:normal;font-weight:800;text-shadow:0 0 22px rgba(34,211,238,.6)}
-  /* 支付方式切换 */
-  .pay-tabs{display:flex;gap:10px;margin-bottom:18px}
-  .pay-tab{
-    flex:1;display:flex;align-items:center;justify-content:center;gap:8px;
-    padding:11px;border-radius:10px;cursor:pointer;font-family:inherit;
-    font-size:13px;font-weight:600;letter-spacing:1px;
-    background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.08);
-    color:var(--muted);transition:.25s;
-  }
-  .pay-tab .dot{width:9px;height:9px;border-radius:50%;background:#64748b;transition:.25s}
-  .pay-tab.active[data-tab="alipay"]{background:rgba(22,119,255,.14);border-color:rgba(22,119,255,.5);color:#7cc4ff}
-  .pay-tab.active[data-tab="alipay"] .dot{background:#1677ff;box-shadow:0 0 10px #1677ff}
-  .pay-tab.active[data-tab="wechat"]{background:rgba(7,193,96,.14);border-color:rgba(7,193,96,.5);color:#5ee6a0}
-  .pay-tab.active[data-tab="wechat"] .dot{background:#07c160;box-shadow:0 0 10px #07c160}
-  /* 二维码区域 */
-  .qr-area{position:relative;margin-bottom:20px}
-  .qr-panel{display:none;text-align:center}
-  .qr-panel.active{display:block;animation:fadeIn .3s}
-  @keyframes fadeIn{from{opacity:0}to{opacity:1}}
-  .qr-wrap{
-    position:relative;width:210px;height:315px;margin:0 auto 12px;border-radius:14px;
-    overflow:hidden;background:#fff;display:flex;align-items:center;justify-content:center;
-    box-shadow:0 0 30px rgba(34,211,238,.22),0 0 0 1px rgba(34,211,238,.3);
-  }
-  .qr-wrap img{width:100%;height:100%;object-fit:contain;display:block}
-  .qr-fallback{
-    position:absolute;inset:0;display:none;flex-direction:column;align-items:center;justify-content:center;
-    text-align:center;color:#94a3b8;font-size:12px;line-height:1.9;
-    background:#0f172a;padding:14px;
-  }
-  .qr-fallback span{font-size:30px;margin-bottom:8px;opacity:.6}
-  .qr-fallback b{color:#67e8f9;font-family:var(--mono);font-size:12px}
-  .qr-wrap.error .qr-fallback{display:flex}
-  .qr-wrap.error img{display:none}
-  .qr-hint{font-size:12px;color:var(--muted);letter-spacing:1px}
-  /* 支付完成按钮 */
-  .paid-btn{
-    width:100%;padding:15px;border:none;border-radius:12px;cursor:pointer;
-    font-family:inherit;font-size:14.5px;font-weight:800;letter-spacing:2px;
-    color:#04060f;background:linear-gradient(135deg,#22d3ee,#a855f7);
-    transition:.25s;box-shadow:0 0 28px rgba(34,211,238,.35);
-    position:relative;overflow:hidden;
-  }
-  .paid-btn:hover:not(:disabled){transform:translateY(-2px);box-shadow:0 8px 34px rgba(34,211,238,.55)}
-  .paid-btn:active:not(:disabled){transform:translateY(0)}
-  .paid-btn:disabled{opacity:.7;cursor:wait}
-  .paid-btn::after{
-    content:'';position:absolute;top:0;left:-120%;width:60%;height:100%;
-    background:linear-gradient(90deg,transparent,rgba(255,255,255,.4),transparent);
-    transform:skewX(-20deg);transition:left .6s;
-  }
-  .paid-btn:hover:not(:disabled)::after{left:130%}
-  .pay-tip{margin-top:12px;font-size:11px;color:#64748b;text-align:center;letter-spacing:.5px;line-height:1.7}
+  .dl-btn:disabled{cursor:default;color:#6ee7b7;border-color:rgba(52,211,153,.45);background:linear-gradient(135deg,rgba(52,211,153,.16),rgba(34,211,238,.16))}
+  .dl-btn:disabled::after{display:none}
   /* Toast */
   .toast{
     position:fixed;left:50%;bottom:36px;z-index:200;
@@ -237,10 +140,6 @@
     position:relative;z-index:5;text-align:center;padding:26px 20px 40px;
     font-size:11px;color:#3f4d63;letter-spacing:1.5px;font-family:var(--mono);
     border-top:1px solid rgba(255,255,255,.04);
-  }
-  @media(max-width:560px){
-    .qr-wrap{width:180px;height:270px}
-    .price-banner b i{font-size:26px}
   }
 </style>
 </head>
@@ -273,7 +172,7 @@
   </div>
   <div class="header-right">
     <span class="status"><i></i>NODE ONLINE</span>
-    <button class="btn-ghost" id="unlockTop">扫码下载</button>
+    <button class="btn-ghost" id="jumpBtn">查看资源</button>
   </div>
 </header>
 
@@ -281,12 +180,12 @@
   <section class="hero">
     <div class="tag">▸ SECURE DOWNLOAD NODE // AES-256 加密传输</div>
     <h1>米麒麟科技<br><span class="grad">资源下载中心</span></h1>
-    <p class="lead">扫码支付 · 即时下载 · 永久有效</p>
+    <p class="lead">免费开放 · 极速下载 · 永久有效</p>
     <div class="meta-row">
-      <div class="meta"><b id="statFiles">6</b><span>资源总数</span></div>
-      <div class="meta"><b>99.9%</b><span>节点可用率</span></div>
-      <div class="meta"><b>12ms</b><span>平均延迟</span></div>
-      <div class="meta"><b>24/7</b><span>技术支持</span></div>
+      <div class="meta"><b id="statFiles">6</b><span>稳定</span></div>
+      <div class="meta"><b>99.9%</b><span>安全</span></div>
+      <div class="meta"><b>12ms</b><span>可靠</span></div>
+      <div class="meta"><b>24/7</b><span>10年老店</span></div>
     </div>
   </section>
 
@@ -296,67 +195,9 @@
 
 <footer>© 2026 米麒麟科技 · MIQILIN TECH · ALL RIGHTS RESERVED</footer>
 
-<!-- ===== 支付弹窗 ===== -->
-<div class="mask" id="mask">
-  <div class="modal" id="modal">
-    <button class="close" id="closeBtn" aria-label="关闭">×</button>
-
-    <div class="modal-head">
-      <div class="lock-badge">💳</div>
-      <h2>扫码支付 · 立即下载</h2>
-      <p>正在下载：<b id="payResourceName">—</b></p>
-    </div>
-
-    <div class="price-banner">
-      <span>应付金额</span>
-      <b>¥<i id="payAmount">9.90</i></b>
-    </div>
-
-    <div class="pay-tabs">
-      <button class="pay-tab active" data-tab="alipay"><span class="dot"></span>支付宝</button>
-      <button class="pay-tab" data-tab="wechat"><span class="dot"></span>微信支付</button>
-    </div>
-
-    <div class="qr-area">
-      <div class="qr-panel active" data-panel="alipay">
-        <div class="qr-wrap" id="qrWrapAlipay">
-          <img id="qrAlipay" alt="支付宝收款码">
-          <div class="qr-fallback">
-            <span>📷</span>
-            请将支付宝收款码<br>保存为 <b>alipay.png</b><br>放在网页同目录
-          </div>
-        </div>
-        <p class="qr-hint">打开支付宝「扫一扫」完成支付</p>
-      </div>
-      <div class="qr-panel" data-panel="wechat">
-        <div class="qr-wrap" id="qrWrapWechat">
-          <img id="qrWechat" alt="微信收款码">
-          <div class="qr-fallback">
-            <span>📷</span>
-            请将微信收款码<br>保存为 <b>wechat.png</b><br>放在网页同目录
-          </div>
-        </div>
-        <p class="qr-hint">打开微信「扫一扫」完成支付</p>
-      </div>
-    </div>
-
-    <button class="paid-btn" id="paidBtn">✓ 我已完成支付，立即下载</button>
-    <p class="pay-tip">支付完成后点击上方按钮，系统将自动开始下载</p>
-  </div>
-</div>
-
 <div class="toast" id="toast"></div>
 
 <script>
-/* =========================================================
-   ⚙️ 配置区：收款码图片路径 & 支付金额
-   ========================================================= */
-const PAY_QR = {
-  alipay: 'alipay.png',   // 支付宝收款码图片（放同目录）
-  wechat: 'wechat.png'    // 微信收款码图片（放同目录）
-};
-const PAY_AMOUNT = '9.90'; // 支付金额
-
 /* =========================================================
    1. 背景粒子网络
    ========================================================= */
@@ -434,8 +275,8 @@ const ICONS = [
 const ICON_COLORS = ['#22d3ee', '#a855f7', '#38bdf8', '#f472b6', '#34d399', '#fbbf24'];
 
 const RESOURCES = [
-  { name:'AI 图像超分工具 Pro', ver:'v3.2.1', size:'186 MB',
-    desc:'基于扩散模型的一键 4K 超分辨率，支持批量处理与 GPU 加速渲染。',
+  { name:'PUBG国际服',
+    desc:'10年老店
     tags:['Windows','GPU 加速','免安装'] },
   { name:'米麒麟数据恢复大师', ver:'v5.0.4', size:'92 MB',
     desc:'深度扫描磁盘扇区，支持误删、格式化、分区丢失等多种恢复场景。',
@@ -504,94 +345,42 @@ function doDownload(r){
   a.click();
   a.remove();
   setTimeout(() => URL.revokeObjectURL(url), 2000);
-  toast('↓ 下载已开始：' + r.name);
 }
 
 /* =========================================================
-   5. 弹窗控制
+   5. 点击下载（直接下载，无任何验证）
    ========================================================= */
-const mask      = document.getElementById('mask');
-const paidBtn   = document.getElementById('paidBtn');
-const nameLabel = document.getElementById('payResourceName');
-const amountEl  = document.getElementById('payAmount');
-let currentIdx  = 0;
-
-amountEl.textContent = PAY_AMOUNT;
-
-function openModal(idx){
-  currentIdx = idx;
-  nameLabel.textContent = RESOURCES[idx].name;
-  mask.classList.add('show');
-  resetPaidBtn();
-  // 重置到支付宝 tab
-  switchTab('alipay');
-}
-function closeModal(){ mask.classList.remove('show'); }
-
-function resetPaidBtn(){
-  paidBtn.disabled = false;
-  paidBtn.textContent = '✓ 我已完成支付，立即下载';
-}
-
-document.getElementById('closeBtn').onclick = closeModal;
-mask.addEventListener('click', e => { if (e.target === mask) closeModal(); });
-document.addEventListener('keydown', e => { if (e.key === 'Escape') closeModal(); });
-
-// 卡片下载按钮 → 打开支付弹窗
 grid.addEventListener('click', e => {
   const btn = e.target.closest('.dl-btn');
-  if (!btn) return;
-  openModal(+btn.dataset.idx);
+  if (!btn || btn.disabled) return;
+
+  const r = RESOURCES[+btn.dataset.idx];
+  const original = btn.textContent;
+
+  // 按钮进入“下载中”状态
+  btn.disabled = true;
+  btn.textContent = '⏳ 正在下载...';
+
+  doDownload(r);
+
+  // 2 秒后恢复，可重复下载
+  setTimeout(() => {
+    btn.disabled = false;
+    btn.textContent = original;
+  }, 2000);
+
+  toast('↓ 下载已开始：' + r.name);
 });
 
-// 顶部按钮 → 滚动到资源区
-document.getElementById('unlockTop').onclick = () => {
+/* =========================================================
+   6. 顶部按钮 → 滚动到资源区
+   ========================================================= */
+document.getElementById('jumpBtn').onclick = () => {
   document.getElementById('grid').scrollIntoView({ behavior:'smooth', block:'start' });
-  toast('请选择需要下载的资源');
 };
 
 /* =========================================================
-   6. 支付方式切换
-   ========================================================= */
-const tabs = document.querySelectorAll('.pay-tab');
-const panels = document.querySelectorAll('.qr-panel');
-
-function switchTab(name){
-  tabs.forEach(t => t.classList.toggle('active', t.dataset.tab === name));
-  panels.forEach(p => p.classList.toggle('active', p.dataset.panel === name));
-}
-tabs.forEach(t => t.onclick = () => switchTab(t.dataset.tab));
-
-/* =========================================================
-   7. 加载收款码图片（失败时显示提示）
-   ========================================================= */
-function loadQR(id, wrapId, src){
-  const img = document.getElementById(id);
-  const wrap = document.getElementById(wrapId);
-  img.onerror = () => wrap.classList.add('error');
-  img.src = src;
-}
-loadQR('qrAlipay', 'qrWrapAlipay', PAY_QR.alipay);
-loadQR('qrWechat', 'qrWrapWechat', PAY_QR.wechat);
-
-/* =========================================================
-   8. 支付完成 → 立即下载
-   ========================================================= */
-paidBtn.onclick = () => {
-  if (paidBtn.disabled) return;
-  paidBtn.disabled = true;
-  paidBtn.textContent = '⏳ 支付确认中...';
-
-  // 模拟确认过程，然后直接下载
-  setTimeout(() => {
-    closeModal();
-    doDownload(RESOURCES[currentIdx]);
-    resetPaidBtn();
-  }, 900);
-};
-
-/* =========================================================
-   9. Toast
+   7. Toast
    ========================================================= */
 let toastTimer;
 function toast(msg){
