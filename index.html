@@ -1,395 +1,442 @@
 <!DOCTYPE html>
 <html lang="zh-CN">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1">
-<title>米麒麟科技</title>
-<style>
-  *{box-sizing:border-box;margin:0;padding:0}
-  :root{
-    --cyan:#22d3ee;
-    --cyan-dim:rgba(34,211,238,.28);
-    --purple:#a855f7;
-    --bg:#04060f;
-    --text:#e2e8f0;
-    --muted:#7d8ba5;
-    --ok:#34d399;
-    --mono:ui-monospace,SFMono-Regular,"JetBrains Mono",Consolas,monospace;
-  }
-  html,body{height:100%}
-  body{
-    background:var(--bg);color:var(--text);
-    font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Microsoft YaHei",sans-serif;
-    overflow-x:hidden;-webkit-font-smoothing:antialiased;
-  }
-  /* ===== 背景层 ===== */
-  #bg{position:fixed;inset:0;z-index:0;display:block}
-  .grid-overlay{
-    position:fixed;inset:0;z-index:1;pointer-events:none;
-    background-image:
-      linear-gradient(rgba(34,211,238,.055) 1px,transparent 1px),
-      linear-gradient(90deg,rgba(34,211,238,.055) 1px,transparent 1px);
-    background-size:58px 58px;
-    -webkit-mask-image:radial-gradient(ellipse 90% 60% at 50% 0%,#000 0%,transparent 78%);
-    mask-image:radial-gradient(ellipse 90% 60% at 50% 0%,#000 0%,transparent 78%);
-  }
-  .glow-orb{position:fixed;border-radius:50%;filter:blur(120px);z-index:0;pointer-events:none;opacity:.5}
-  .orb-1{width:520px;height:520px;background:rgba(34,211,238,.20);top:-180px;left:-120px}
-  .orb-2{width:480px;height:480px;background:rgba(168,85,247,.18);top:20%;right:-160px}
-  .scanlines{
-    position:fixed;inset:0;z-index:3;pointer-events:none;opacity:.35;
-    background:repeating-linear-gradient(180deg,rgba(255,255,255,.03) 0 1px,transparent 1px 3px);
-    mix-blend-mode:overlay;
-  }
-  /* ===== 头部 ===== */
-  header{
-    position:sticky;top:0;z-index:50;
-    display:flex;align-items:center;justify-content:space-between;
-    padding:14px clamp(16px,4vw,48px);
-    background:rgba(4,6,15,.62);
-    backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);
-    border-bottom:1px solid rgba(34,211,238,.12);
-  }
-  .logo{display:flex;align-items:center;gap:12px}
-  .logo-mark{width:40px;height:40px;flex:none;filter:drop-shadow(0 0 10px rgba(34,211,238,.55))}
-  .logo-mark .ring{animation:spin 12s linear infinite;transform-origin:24px 24px}
-  @keyframes spin{to{transform:rotate(360deg)}}
-  .logo-text{font-size:19px;font-weight:800;letter-spacing:3px;line-height:1.1}
-  .logo-text b{background:linear-gradient(90deg,#22d3ee,#a855f7);-webkit-background-clip:text;background-clip:text;color:transparent}
-  .logo-sub{font-size:9px;letter-spacing:3.5px;color:var(--muted);font-family:var(--mono)}
-  .header-right{display:flex;align-items:center;gap:14px}
-  .status{display:flex;align-items:center;gap:7px;font-size:12px;color:var(--muted);font-family:var(--mono);letter-spacing:1px}
-  .status i{width:7px;height:7px;border-radius:50%;background:var(--ok);box-shadow:0 0 8px var(--ok);animation:pulse 1.8s ease-in-out infinite}
-  @keyframes pulse{0%,100%{opacity:1;transform:scale(1)}50%{opacity:.35;transform:scale(.8)}}
-  .btn-ghost{
-    padding:9px 18px;border-radius:9px;cursor:pointer;font-size:13px;letter-spacing:1px;
-    border:1px solid var(--cyan-dim);background:rgba(34,211,238,.07);color:#a5f3fc;
-    transition:.25s;font-family:inherit;
-  }
-  .btn-ghost:hover{background:rgba(34,211,238,.18);box-shadow:0 0 20px rgba(34,211,238,.3)}
-  @media(max-width:600px){.status{display:none}.logo-text{font-size:16px}}
-  /* ===== 主体 ===== */
-  main{position:relative;z-index:5;padding:0 clamp(16px,4vw,48px) 80px;max-width:1240px;margin:0 auto}
-  .hero{padding:clamp(48px,9vw,96px) 0 44px;text-align:center}
-  .tag{
-    display:inline-flex;align-items:center;gap:8px;
-    font-family:var(--mono);font-size:11px;letter-spacing:2.5px;color:#67e8f9;
-    padding:7px 16px;border-radius:99px;
-    border:1px solid rgba(34,211,238,.28);background:rgba(34,211,238,.06);
-    box-shadow:inset 0 0 20px rgba(34,211,238,.08);animation:fadeUp .7s both;
-  }
-  .hero h1{margin:22px 0 16px;font-size:clamp(30px,6.4vw,60px);line-height:1.14;font-weight:900;letter-spacing:2px;animation:fadeUp .7s .08s both}
-  .grad{background:linear-gradient(100deg,#22d3ee 0%,#818cf8 45%,#e879f9 100%);-webkit-background-clip:text;background-clip:text;color:transparent;filter:drop-shadow(0 0 26px rgba(34,211,238,.35))}
-  .lead{color:var(--muted);font-size:clamp(13px,2.4vw,16px);letter-spacing:1.5px;animation:fadeUp .7s .16s both}
-  .meta-row{display:flex;justify-content:center;gap:clamp(20px,5vw,64px);margin-top:38px;flex-wrap:wrap;animation:fadeUp .7s .24s both}
-  .meta{text-align:center}
-  .meta b{display:block;font-family:var(--mono);font-size:26px;color:#67e8f9;letter-spacing:1px;text-shadow:0 0 18px rgba(34,211,238,.5)}
-  .meta span{font-size:11px;color:var(--muted);letter-spacing:2px}
-  @keyframes fadeUp{from{opacity:0;transform:translateY(18px)}to{opacity:1;transform:none}}
-  /* ===== 资源卡片 ===== */
-  .section-title{display:flex;align-items:center;gap:14px;margin:24px 0 22px;font-family:var(--mono);font-size:12px;letter-spacing:3px;color:var(--muted)}
-  .section-title::after{content:'';flex:1;height:1px;background:linear-gradient(90deg,rgba(34,211,238,.35),transparent)}
-  .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:18px}
-  .card{
-    position:relative;padding:22px;border-radius:16px;
-    background:linear-gradient(180deg,rgba(13,20,38,.82),rgba(7,11,22,.86));
-    border:1px solid rgba(34,211,238,.14);backdrop-filter:blur(6px);
-    transition:.3s cubic-bezier(.2,.9,.3,1);
-    animation:rise .65s cubic-bezier(.2,.9,.3,1) both;overflow:hidden;
-  }
-  @keyframes rise{from{opacity:0;transform:translateY(26px)}to{opacity:1;transform:none}}
-  .card::before,.card::after{content:'';position:absolute;width:14px;height:14px;border:1px solid rgba(34,211,238,.55);transition:.3s}
-  .card::before{top:6px;left:6px;border-right:0;border-bottom:0;border-radius:4px 0 0 0}
-  .card::after{bottom:6px;right:6px;border-left:0;border-top:0;border-radius:0 0 4px 0}
-  .card:hover{transform:translateY(-5px);border-color:rgba(34,211,238,.42);box-shadow:0 18px 44px -18px rgba(34,211,238,.45),0 0 0 1px rgba(34,211,238,.08)}
-  .card:hover::before,.card:hover::after{width:22px;height:22px;border-color:var(--cyan)}
-  .card-head{display:flex;gap:14px;align-items:flex-start;margin-bottom:14px}
-  .icon{width:46px;height:46px;flex:none;border-radius:12px;display:grid;place-items:center;background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.07);transition:.3s}
-  .card:hover .icon{background:rgba(34,211,238,.09);box-shadow:0 0 22px rgba(34,211,238,.22)}
-  .icon svg{width:23px;height:23px;fill:none;stroke:currentColor;stroke-width:1.6;stroke-linecap:round;stroke-linejoin:round}
-  .card h3{font-size:15.5px;font-weight:700;letter-spacing:.5px;margin-bottom:5px;color:#f1f5f9}
-  .ver{font-family:var(--mono);font-size:11px;color:var(--muted);letter-spacing:1px}
-  .desc{font-size:12.5px;line-height:1.75;color:#8fa0b8;margin-bottom:14px;min-height:44px}
-  .tags{display:flex;gap:7px;flex-wrap:wrap;margin-bottom:16px}
-  .tags span{font-size:10.5px;font-family:var(--mono);letter-spacing:1px;color:#7dd3fc;padding:3px 9px;border-radius:5px;background:rgba(34,211,238,.08);border:1px solid rgba(34,211,238,.16)}
-  /* 下载按钮 */
-  .dl-btn{
-    width:100%;padding:12px;border-radius:10px;cursor:pointer;position:relative;overflow:hidden;
-    font-family:inherit;font-size:13.5px;font-weight:600;letter-spacing:2.5px;
-    color:#a5f3fc;border:1px solid var(--cyan-dim);
-    background:linear-gradient(135deg,rgba(34,211,238,.12),rgba(168,85,247,.12));
-    transition:.28s;
-  }
-  .dl-btn:hover{color:#fff;border-color:rgba(34,211,238,.6);background:linear-gradient(135deg,rgba(34,211,238,.3),rgba(168,85,247,.3));box-shadow:0 0 26px rgba(34,211,238,.38)}
-  .dl-btn::after{content:'';position:absolute;top:0;left:-120%;width:60%;height:100%;background:linear-gradient(90deg,transparent,rgba(255,255,255,.28),transparent);transform:skewX(-20deg);transition:left .6s}
-  .dl-btn:hover::after{left:130%}
-  .dl-btn:disabled{cursor:default;color:#6ee7b7;border-color:rgba(52,211,153,.45);background:linear-gradient(135deg,rgba(52,211,153,.16),rgba(34,211,238,.16))}
-  .dl-btn:disabled::after{display:none}
-  /* Toast */
-  .toast{
-    position:fixed;left:50%;bottom:36px;z-index:200;
-    transform:translate(-50%,24px);opacity:0;pointer-events:none;
-    padding:13px 26px;border-radius:11px;font-size:13px;letter-spacing:1px;
-    background:rgba(8,14,28,.96);border:1px solid rgba(34,211,238,.35);
-    color:#a5f3fc;box-shadow:0 0 34px rgba(34,211,238,.28);
-    transition:.35s cubic-bezier(.2,.9,.3,1.2);white-space:nowrap;max-width:90vw;
-    overflow:hidden;text-overflow:ellipsis;
-  }
-  .toast.show{opacity:1;transform:translate(-50%,0)}
-  footer{
-    position:relative;z-index:5;text-align:center;padding:26px 20px 40px;
-    font-size:11px;color:#3f4d63;letter-spacing:1.5px;font-family:var(--mono);
-    border-top:1px solid rgba(255,255,255,.04);
-  }
-</style>
-</head>
-<body>
-
-<canvas id="bg"></canvas>
-<div class="glow-orb orb-1"></div>
-<div class="glow-orb orb-2"></div>
-<div class="grid-overlay"></div>
-<div class="scanlines"></div>
-
-<header>
-  <div class="logo">
-    <svg class="logo-mark" viewBox="0 0 48 48">
-      <defs>
-        <linearGradient id="lg" x1="0" y1="0" x2="1" y2="1">
-          <stop offset="0%" stop-color="#22d3ee"/>
-          <stop offset="100%" stop-color="#a855f7"/>
-        </linearGradient>
-      </defs>
-      <path d="M24 3 43 14v20L24 45 5 34V14z" fill="none" stroke="url(#lg)" stroke-width="1.8"/>
-      <path class="ring" d="M24 10 37 17.5v13L24 38 11 30.5v-13z" fill="none" stroke="url(#lg)" stroke-width="1" opacity=".55"/>
-      <circle cx="24" cy="24" r="3.2" fill="url(#lg)"/>
-      <circle cx="24" cy="24" r="6.5" fill="none" stroke="#22d3ee" stroke-width=".8" opacity=".45"/>
-    </svg>
-    <div>
-      <div class="logo-text">米麒麟<b>科技</b></div>
-      <div class="logo-sub">MIQILIN TECH</div>
-    </div>
-  </div>
-  <div class="header-right">
-    <span class="status"><i></i>NODE ONLINE</span>
-    <button class="btn-ghost" id="jumpBtn">查看资源</button>
-  </div>
-</header>
-
-<main>
-  <section class="hero">
-    <div class="tag">▸ SECURE DOWNLOAD NODE // AES-256 加密传输</div>
-    <h1>米麒麟科技<br><span class="grad">资源下载中心</span></h1>
-    <p class="lead">免费开放 · 极速下载 · 永久有效</p>
-    <div class="meta-row">
-      <div class="meta"><b id="statFiles">6</b><span>稳定</span></div>
-      <div class="meta"><b>99.9%</b><span>安全</span></div>
-      <div class="meta"><b>12ms</b><span>可靠</span></div>
-      <div class="meta"><b>24/7</b><span>10年老店</span></div>
-    </div>
-  </section>
-
-  <div class="section-title">// 可用资源列表</div>
-  <section class="grid" id="grid"></section>
-</main>
-
-<footer>© 2026 米麒麟科技 · MIQILIN TECH · ALL RIGHTS RESERVED</footer>
-
-<div class="toast" id="toast"></div>
-
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>米麒麟工作室 | MiQilin Studio</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<link href="https://cdn.jsdelivr.net/npm/font-awesome@4.7.0/css/font-awesome.min.css" rel="stylesheet">
 <script>
-/* =========================================================
-   1. 背景粒子网络
-   ========================================================= */
-(function(){
-  const cvs = document.getElementById('bg');
-  const ctx = cvs.getContext('2d');
-  let W = 0, H = 0, DPR = 1, ps = [];
-
-  function init(){
-    DPR = Math.min(window.devicePixelRatio || 1, 2);
-    W = cvs.width  = Math.floor(innerWidth  * DPR);
-    H = cvs.height = Math.floor(innerHeight * DPR);
-    cvs.style.width  = innerWidth  + 'px';
-    cvs.style.height = innerHeight + 'px';
-    const count = Math.min(85, Math.max(30, Math.floor(innerWidth * innerHeight / 18000)));
-    ps = Array.from({length: count}, () => ({
-      x: Math.random() * W,
-      y: Math.random() * H,
-      vx: (Math.random() - .5) * .34 * DPR,
-      vy: (Math.random() - .5) * .34 * DPR,
-      r: (Math.random() * 1.5 + .6) * DPR
-    }));
-  }
-
-  const MAX = () => 150 * DPR;
-
-  function loop(){
-    ctx.clearRect(0, 0, W, H);
-    const max = MAX(), max2 = max * max;
-    for (let i = 0; i < ps.length; i++){
-      const p = ps[i];
-      p.x += p.vx; p.y += p.vy;
-      if (p.x < 0 || p.x > W) p.vx *= -1;
-      if (p.y < 0 || p.y > H) p.vy *= -1;
-      for (let j = i + 1; j < ps.length; j++){
-        const q = ps[j];
-        const dx = p.x - q.x, dy = p.y - q.y;
-        const d2 = dx * dx + dy * dy;
-        if (d2 < max2){
-          const a = (1 - Math.sqrt(d2) / max) * .26;
-          ctx.strokeStyle = 'rgba(34,211,238,' + a + ')';
-          ctx.lineWidth = DPR * .6;
-          ctx.beginPath();
-          ctx.moveTo(p.x, p.y);
-          ctx.lineTo(q.x, q.y);
-          ctx.stroke();
+tailwind.config = {
+  theme: {
+    extend: {
+      colors: {
+        cyber: {
+          blue: "#00d4ff",
+          purple: "#a855f7",
+          pink: "#ff2d95",
+          dark: "#0b1026",
+          darker: "#05070f"
+        }
+      },
+      fontFamily: {
+        cyber: ['Orbitron', 'Rajdhani', 'system-ui', 'sans-serif'],
+      },
+      boxShadow: {
+        'neon-blue': '0 0 20px rgba(0,212,255,.6)',
+        'neon-purple': '0 0 25px rgba(168,85,247,.6)',
+        'neon-pink': '0 0 25px rgba(255,45,149,.5)',
+      },
+      animation: {
+        'pulse-slow': 'pulse 3s ease-in-out infinite',
+        'float': 'float 6s ease-in-out infinite',
+        'glow': 'glow 2s ease-in-out infinite alternate',
+      },
+      keyframes: {
+        float: {
+          '0%,100%': { transform: 'translateY(0)' },
+          '50%': { transform: 'translateY(-12px)' }
+        },
+        glow: {
+          '0%': { textShadow: '0 0 10px #00d4ff, 0 0 20px #00d4ff' },
+          '100%': { textShadow: '0 0 20px #a855f7, 0 0 40px #a855f7' }
         }
       }
     }
-    for (const p of ps){
-      ctx.beginPath();
-      ctx.fillStyle = 'rgba(130,225,255,.55)';
-      ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
-      ctx.fill();
-    }
-    requestAnimationFrame(loop);
   }
-
-  init(); loop();
-  let rt;
-  addEventListener('resize', () => { clearTimeout(rt); rt = setTimeout(init, 180); });
-})();
-
-/* =========================================================
-   2. 资源数据
-   ========================================================= */
-const ICONS = [
-  '<path d="M12 2 3 7v10l9 5 9-5V7z"/><path d="M3 7l9 5 9-5M12 12v10"/>',
-  '<ellipse cx="12" cy="6" rx="8" ry="3"/><path d="M4 6v12c0 1.7 3.6 3 8 3s8-1.3 8-3V6"/><path d="M4 12c0 1.7 3.6 3 8 3s8-1.3 8-3"/>',
-  '<circle cx="12" cy="12" r="9"/><path d="M10 8.5 16 12l-6 3.5z"/>',
-  '<circle cx="12" cy="12" r="3"/><path d="M12 2v3M12 19v3M2 12h3M19 12h3M4.9 4.9l2.1 2.1M17 17l2.1 2.1M19.1 4.9 17 7M7 17l-2.1 2.1"/>',
-  '<path d="M7 18a4 4 0 0 1 0-8 5.5 5.5 0 0 1 10.6 1.5A3.5 3.5 0 0 1 17 18z"/>',
-  '<rect x="3" y="4" width="18" height="16" rx="2"/><path d="m7 9 3 3-3 3M13 15h4"/>'
-];
-const ICON_COLORS = ['#22d3ee', '#a855f7', '#38bdf8', '#f472b6', '#34d399', '#fbbf24'];
-
-const RESOURCES = [
-  { name:'PUBG国际服',
-    desc:'10年老店',
-    tags:['Windows','GPU 加速','免安装'] },
-  { name:'米麒麟数据恢复大师', ver:'v5.0.4', size:'92 MB',
-    desc:'深度扫描磁盘扇区，支持误删、格式化、分区丢失等多种恢复场景。',
-    tags:['Windows','数据安全'] },
-  { name:'全平台视频嗅探器', ver:'v2.8.0', size:'64 MB',
-    desc:'一键解析主流平台视频直链，支持 8K 下载与字幕自动提取。',
-    tags:['Win/Mac','批量下载'] },
-  { name:'系统优化引擎 Turbo', ver:'v1.9.7', size:'120 MB',
-    desc:'内存智能释放、启动项管理、驱动一键更新，让老机器重获新生。',
-    tags:['Windows','性能提升'] },
-  { name:'私有云盘部署套件', ver:'v4.1.2', size:'340 MB',
-    desc:'Docker 一键部署的私有云方案，支持多端同步、在线预览与权限管理。',
-    tags:['Linux','Docker','NAS'] },
-  { name:'智能字幕生成器', ver:'v2.3.5', size:'210 MB',
-    desc:'语音识别自动打轴，支持 32 种语言互译与 SRT / ASS 格式导出。',
-    tags:['全平台','AI 翻译'] }
-];
-
-/* =========================================================
-   3. 渲染资源卡片
-   ========================================================= */
-const grid = document.getElementById('grid');
-grid.innerHTML = RESOURCES.map((r, i) => `
-  <article class="card" style="animation-delay:${i * 70}ms">
-    <div class="card-head">
-      <div class="icon" style="color:${ICON_COLORS[i % ICON_COLORS.length]}">
-        <svg viewBox="0 0 24 24">${ICONS[i % ICONS.length]}</svg>
-      </div>
-      <div>
-        <h3>${r.name}</h3>
-        <div class="ver">${r.ver} · ${r.size}</div>
-      </div>
-    </div>
-    <p class="desc">${r.desc}</p>
-    <div class="tags">${r.tags.map(t => `<span>${t}</span>`).join('')}</div>
-    <button class="dl-btn" data-idx="${i}">↓ 立即下载</button>
-  </article>
-`).join('');
-document.getElementById('statFiles').textContent = RESOURCES.length;
-
-/* =========================================================
-   4. 下载逻辑（生成占位文件，可替换为真实地址）
-   ========================================================= */
-function doDownload(r){
-  // ⚠️ 演示：生成占位 txt。真实项目请替换为后端签名下载链接。
-  const content =
-`========================================
-  米麒麟科技 · 资源下载凭据
-========================================
-资源名称：${r.name}
-版本号　：${r.ver}
-文件大小：${r.size}
-生成时间：${new Date().toLocaleString('zh-CN')}
-下载令牌：${Math.random().toString(36).slice(2, 10).toUpperCase()}
-
-本文件为演示占位内容。
-请在后端将下载地址替换为真实的资源 CDN 链接。
-========================================`;
-
-  const blob = new Blob([content], { type: 'text/plain;charset=utf-8' });
-  const url = URL.createObjectURL(blob);
-  const a = document.createElement('a');
-  a.href = url;
-  a.download = r.name + '_' + r.ver + '.txt';
-  document.body.appendChild(a);
-  a.click();
-  a.remove();
-  setTimeout(() => URL.revokeObjectURL(url), 2000);
-}
-
-/* =========================================================
-   5. 点击下载（直接下载，无任何验证）
-   ========================================================= */
-grid.addEventListener('click', e => {
-  const btn = e.target.closest('.dl-btn');
-  if (!btn || btn.disabled) return;
-
-  const r = RESOURCES[+btn.dataset.idx];
-  const original = btn.textContent;
-
-  // 按钮进入“下载中”状态
-  btn.disabled = true;
-  btn.textContent = '⏳ 正在下载...';
-
-  doDownload(r);
-
-  // 2 秒后恢复，可重复下载
-  setTimeout(() => {
-    btn.disabled = false;
-    btn.textContent = original;
-  }, 2000);
-
-  toast('↓ 下载已开始：' + r.name);
-});
-
-/* =========================================================
-   6. 顶部按钮 → 滚动到资源区
-   ========================================================= */
-document.getElementById('jumpBtn').onclick = () => {
-  document.getElementById('grid').scrollIntoView({ behavior:'smooth', block:'start' });
-};
-
-/* =========================================================
-   7. Toast
-   ========================================================= */
-let toastTimer;
-function toast(msg){
-  const t = document.getElementById('toast');
-  t.textContent = msg;
-  t.classList.add('show');
-  clearTimeout(toastTimer);
-  toastTimer = setTimeout(() => t.classList.remove('show'), 2800);
 }
 </script>
+<style>
+  body {
+    background:
+      radial-gradient(circle at 20% 20%, rgba(0,212,255,.15), transparent 40%),
+      radial-gradient(circle at 80% 10%, rgba(168,85,247,.2), transparent 45%),
+      radial-gradient(circle at 50% 80%, rgba(255,45,149,.15), transparent 40%),
+      linear-gradient(180deg, #05070f 0%, #0b1026 50%, #05070f 100%);
+    color: #fff;
+    overflow-x: hidden;
+  }
+
+  .grid-bg {
+    background-image:
+      linear-gradient(rgba(0,212,255,.08) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(0,212,255,.08) 1px, transparent 1px);
+    background-size: 40px 40px;
+    mask-image: radial-gradient(ellipse at center, black 40%, transparent 80%);
+  }
+
+  .glitch {
+    position: relative;
+    display: inline-block;
+  }
+  .glitch::before,
+  .glitch::after {
+    content: attr(data-text);
+    position: absolute;
+    left: 0; top: 0;
+    width: 100%;
+    overflow: hidden;
+  }
+  .glitch::before {
+    color: #00d4ff;
+    transform: translate(-2px, 0);
+    clip-path: inset(20% 0 60% 0);
+    opacity: .8;
+  }
+  .glitch::after {
+    color: #ff2d95;
+    transform: translate(2px, 0);
+    clip-path: inset(60% 0 20% 0);
+    opacity: .8;
+  }
+
+  .btn-cyber {
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    padding: 14px 28px;
+    font-weight: 700;
+    letter-spacing: 1px;
+    color: #fff;
+    background: linear-gradient(135deg, rgba(0,212,255,.15), rgba(168,85,247,.25));
+    border: 1px solid rgba(0,212,255,.5);
+    clip-path: polygon(12px 0, 100% 0, calc(100% - 12px) 100%, 0 100%);
+    transition: .3s ease;
+    box-shadow: 0 0 15px rgba(0,212,255,.4);
+  }
+  .btn-cyber:hover {
+    background: linear-gradient(135deg, rgba(0,212,255,.35), rgba(168,85,247,.5));
+    box-shadow: 0 0 30px rgba(168,85,247,.7);
+    transform: translateY(-3px);
+  }
+
+  .card {
+    background: linear-gradient(145deg, rgba(255,255,255,.04), rgba(255,255,255,.01));
+    border: 1px solid rgba(0,212,255,.25);
+    backdrop-filter: blur(10px);
+    position: relative;
+    overflow: hidden;
+  }
+  .card::before {
+    content: "";
+    position: absolute;
+    top: 0; left: -60%;
+    width: 60%; height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(0,212,255,.15), transparent);
+    transform: skewX(-20deg);
+    transition: .6s;
+  }
+  .card:hover::before {
+    left: 120%;
+  }
+
+  .title-line {
+    width: 60px;
+    height: 4px;
+    background: linear-gradient(90deg, #00d4ff, #a855f7, #ff2d95);
+    margin: 14px auto 0;
+    border-radius: 2px;
+  }
+
+  .step-num {
+    width: 46px; height: 46px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: linear-gradient(135deg, #00d4ff, #a855f7);
+    color: #fff;
+    font-weight: 800;
+    box-shadow: 0 0 20px rgba(168,85,247,.6);
+  }
+
+  .particle {
+    position: absolute;
+    border-radius: 50%;
+    background: #00d4ff;
+    opacity: .6;
+    pointer-events: none;
+  }
+
+  /* 弹窗样式 */
+  .modal {
+    position: fixed;
+    inset:0;
+    background:rgba(0,0,0,0.75);
+    backdrop-filter: blur(6px);
+    z-index:999;
+    display:none;
+    align-items:center;
+    justify-content:center;
+    padding:20px;
+  }
+  .modal-box{
+    width:100%;
+    max-width:480px;
+    background:#0b1026;
+    border:1px solid #00d4ff60;
+    border-radius:16px;
+    padding:28px;
+    box-shadow:0 0 30px #00d4ff40;
+  }
+  .link-item{
+    display:block;
+    width:100%;
+    padding:14px 16px;
+    margin:10px 0;
+    border:1px solid rgba(168,85,247,0.4);
+    border-radius:10px;
+    color:#fff;
+    transition:0.3s;
+    background:rgba(255,255,255,0.03);
+  }
+  .link-item:hover{
+    background:rgba(0,212,255,0.12);
+    border-color:#00d4ff;
+    transform:translateX(4px);
+  }
+  .close-btn{
+    margin-top:16px;
+    width:100%;
+  }
+
+  @media (max-width: 768px) {
+    .glitch { font-size: 42px !important; }
+  }
+</style>
+</head>
+<body class="font-cyber">
+
+<!-- 背景网格装饰 -->
+<div class="fixed inset-0 grid-bg pointer-events-none"></div>
+
+<!-- 弹窗：下载链接弹窗 -->
+<div id="downloadModal" class="modal">
+  <div class="modal-box">
+    <h3 class="text-2xl font-bold text-center mb-2">📥 下载链接</h3>
+    <p class="text-white/60 text-sm text-center mb-6">米麒麟工作室 · 4个下载地址</p>
+
+    <!-- 在这里替换href为你的真实下载链接 -->
+    <a href="链接1" target="_blank" class="link-item">🔗 下载地址 1</a>
+    <a href="链接2" target="_blank" class="link-item">🔗 下载地址 2</a>
+    <a href="链接3" target="_blank" class="link-item">🔗 下载地址 3</a>
+    <a href="链接4" target="_blank" class="link-item">🔗 下载地址 4</a>
+
+    <button onclick="closeModal()" class="btn-cyber close-btn">关闭弹窗</button>
+  </div>
+</div>
+
+<!-- 导航栏 -->
+<header class="relative z-50 flex items-center justify-between px-6 md:px-14 py-5">
+  <div class="flex items-center gap-3">
+    <img id="logoImg" src="https://doc.doubao.com/s/Vzm4S1y_7sI/" alt="米麒麟工作室 Logo" class="w-11 h-11 rounded-lg border border-cyber-blue/40 shadow-neon-blue" />
+    <div>
+      <div class="text-lg md:text-xl font-extrabold tracking-widest text-white animate-glow">米麒麟工作室</div>
+      <div class="text-[11px] text-cyber-blue/80 tracking-[3px]">MIQILIN STUDIO</div>
+    </div>
+  </div>
+  <nav class="hidden md:flex gap-8 text-sm text-white/80">
+    <a href="#download" class="hover:text-cyber-blue transition">下载</a>
+    <a href="#tutorial" class="hover:text-cyber-blue transition">教程</a>
+    <a href="#links" class="hover:text-cyber-blue transition">卡网链接</a>
+  </nav>
+  <button onclick="openModal()" class="btn-cyber text-sm">立即获取</button>
+</header>
+
+<!-- 主视觉区 -->
+<section class="relative z-10 flex flex-col items-center justify-center text-center px-6 pt-16 pb-24">
+  <div class="inline-block px-4 py-1 mb-6 text-xs tracking-[4px] text-cyber-blue border border-cyber-blue/40 rounded-full bg-cyber-blue/5">
+    MIQILIN STUDIO · OFFICIAL SITE
+  </div>
+
+  <h1 class="text-5xl md:text-7xl font-extrabold leading-tight">
+    <span class="glitch" data-text="突破限制">突破限制</span>
+    <br>
+    <span class="bg-gradient-to-r from-cyber-blue via-cyber-purple to-cyber-pink bg-clip-text text-transparent">极速畅连未来</span>
+  </h1>
+
+  <p class="mt-6 max-w-2xl text-white/70 text-base md:text-lg">
+    米麒麟工作室为你带来更稳定、更高速的网络体验工具。一键下载，快速上手，随时切换你的专属网络节点。
+  </p>
+
+  <div class="mt-10 flex flex-wrap gap-4 justify-center">
+    <button onclick="openModal()" class="btn-cyber">
+      <i class="fa fa-download"></i> 立即下载
+    </button>
+    <a href="#tutorial" class="btn-cyber" style="border-color:rgba(168,85,247,.5);box-shadow:0 0 15px rgba(168,85,247,.4);">
+      <i class="fa fa-book"></i> 查看教程
+    </a>
+  </div>
+
+  <div class="mt-16 grid grid-cols-3 gap-6 md:gap-10 max-w-3xl">
+    <div class="text-center">
+      <div class="text-3xl md:text-4xl font-extrabold text-cyber-blue">99.9%</div>
+      <div class="text-xs md:text-sm text-white/60 mt-1">稳定在线</div>
+    </div>
+    <div class="text-center">
+      <div class="text-3xl md:text-4xl font-extrabold text-cyber-purple">500+</div>
+      <div class="text-xs md:text-sm text-white/60 mt-1">优质节点</div>
+    </div>
+    <div class="text-center">
+      <div class="text-3xl md:text-4xl font-extrabold text-cyber-pink">24H</div>
+      <div class="text-xs md:text-sm text-white/60 mt-1">全天运行</div>
+    </div>
+  </div>
+</section>
+
+<!-- 下载区 -->
+<section id="download" class="relative z-10 py-20 px-6 md:px-14">
+  <div class="text-center mb-14">
+    <h2 class="text-3xl md:text-5xl font-extrabold">下载中心</h2>
+    <div class="title-line"></div>
+    <p class="text-white/60 mt-4 text-sm md:text-base">点击按钮，获取4个备用下载地址</p>
+  </div>
+
+  <div class="flex justify-center">
+    <button onclick="openModal()" class="btn-cyber">
+      <i class="fa fa-download"></i> 打开下载链接
+    </button>
+  </div>
+</section>
+
+<!-- 教程区 -->
+<section id="tutorial" class="relative z-10 py-20 px-6 md:px-14">
+  <div class="text-center mb-14">
+    <h2 class="text-3xl md:text-5xl font-extrabold">使用教程</h2>
+    <div class="title-line"></div>
+    <p class="text-white/60 mt-4 text-sm md:text-base">四步完成配置，快速开启高速网络体验</p>
+  </div>
+
+  <div class="max-w-5xl mx-auto space-y-5">
+    <div class="card rounded-xl p-6 md:p-7 flex flex-col md:flex-row items-start gap-5">
+      <div class="step-num">01</div>
+      <div class="flex-1">
+        <h3 class="text-lg font-bold text-cyber-blue">下载并安装</h3>
+        <p class="text-white/70 text-sm mt-1">从下载弹窗里选择任意一个地址下载，完成安装后打开软件。</p>
+      </div>
+    </div>
+
+    <div class="card rounded-xl p-6 md:p-7 flex flex-col md:flex-row items-start gap-5">
+      <div class="step-num">02</div>
+      <div class="flex-1">
+        <h3 class="text-lg font-bold text-cyber-purple">导入配置</h3>
+        <p class="text-white/70 text-sm mt-1">点击“导入配置”，选择你下载的配置文件或粘贴订阅链接。</p>
+      </div>
+    </div>
+
+    <div class="card rounded-xl p-6 md:p-7 flex flex-col md:flex-row items-start gap-5">
+      <div class="step-num">03</div>
+      <div class="flex-1">
+        <h3 class="text-lg font-bold text-cyber-pink">选择节点</h3>
+        <p class="text-white/70 text-sm mt-1">根据网络情况选择延迟较低、速度较快的节点线路。</p>
+      </div>
+    </div>
+
+    <div class="card rounded-xl p-6 md:p-7 flex flex-col md:flex-row items-start gap-5">
+      <div class="step-num">04</div>
+      <div class="flex-1">
+        <h3 class="text-lg font-bold text-white">一键连接</h3>
+        <p class="text-white/70 text-sm mt-1">点击连接按钮，显示连接成功后即可开始使用。</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 卡网链接区 -->
+<section id="links" class="relative z-10 py-20 px-6 md:px-14">
+  <div class="text-center mb-14">
+    <h2 class="text-3xl md:text-5xl font-extrabold">卡网链接</h2>
+    <div class="title-line"></div>
+    <p class="text-white/60 mt-4 text-sm md:text-base">点击下方链接，快速进入米麒麟工作室相关平台</p>
+  </div>
+
+  <div class="grid md:grid-cols-2 gap-6 max-w-5xl mx-auto">
+    <a href="#" class="card rounded-xl p-7 flex items-center gap-5 group">
+      <div class="w-14 h-14 rounded-lg bg-gradient-to-br from-cyber-blue to-cyber-purple flex items-center justify-center text-2xl shadow-neon-blue">
+        <i class="fa fa-link"></i>
+      </div>
+      <div>
+        <h3 class="text-lg font-bold">官方订阅链接</h3>
+        <p class="text-white/60 text-sm mt-1">获取最新配置与节点地址</p>
+      </div>
+      <i class="fa fa-arrow-right ml-auto text-cyber-blue group-hover:translate-x-2 transition"></i>
+    </a>
+
+    <a href="#" class="card rounded-xl p-7 flex items-center gap-5 group">
+      <div class="w-14 h-14 rounded-lg bg-gradient-to-br from-cyber-purple to-cyber-pink flex items-center justify-center text-2xl shadow-neon-purple">
+        <i class="fa fa-cloud"></i>
+      </div>
+      <div>
+        <h3 class="text-lg font-bold">备用入口链接</h3>
+        <p class="text-white/60 text-sm mt-1">主站无法访问时使用备用入口</p>
+      </div>
+      <i class="fa fa-arrow-right ml-auto text-cyber-purple group-hover:translate-x-2 transition"></i>
+    </a>
+
+    <a href="#" class="card rounded-xl p-7 flex items-center gap-5 group">
+      <div class="w-14 h-14 rounded-lg bg-gradient-to-br from-cyber-pink to-red-500 flex items-center justify-center text-2xl shadow-neon-pink">
+        <i class="fa fa-support"></i>
+      </div>
+      <div>
+        <h3 class="text-lg font-bold">客服与反馈</h3>
+        <p class="text-white/60 text-sm mt-1">遇到问题？联系米麒麟工作室团队</p>
+      </div>
+      <i class="fa fa-arrow-right ml-auto text-cyber-pink group-hover:translate-x-2 transition"></i>
+    </a>
+
+    <a href="#" class="card rounded-xl p-7 flex items-center gap-5 group">
+      <div class="w-14 h-14 rounded-lg bg-gradient-to-br from-green-400 to-cyber-blue flex items-center justify-center text-2xl shadow-neon-blue">
+        <i class="fa fa-users"></i>
+      </div>
+      <div>
+        <h3 class="text-lg font-bold">交流群链接</h3>
+        <p class="text-white/60 text-sm mt-1">加入用户社群，获取最新动态</p>
+      </div>
+      <i class="fa fa-arrow-right ml-auto text-green-400 group-hover:translate-x-2 transition"></i>
+    </a>
+  </div>
+</section>
+
+<!-- 页脚 -->
+<footer class="relative z-10 border-t border-cyber-blue/10 py-10 text-center text-white/50 text-sm">
+  <div class="flex items-center justify-center gap-3 mb-3">
+    <img id="logoImg2" src="https://doc.doubao.com/s/Vzm4S1y_7sI/" alt="米麒麟工作室 Logo" class="w-8 h-8 rounded border border-cyber-blue/40" />
+    <span class="text-white font-bold tracking-widest">米麒麟工作室</span>
+  </div>
+  <p>© 2025 MiQilin Studio. All Rights Reserved.</p>
+</footer>
+
+<script>
+  //弹窗控制
+  const modal = document.getElementById('downloadModal');
+  function openModal(){
+    modal.style.display = 'flex';
+  }
+  function closeModal(){
+    modal.style.display = 'none';
+  }
+  //点击遮罩关闭弹窗
+  modal.addEventListener('click',function(e){
+    if(e.target === modal) closeModal();
+  })
+
+  // 简单粒子效果
+  function createParticle() {
+    const p = document.createElement('div');
+    p.className = 'particle';
+    const size = Math.random() * 4 + 2;
+    p.style.width = size + 'px';
+    p.style.height = size + 'px';
+    p.style.left = Math.random() * 100 + '%';
+    p.style.top = Math.random() * 100 + '%';
+    p.style.background = Math.random() > 0.5 ? '#00d4ff' : '#a855f7';
+    document.querySelector('.grid-bg').appendChild(p);
+    setTimeout(() => p.remove(), 3000);
+  }
+  setInterval(createParticle, 400);
+</script>
+
 </body>
 </html>
