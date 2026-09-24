@@ -1,441 +1,952 @@
 <!DOCTYPE html>
 <html lang="zh-CN">
 <head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>米麒麟工作室 | MiQilin Studio</title>
-<script src="https://cdn.tailwindcss.com"></script>
-<link href="https://cdn.jsdelivr.net/npm/font-awesome@4.7.0/css/font-awesome.min.css" rel="stylesheet">
-<script>
-tailwind.config = {
-  theme: {
-    extend: {
-      colors: {
-        cyber: {
-          blue: "#00d4ff",
-          purple: "#a855f7",
-          pink: "#ff2d95",
-          dark: "#0b1026",
-          darker: "#05070f"
-        }
-      },
-      fontFamily: {
-        cyber: ['Orbitron', 'Rajdhani', 'system-ui', 'sans-serif'],
-      },
-      boxShadow: {
-        'neon-blue': '0 0 20px rgba(0,212,255,.6)',
-        'neon-purple': '0 0 25px rgba(168,85,247,.6)',
-        'neon-pink': '0 0 25px rgba(255,45,149,.5)',
-      },
-      animation: {
-        'pulse-slow': 'pulse 3s ease-in-out infinite',
-        'float': 'float 6s ease-in-out infinite',
-        'glow': 'glow 2s ease-in-out infinite alternate',
-      },
-      keyframes: {
-        float: {
-          '0%,100%': { transform: 'translateY(0)' },
-          '50%': { transform: 'translateY(-12px)' }
-        },
-        glow: {
-          '0%': { textShadow: '0 0 10px #00d4ff, 0 0 20px #00d4ff' },
-          '100%': { textShadow: '0 0 20px #a855f7, 0 0 40px #a855f7' }
-        }
-      }
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>麒麟工作室 · 资源下载中心</title>
+<style>
+  /* ================= 变量 ================= */
+  :root{
+    --gold:#f7c95c;
+    --gold-light:#ffe9a8;
+    --gold-deep:#d99f2b;
+    --violet:#9a7bff;
+    --cyan:#4fd1ff;
+    --bg:#05060c;
+    --card-bg:rgba(10,12,20,.82);
+    --txt:#eef1fa;
+    --muted:#8d95ac;
+  }
+
+  @property --ang{
+    syntax:'<angle>';
+    initial-value:0deg;
+    inherits:true;
+  }
+
+  *{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent;}
+
+  html{scroll-behavior:smooth;}
+
+  body{
+    font-family:"PingFang SC","Microsoft YaHei","Helvetica Neue",system-ui,sans-serif;
+    color:var(--txt);
+    background:var(--bg);
+    min-height:100vh;
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    padding:46px 18px 34px;
+    overflow-x:hidden;
+    position:relative;
+  }
+
+  /* ================= 背景光晕 ================= */
+  .bg-orbs{position:fixed;inset:0;z-index:0;overflow:hidden;pointer-events:none;}
+
+  .orb{position:absolute;border-radius:50%;filter:blur(90px);opacity:.55;will-change:transform;}
+
+  .orb-1{width:560px;height:560px;top:-190px;left:-160px;
+    background:radial-gradient(circle, rgba(247,201,92,.62), transparent 68%);
+    animation:float1 19s ease-in-out infinite;}
+  .orb-2{width:660px;height:660px;bottom:-260px;right:-200px;
+    background:radial-gradient(circle, rgba(140,90,255,.5), transparent 68%);
+    animation:float2 23s ease-in-out infinite;}
+  .orb-3{width:440px;height:440px;top:42%;left:56%;
+    background:radial-gradient(circle, rgba(255,118,58,.3), transparent 70%);
+    animation:float3 17s ease-in-out infinite;}
+  .orb-4{width:380px;height:380px;top:8%;right:6%;
+    background:radial-gradient(circle, rgba(60,200,255,.24), transparent 70%);
+    animation:float1 21s ease-in-out infinite reverse;}
+
+  @keyframes float1{
+    0%,100%{transform:translate3d(0,0,0) scale(1);}
+    33%{transform:translate3d(70px,60px,0) scale(1.12);}
+    66%{transform:translate3d(-40px,90px,0) scale(.94);}
+  }
+  @keyframes float2{
+    0%,100%{transform:translate3d(0,0,0) scale(1);}
+    40%{transform:translate3d(-90px,-70px,0) scale(1.16);}
+    70%{transform:translate3d(50px,-40px,0) scale(.92);}
+  }
+  @keyframes float3{
+    0%,100%{transform:translate3d(0,0,0) scale(1);}
+    50%{transform:translate3d(-110px,-60px,0) scale(1.2);}
+  }
+
+  /* 细网格 */
+  .bg-grid{
+    position:fixed;inset:0;z-index:0;pointer-events:none;
+    background-image:
+      linear-gradient(rgba(255,255,255,.028) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(255,255,255,.028) 1px, transparent 1px);
+    background-size:48px 48px;
+    mask-image:radial-gradient(ellipse 75% 65% at 50% 35%, #000 0%, transparent 100%);
+    -webkit-mask-image:radial-gradient(ellipse 75% 65% at 50% 35%, #000 0%, transparent 100%);
+  }
+
+  #fx{position:fixed;inset:0;z-index:1;pointer-events:none;}
+
+  /* 鼠标光晕 */
+  .cursor-glow{
+    position:fixed;z-index:3;
+    width:420px;height:420px;margin:-210px 0 0 -210px;
+    border-radius:50%;
+    background:radial-gradient(circle, rgba(247,201,92,.16), transparent 62%);
+    pointer-events:none;mix-blend-mode:screen;opacity:0;
+    transition:opacity .5s;will-change:transform;
+  }
+  .cursor-glow.on{opacity:1;}
+
+  /* ================= 卡片外框 ================= */
+  .card-wrap{
+    position:relative;z-index:10;
+    width:100%;max-width:580px;
+    border-radius:32px;padding:1.6px;
+    background:conic-gradient(from var(--ang),
+        rgba(247,201,92,0)   0deg,
+        rgba(247,201,92,.95) 42deg,
+        rgba(255,240,190,1)  72deg,
+        rgba(247,201,92,0)   130deg,
+        rgba(247,201,92,0)   205deg,
+        rgba(154,123,255,.9) 258deg,
+        rgba(247,201,92,0)   320deg);
+    animation:spinAng 7s linear infinite;
+    box-shadow:0 0 70px -14px rgba(247,201,92,.4), 0 46px 110px -46px #000;
+  }
+
+  .card-wrap::before{
+    content:"";position:absolute;inset:-3px;border-radius:36px;
+    background:conic-gradient(from var(--ang),
+        rgba(247,201,92,0)   0deg,
+        rgba(247,201,92,.85) 42deg,
+        rgba(255,240,190,.9) 72deg,
+        rgba(247,201,92,0)   130deg,
+        rgba(247,201,92,0)   205deg,
+        rgba(154,123,255,.8) 258deg,
+        rgba(247,201,92,0)   320deg);
+    filter:blur(24px);opacity:.55;z-index:-1;
+  }
+
+  @keyframes spinAng{to{--ang:360deg;}}
+
+  /* ================= 主卡片 ================= */
+  .card{
+    position:relative;
+    background:var(--card-bg);
+    backdrop-filter:blur(26px) saturate(150%);
+    -webkit-backdrop-filter:blur(26px) saturate(150%);
+    border-radius:30.4px;
+    padding:42px 26px 32px;
+    overflow:hidden;
+  }
+
+  .card::after{
+    content:"";position:absolute;top:-60%;left:-80%;
+    width:60%;height:220%;
+    background:linear-gradient(100deg,
+      transparent 0%,
+      rgba(255,255,255,.07) 45%,
+      rgba(247,201,92,.14) 50%,
+      rgba(255,255,255,.07) 55%,
+      transparent 100%);
+    transform:rotate(18deg);
+    animation:sweep 6.5s ease-in-out infinite;
+    pointer-events:none;
+  }
+  @keyframes sweep{0%{left:-80%;}55%,100%{left:130%;}}
+
+  /* ================= Logo ================= */
+  .logo{
+    position:relative;width:96px;height:96px;
+    margin:0 auto 20px;display:grid;place-items:center;
+    filter:drop-shadow(0 10px 30px rgba(247,201,92,.45));
+    animation:logoPulse 4.5s ease-in-out infinite;
+  }
+  @keyframes logoPulse{
+    0%,100%{filter:drop-shadow(0 10px 30px rgba(247,201,92,.35));}
+    50%{filter:drop-shadow(0 10px 42px rgba(247,201,92,.75));}
+  }
+  .logo svg{position:absolute;inset:0;width:100%;height:100%;}
+  .logo .hex-out{transform-origin:50% 50%;animation:hexSpin 22s linear infinite;}
+  @keyframes hexSpin{to{transform:rotate(360deg);}}
+
+  .logo-char{
+    position:relative;font-size:38px;font-weight:900;
+    background:linear-gradient(145deg,#fff9e4 0%,var(--gold) 45%,var(--gold-deep) 100%);
+    -webkit-background-clip:text;background-clip:text;color:transparent;
+    transform:translateY(-1px);
+    text-shadow:0 0 34px rgba(247,201,92,.5);
+  }
+
+  /* ================= 标题 ================= */
+  .title{
+    text-align:center;font-size:30px;font-weight:900;letter-spacing:5px;
+    background:linear-gradient(100deg,#fff8e2 0%,var(--gold) 42%,var(--gold-deep) 88%);
+    -webkit-background-clip:text;background-clip:text;color:transparent;
+    text-shadow:0 0 60px rgba(247,201,92,.28);
+  }
+
+  .subtitle{
+    text-align:center;font-size:13px;color:var(--muted);
+    margin-top:12px;letter-spacing:2px;
+  }
+  .subtitle b{color:var(--gold);font-weight:600;opacity:.9;}
+
+  /* ================= 按钮 ================= */
+  .actions{display:flex;flex-direction:column;gap:14px;margin-top:34px;}
+
+  .btn{
+    position:relative;display:flex;align-items:center;justify-content:center;
+    gap:10px;width:100%;padding:17px 22px;border-radius:16px;
+    font-size:16px;font-weight:800;letter-spacing:1px;
+    text-decoration:none;cursor:pointer;border:none;overflow:hidden;
+    font-family:inherit;
+    transition:transform .28s cubic-bezier(.22,1,.36,1), box-shadow .28s, background .28s, border-color .28s;
+  }
+  .btn svg{width:20px;height:20px;flex-shrink:0;position:relative;z-index:2;}
+  .btn span{position:relative;z-index:2;}
+
+  /* 主按钮 */
+  .btn-primary{
+    background:linear-gradient(135deg,#fff3cd 0%,var(--gold) 42%,var(--gold-deep) 100%);
+    color:#241a05;
+    box-shadow:0 16px 38px -14px rgba(247,201,92,.9),
+               inset 0 1px 0 rgba(255,255,255,.65),
+               inset 0 -2px 6px rgba(150,100,0,.2);
+  }
+  .btn-primary::before{
+    content:"";position:absolute;top:0;left:-100%;
+    width:60%;height:100%;
+    background:linear-gradient(100deg,transparent,rgba(255,255,255,.75),transparent);
+    transform:skewX(-22deg);
+    animation:btnShine 3.2s ease-in-out infinite;
+  }
+  @keyframes btnShine{0%{left:-100%;}60%,100%{left:160%;}}
+
+  .btn-primary:hover{
+    transform:translateY(-3px);
+    box-shadow:0 24px 48px -14px rgba(247,201,92,1), inset 0 1px 0 rgba(255,255,255,.7);
+  }
+  .btn-primary:active{transform:translateY(-1px) scale(.985);}
+
+  /* 次按钮 */
+  .btn-ghost{
+    background:rgba(247,201,92,.06);
+    border:1px solid rgba(247,201,92,.42);
+    color:var(--gold);
+    box-shadow:inset 0 0 24px rgba(247,201,92,.06);
+  }
+  .btn-ghost:hover{
+    background:rgba(247,201,92,.14);
+    border-color:rgba(247,201,92,.8);
+    color:var(--gold-light);
+    transform:translateY(-3px);
+    box-shadow:0 16px 34px -16px rgba(247,201,92,.85), inset 0 0 30px rgba(247,201,92,.14);
+  }
+  .btn-ghost:active{transform:translateY(-1px) scale(.985);}
+
+  /* ================= 分隔线 ================= */
+  .divider{
+    display:flex;align-items:center;gap:14px;
+    margin:38px 0 22px;color:var(--muted);
+    font-size:12.5px;letter-spacing:3px;font-weight:600;
+  }
+  .divider::before,.divider::after{
+    content:"";flex:1;height:1px;
+    background:linear-gradient(90deg,transparent,rgba(247,201,92,.45),transparent);
+  }
+  .divider i{
+    font-style:normal;width:5px;height:5px;border-radius:50%;
+    background:var(--gold);
+    box-shadow:0 0 12px 3px rgba(247,201,92,.7);
+    animation:dotPulse 2s ease-in-out infinite;
+  }
+  @keyframes dotPulse{
+    0%,100%{opacity:.5;transform:scale(.85);}
+    50%{opacity:1;transform:scale(1.25);}
+  }
+
+  /* ================= 教程图片 ================= */
+  .tutorials{display:flex;flex-direction:column;gap:16px;}
+
+  .tut-item{
+    position:relative;border-radius:18px;overflow:hidden;
+    border:1px solid rgba(247,201,92,.18);
+    background:#0d1018;cursor:zoom-in;
+    transition:border-color .3s, transform .3s, box-shadow .3s;
+    box-shadow:0 14px 34px -20px rgba(0,0,0,.95);
+  }
+  .tut-item::before{
+    content:"";position:absolute;inset:0;
+    background:linear-gradient(180deg,transparent 55%,rgba(0,0,0,.55));
+    pointer-events:none;z-index:1;
+  }
+  .tut-item::after{
+    content:"";position:absolute;inset:0;border-radius:18px;
+    box-shadow:inset 0 0 0 1px rgba(247,201,92,0);
+    transition:box-shadow .3s;pointer-events:none;z-index:2;
+  }
+  .tut-item:hover{
+    border-color:rgba(247,201,92,.65);
+    transform:translateY(-4px);
+    box-shadow:0 26px 50px -22px rgba(247,201,92,.4), 0 14px 40px -20px #000;
+  }
+  .tut-item:hover::after{box-shadow:inset 0 0 30px rgba(247,201,92,.22);}
+
+  .tut-item img{
+    display:block;width:100%;height:auto;
+    transition:transform .5s cubic-bezier(.22,1,.36,1);
+  }
+  .tut-item:hover img{transform:scale(1.035);}
+
+  .tut-badge{
+    position:absolute;top:12px;left:12px;z-index:3;
+    padding:5px 13px;font-size:11px;font-weight:800;letter-spacing:1px;
+    color:#241a05;
+    background:linear-gradient(135deg,var(--gold-light),var(--gold-deep));
+    border-radius:20px;
+    box-shadow:0 4px 16px rgba(0,0,0,.5), 0 0 20px rgba(247,201,92,.5);
+  }
+
+  .tip{
+    text-align:center;font-size:12px;color:var(--muted);
+    margin-top:16px;letter-spacing:1px;
+  }
+
+  /* ================= 页脚 ================= */
+  .footer{
+    position:relative;z-index:10;margin-top:30px;
+    font-size:12px;color:#565e73;letter-spacing:1.5px;text-align:center;
+  }
+
+  /* ================= 图片放大层 ================= */
+  .lightbox{
+    position:fixed;inset:0;z-index:999;
+    display:flex;align-items:center;justify-content:center;padding:20px;
+    background:rgba(3,4,9,.94);
+    backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);
+    opacity:0;visibility:hidden;
+    transition:opacity .32s, visibility .32s;
+    cursor:zoom-out;
+  }
+  .lightbox.show{opacity:1;visibility:visible;}
+  .lightbox img{
+    max-width:100%;max-height:90vh;border-radius:16px;
+    border:1px solid rgba(247,201,92,.35);
+    box-shadow:0 0 60px rgba(247,201,92,.25), 0 34px 90px rgba(0,0,0,.95);
+    transform:scale(.93);
+    transition:transform .35s cubic-bezier(.22,1,.36,1);
+  }
+  .lightbox.show img{transform:scale(1);}
+
+  /* ============================================================
+     下载选择弹窗
+     ============================================================ */
+  .dl-modal{
+    position:fixed;inset:0;z-index:1000;
+    display:flex;align-items:center;justify-content:center;
+    padding:20px;
+    background:rgba(3,4,9,.86);
+    backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);
+    opacity:0;visibility:hidden;
+    transition:opacity .34s, visibility .34s;
+  }
+  .dl-modal.show{opacity:1;visibility:visible;}
+
+  .dl-panel{
+    position:relative;
+    width:100%;max-width:440px;
+    border-radius:26px;
+    padding:1.6px;
+    background:conic-gradient(from var(--ang),
+        rgba(247,201,92,0)   0deg,
+        rgba(247,201,92,.95) 42deg,
+        rgba(255,240,190,1)  72deg,
+        rgba(247,201,92,0)   130deg,
+        rgba(247,201,92,0)   205deg,
+        rgba(154,123,255,.9) 258deg,
+        rgba(247,201,92,0)   320deg);
+    animation:spinAng 6s linear infinite;
+    box-shadow:0 0 60px -10px rgba(247,201,92,.45), 0 40px 90px -30px #000;
+    transform:translateY(24px) scale(.94);
+    transition:transform .4s cubic-bezier(.22,1,.36,1);
+  }
+  .dl-modal.show .dl-panel{transform:translateY(0) scale(1);}
+
+  .dl-inner{
+    background:linear-gradient(165deg, rgba(16,19,30,.98), rgba(9,11,19,.99));
+    border-radius:24.4px;
+    padding:30px 22px 24px;
+    position:relative;
+    overflow:hidden;
+  }
+  .dl-inner::before{
+    content:"";position:absolute;
+    top:-70px;left:50%;transform:translateX(-50%);
+    width:280px;height:180px;
+    background:radial-gradient(ellipse, rgba(247,201,92,.28), transparent 70%);
+    pointer-events:none;
+  }
+
+  /* 关闭按钮 */
+  .dl-close{
+    position:absolute;top:14px;right:14px;
+    width:34px;height:34px;border-radius:50%;
+    display:grid;place-items:center;
+    background:rgba(255,255,255,.06);
+    border:1px solid rgba(255,255,255,.1);
+    color:var(--muted);
+    cursor:pointer;font-size:16px;line-height:1;
+    transition:background .25s, color .25s, transform .25s;
+    z-index:5;
+  }
+  .dl-close:hover{
+    background:rgba(247,201,92,.16);
+    color:var(--gold);
+    transform:rotate(90deg);
+  }
+
+  .dl-head{text-align:center;margin-bottom:22px;position:relative;z-index:2;}
+
+  .dl-head-icon{
+    width:52px;height:52px;margin:0 auto 12px;
+    display:grid;place-items:center;
+    border-radius:16px;
+    background:linear-gradient(135deg, rgba(247,201,92,.18), rgba(154,123,255,.14));
+    border:1px solid rgba(247,201,92,.3);
+    box-shadow:0 0 26px rgba(247,201,92,.22);
+  }
+  .dl-head-icon svg{width:24px;height:24px;stroke:var(--gold);}
+
+  .dl-head h2{
+    font-size:19px;font-weight:800;letter-spacing:2px;
+    background:linear-gradient(100deg,#fff8e2,var(--gold) 50%,var(--gold-deep));
+    -webkit-background-clip:text;background-clip:text;color:transparent;
+  }
+  .dl-head p{
+    font-size:12px;color:var(--muted);margin-top:7px;letter-spacing:1px;
+  }
+
+  /* 下载选项 */
+  .dl-list{display:flex;flex-direction:column;gap:11px;position:relative;z-index:2;}
+
+  .dl-opt{
+    position:relative;
+    display:flex;align-items:center;gap:14px;
+    padding:15px 16px;
+    border-radius:16px;
+    text-decoration:none;
+    background:rgba(255,255,255,.035);
+    border:1px solid rgba(255,255,255,.08);
+    overflow:hidden;
+    transition:transform .28s cubic-bezier(.22,1,.36,1),
+               border-color .28s, background .28s, box-shadow .28s;
+  }
+
+  .dl-opt::before{
+    content:"";position:absolute;top:0;left:-110%;
+    width:55%;height:100%;
+    background:linear-gradient(100deg,transparent,rgba(255,255,255,.18),transparent);
+    transform:skewX(-20deg);
+    transition:left .6s cubic-bezier(.22,1,.36,1);
+  }
+  .dl-opt:hover::before{left:150%;}
+
+  .dl-opt:hover{
+    transform:translateY(-3px);
+    background:rgba(247,201,92,.09);
+    border-color:rgba(247,201,92,.55);
+    box-shadow:0 16px 34px -18px rgba(247,201,92,.9);
+  }
+  .dl-opt:active{transform:translateY(-1px) scale(.99);}
+
+  /* 徽标 */
+  .dl-badge{
+    flex-shrink:0;
+    width:46px;height:46px;border-radius:13px;
+    display:grid;place-items:center;
+    font-size:12px;font-weight:900;letter-spacing:.5px;
+    color:#0d0f18;
+    position:relative;
+    box-shadow:inset 0 1px 0 rgba(255,255,255,.4);
+  }
+
+  .dl-badge.global{
+    background:linear-gradient(140deg,#ffe9a8,#f7c95c 55%,#d99f2b);
+    box-shadow:inset 0 1px 0 rgba(255,255,255,.5), 0 0 20px rgba(247,201,92,.55);
+  }
+  .dl-badge.tw{
+    background:linear-gradient(140deg,#b9f0ff,#4fd1ff 55%,#1e9dd6);
+    box-shadow:inset 0 1px 0 rgba(255,255,255,.5), 0 0 20px rgba(79,209,255,.5);
+  }
+  .dl-badge.vn{
+    background:linear-gradient(140deg,#d8ffe0,#5ee888 55%,#1fae52);
+    box-shadow:inset 0 1px 0 rgba(255,255,255,.5), 0 0 20px rgba(94,232,136,.5);
+  }
+
+  .dl-info{flex:1;min-width:0;}
+
+  .dl-name{
+    font-size:15px;font-weight:800;letter-spacing:.8px;color:#fff;
+    display:flex;align-items:center;gap:7px;
+  }
+  .dl-name em{
+    font-style:normal;
+    font-size:9.5px;font-weight:700;letter-spacing:.8px;
+    padding:2px 7px;border-radius:20px;
+    background:rgba(247,201,92,.14);
+    border:1px solid rgba(247,201,92,.3);
+    color:var(--gold);
+  }
+
+  .dl-desc{
+    font-size:11.5px;color:var(--muted);
+    margin-top:5px;letter-spacing:.4px;
+    white-space:nowrap;overflow:hidden;text-overflow:ellipsis;
+  }
+
+  .dl-arrow{
+    flex-shrink:0;
+    width:32px;height:32px;border-radius:50%;
+    display:grid;place-items:center;
+    background:rgba(247,201,92,.1);
+    border:1px solid rgba(247,201,92,.25);
+    transition:background .28s, transform .28s, border-color .28s;
+  }
+  .dl-arrow svg{
+    width:15px;height:15px;
+    stroke:var(--gold);stroke-width:2.4;
+    fill:none;stroke-linecap:round;stroke-linejoin:round;
+  }
+  .dl-opt:hover .dl-arrow{
+    background:var(--gold);
+    border-color:var(--gold);
+    transform:translateX(3px);
+  }
+  .dl-opt:hover .dl-arrow svg{stroke:#241a05;}
+
+  .dl-foot{
+    text-align:center;font-size:11px;color:#5c6479;
+    margin-top:18px;letter-spacing:1px;position:relative;z-index:2;
+  }
+
+  /* ================= 响应式 ================= */
+  @media (min-width:560px){
+    .card{padding:50px 40px 38px;}
+    .title{font-size:33px;}
+    .actions{flex-direction:row;}
+    .btn{flex:1;}
+  }
+
+  @media (prefers-reduced-motion: reduce){
+    *,*::before,*::after{
+      animation-duration:.001ms !important;
+      animation-iteration-count:1 !important;
+      transition-duration:.01ms !important;
     }
   }
-}
-</script>
-<style>
-  body {
-    background:
-      radial-gradient(circle at 20% 20%, rgba(0,212,255,.15), transparent 40%),
-      radial-gradient(circle at 80% 10%, rgba(168,85,247,.2), transparent 45%),
-      radial-gradient(circle at 50% 80%, rgba(255,45,149,.15), transparent 40%),
-      linear-gradient(180deg, #05070f 0%, #0b1026 50%, #05070f 100%);
-    color: #fff;
-    overflow-x: hidden;
-  }
 
-  .grid-bg {
-    background-image:
-      linear-gradient(rgba(0,212,255,.08) 1px, transparent 1px),
-      linear-gradient(90deg, rgba(0,212,255,.08) 1px, transparent 1px);
-    background-size: 40px 40px;
-    mask-image: radial-gradient(ellipse at center, black 40%, transparent 80%);
-  }
-
-  .glitch {
-    position: relative;
-    display: inline-block;
-  }
-  .glitch::before,
-  .glitch::after {
-    content: attr(data-text);
-    position: absolute;
-    left: 0; top: 0;
-    width: 100%;
-    overflow: hidden;
-  }
-  .glitch::before {
-    color: #00d4ff;
-    transform: translate(-2px, 0);
-    clip-path: inset(20% 0 60% 0);
-    opacity: .8;
-  }
-  .glitch::after {
-    color: #ff2d95;
-    transform: translate(2px, 0);
-    clip-path: inset(60% 0 20% 0);
-    opacity: .8;
-  }
-
-  .btn-cyber {
-    position: relative;
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    gap: 10px;
-    padding: 14px 28px;
-    font-weight: 700;
-    letter-spacing: 1px;
-    color: #fff;
-    background: linear-gradient(135deg, rgba(0,212,255,.15), rgba(168,85,247,.25));
-    border: 1px solid rgba(0,212,255,.5);
-    clip-path: polygon(12px 0, 100% 0, calc(100% - 12px) 100%, 0 100%);
-    transition: .3s ease;
-    box-shadow: 0 0 15px rgba(0,212,255,.4);
-  }
-  .btn-cyber:hover {
-    background: linear-gradient(135deg, rgba(0,212,255,.35), rgba(168,85,247,.5));
-    box-shadow: 0 0 30px rgba(168,85,247,.7);
-    transform: translateY(-3px);
-  }
-
-  .card {
-    background: linear-gradient(145deg, rgba(255,255,255,.04), rgba(255,255,255,.01));
-    border: 1px solid rgba(0,212,255,.25);
-    backdrop-filter: blur(10px);
-    position: relative;
-    overflow: hidden;
-  }
-  .card::before {
-    content: "";
-    position: absolute;
-    top: 0; left: -60%;
-    width: 60%; height: 100%;
-    background: linear-gradient(90deg, transparent, rgba(0,212,255,.15), transparent);
-    transform: skewX(-20deg);
-    transition: .6s;
-  }
-  .card:hover::before {
-    left: 120%;
-  }
-
-  .title-line {
-    width: 60px;
-    height: 4px;
-    background: linear-gradient(90deg, #00d4ff, #a855f7, #ff2d95);
-    margin: 14px auto 0;
-    border-radius: 2px;
-  }
-
-  .step-num {
-    width: 46px; height: 46px;
-    border-radius: 50%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    background: linear-gradient(135deg, #00d4ff, #a855f7);
-    color: #fff;
-    font-weight: 800;
-    box-shadow: 0 0 20px rgba(168,85,247,.6);
-  }
-
-  .particle {
-    position: absolute;
-    border-radius: 50%;
-    background: #00d4ff;
-    opacity: .6;
-    pointer-events: none;
-  }
-
-  /* 弹窗样式 */
-  .modal {
-    position: fixed;
-    inset:0;
-    background:rgba(0,0,0,0.75);
-    backdrop-filter: blur(6px);
-    z-index:999;
-    display:none;
-    align-items:center;
-    justify-content:center;
-    padding:20px;
-  }
-  .modal-box{
-    width:100%;
-    max-width:480px;
-    background:#0b1026;
-    border:1px solid #00d4ff60;
-    border-radius:16px;
-    padding:28px;
-    box-shadow:0 0 30px #00d4ff40;
-  }
-  .link-item{
-    display:block;
-    width:100%;
-    padding:14px 16px;
-    margin:10px 0;
-    border:1px solid rgba(168,85,247,0.4);
-    border-radius:10px;
-    color:#fff;
-    transition:0.3s;
-    background:rgba(255,255,255,0.03);
-  }
-  .link-item:hover{
-    background:rgba(0,212,255,0.12);
-    border-color:#00d4ff;
-    transform:translateX(4px);
-  }
-  .close-btn{
-    margin-top:16px;
-    width:100%;
-  }
-
-  @media (max-width: 768px) {
-    .glitch { font-size: 42px !important; }
+  @media (max-width:560px){
+    .orb{filter:blur(60px);opacity:.45;}
+    .cursor-glow{display:none;}
+    .dl-panel{max-width:100%;}
+    .dl-inner{padding:26px 18px 22px;}
   }
 </style>
 </head>
-<body class="font-cyber">
+<body>
 
-<!-- 背景网格装饰 -->
-<div class="fixed inset-0 grid-bg pointer-events-none"></div>
-
-<!-- 弹窗：下载链接弹窗 -->
-<div id="downloadModal" class="modal">
-  <div class="modal-box">
-    <h3 class="text-2xl font-bold text-center mb-2">📥 下载链接</h3>
-    <p class="text-white/60 text-sm text-center mb-6">米麒麟工作室 · 4个下载地址</p>
-
-    <!-- 在这里替换href为你的真实下载链接 -->
-    <a href="链接1" target="_blank" class="link-item">🔗 下载地址 1</a>
-    <a href="链接2" target="_blank" class="link-item">🔗 下载地址 2</a>
-    <a href="链接3" target="_blank" class="link-item">🔗 下载地址 3</a>
-    <a href="链接4" target="_blank" class="link-item">🔗 下载地址 4</a>
-
-    <button onclick="closeModal()" class="btn-cyber close-btn">关闭弹窗</button>
+  <!-- ===== 背景 ===== -->
+  <div class="bg-orbs" aria-hidden="true">
+    <div class="orb orb-1"></div>
+    <div class="orb orb-2"></div>
+    <div class="orb orb-3"></div>
+    <div class="orb orb-4"></div>
   </div>
-</div>
+  <div class="bg-grid" aria-hidden="true"></div>
+  <canvas id="fx" aria-hidden="true"></canvas>
+  <div class="cursor-glow" id="cursorGlow" aria-hidden="true"></div>
 
-<!-- 导航栏 -->
-<header class="relative z-50 flex items-center justify-between px-6 md:px-14 py-5">
-  <div class="flex items-center gap-3">
-    <img id="logoImg" src="https://doc.doubao.com/s/Vzm4S1y_7sI/" alt="米麒麟工作室 Logo" class="w-11 h-11 rounded-lg border border-cyber-blue/40 shadow-neon-blue" />
-    <div>
-      <div class="text-lg md:text-xl font-extrabold tracking-widest text-white animate-glow">米麒麟工作室</div>
-      <div class="text-[11px] text-cyber-blue/80 tracking-[3px]">MIQILIN STUDIO</div>
-    </div>
+  <!-- ================= 主卡片 ================= -->
+  <div class="card-wrap">
+    <main class="card">
+
+      <!-- Logo -->
+      <div class="logo">
+        <svg viewBox="0 0 100 100" aria-hidden="true">
+          <defs>
+            <linearGradient id="goldGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+              <stop offset="0%" stop-color="#fff3cd"/>
+              <stop offset="55%" stop-color="#f7c95c"/>
+              <stop offset="100%" stop-color="#d99f2b"/>
+            </linearGradient>
+          </defs>
+          <polygon class="hex-out"
+                   points="50,3 93,26.5 93,73.5 50,97 7,73.5 7,26.5"
+                   fill="rgba(247,201,92,0.05)"
+                   stroke="url(#goldGrad)" stroke-width="2.6"
+                   stroke-linejoin="round"/>
+          <polygon points="50,14 83,32 83,68 50,86 17,68 17,32"
+                   fill="none"
+                   stroke="rgba(247,201,92,0.3)" stroke-width="1"/>
+          <circle cx="50" cy="3" r="2.4" fill="#ffe9a8"/>
+          <circle cx="93" cy="73.5" r="2.4" fill="#ffe9a8"/>
+          <circle cx="7" cy="73.5" r="2.4" fill="#ffe9a8"/>
+        </svg>
+        <span class="logo-char">麒</span>
+      </div>
+
+      <h1 class="title">麒麟工作室</h1>
+      <p class="subtitle">资源下载 <b>·</b> 卡密购买 <b>·</b> 使用教程</p>
+
+      <!-- ================= 按钮区 ================= -->
+      <div class="actions">
+
+        <!-- ① 下载按钮：点击弹出三个服务器选项 -->
+        <button class="btn btn-primary" id="openDownload" type="button">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"
+               stroke-linecap="round" stroke-linejoin="round">
+            <path d="M12 3v12"/>
+            <path d="M7 11l5 5 5-5"/>
+            <path d="M4 20h16"/>
+          </svg>
+          <span>立即下载</span>
+        </button>
+
+        <!-- ② 卡网链接：把 href 换成你的卡网地址 -->
+        <a class="btn btn-ghost"
+           href="https://你的卡网地址.com"
+           target="_blank"
+           rel="noopener">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"
+               stroke-linecap="round" stroke-linejoin="round">
+            <rect x="2.5" y="5" width="19" height="14" rx="3"/>
+            <path d="M2.5 10h19"/>
+            <path d="M6.5 15h4"/>
+          </svg>
+          <span>前往卡网购买卡密</span>
+        </a>
+
+      </div>
+
+      <!-- ================= 教程区 ================= -->
+      <div class="divider"><i></i>使 用 教 程<i></i></div>
+
+      <div class="tutorials">
+
+        <div class="tut-item">
+          <span class="tut-badge">STEP 1</span>
+          <img class="tut-img"
+               src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='800' height='450' viewBox='0 0 800 450'%3E%3Cdefs%3E%3ClinearGradient id='g' x1='0' y1='0' x2='1' y2='1'%3E%3Cstop offset='0' stop-color='%230b0e18'/%3E%3Cstop offset='1' stop-color='%231e1636'/%3E%3C/linearGradient%3E%3C/defs%3E%3Crect width='800' height='450' fill='url(%23g)'/%3E%3Crect x='0.5' y='0.5' width='799' height='449' fill='none' stroke='%23f7c95c' stroke-opacity='0.22'/%3E%3Ctext x='400' y='212' fill='%23f7c95c' font-size='34' font-weight='bold' font-family='sans-serif' text-anchor='middle'%3E教程图片 1%3C/text%3E%3Ctext x='400' y='258' fill='%238d95ac' font-size='17' font-family='sans-serif' text-anchor='middle'%3E替换为你的真实截图%3C/text%3E%3C/svg%3E"
+               alt="教程步骤 1" loading="lazy">
+        </div>
+
+        <div class="tut-item">
+          <span class="tut-badge">STEP 2</span>
+          <img class="tut-img"
+               src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='800' height='450' viewBox='0 0 800 450'%3E%3Cdefs%3E%3ClinearGradient id='g' x1='0' y1='0' x2='1' y2='1'%3E%3Cstop offset='0' stop-color='%230b0e18'/%3E%3Cstop offset='1' stop-color='%23161636'/%3E%3C/linearGradient%3E%3C/defs%3E%3Crect width='800' height='450' fill='url(%23g)'/%3E%3Crect x='0.5' y='0.5' width='799' height='449' fill='none' stroke='%23f7c95c' stroke-opacity='0.22'/%3E%3Ctext x='400' y='212' fill='%23f7c95c' font-size='34' font-weight='bold' font-family='sans-serif' text-anchor='middle'%3E教程图片 2%3C/text%3E%3Ctext x='400' y='258' fill='%238d95ac' font-size='17' font-family='sans-serif' text-anchor='middle'%3E替换为你的真实截图%3C/text%3E%3C/svg%3E"
+               alt="教程步骤 2" loading="lazy">
+        </div>
+
+        <div class="tut-item">
+          <span class="tut-badge">STEP 3</span>
+          <img class="tut-img"
+               src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='800' height='450' viewBox='0 0 800 450'%3E%3Cdefs%3E%3ClinearGradient id='g' x1='0' y1='0' x2='1' y2='1'%3E%3Cstop offset='0' stop-color='%230b0e18'/%3E%3Cstop offset='1' stop-color='%231a1230'/%3E%3C/linearGradient%3E%3C/defs%3E%3Crect width='800' height='450' fill='url(%23g)'/%3E%3Crect x='0.5' y='0.5' width='799' height='449' fill='none' stroke='%23f7c95c' stroke-opacity='0.22'/%3E%3Ctext x='400' y='212' fill='%23f7c95c' font-size='34' font-weight='bold' font-family='sans-serif' text-anchor='middle'%3E教程图片 3%3C/text%3E%3Ctext x='400' y='258' fill='%238d95ac' font-size='17' font-family='sans-serif' text-anchor='middle'%3E替换为你的真实截图%3C/text%3E%3C/svg%3E"
+               alt="教程步骤 3" loading="lazy">
+        </div>
+
+      </div>
+
+      <p class="tip">点击图片可放大查看</p>
+
+    </main>
   </div>
-  <nav class="hidden md:flex gap-8 text-sm text-white/80">
-    <a href="#download" class="hover:text-cyber-blue transition">下载</a>
-    <a href="#tutorial" class="hover:text-cyber-blue transition">教程</a>
-    <a href="#links" class="hover:text-cyber-blue transition">卡网链接</a>
-  </nav>
-  <button onclick="openModal()" class="btn-cyber text-sm">立即获取</button>
-</header>
 
-<!-- 主视觉区 -->
-<section class="relative z-10 flex flex-col items-center justify-center text-center px-6 pt-16 pb-24">
-  <div class="inline-block px-4 py-1 mb-6 text-xs tracking-[4px] text-cyber-blue border border-cyber-blue/40 rounded-full bg-cyber-blue/5">
-    MIQILIN STUDIO · OFFICIAL SITE
+  <footer class="footer">© 2025 麒麟工作室 · 保留所有权利</footer>
+
+  <!-- ================= 图片放大层 ================= -->
+  <div class="lightbox" id="lightbox">
+    <img src="" alt="放大预览">
   </div>
 
-  <h1 class="text-5xl md:text-7xl font-extrabold leading-tight">
-    <span class="glitch" data-text="突破限制">突破限制</span>
-    <br>
-    <span class="bg-gradient-to-r from-cyber-blue via-cyber-purple to-cyber-pink bg-clip-text text-transparent">极速畅连未来</span>
-  </h1>
+  <!-- ================= 下载选择弹窗 ================= -->
+  <div class="dl-modal" id="dlModal" role="dialog" aria-modal="true" aria-labelledby="dlTitle">
+    <div class="dl-panel">
+      <div class="dl-inner">
 
-  <p class="mt-6 max-w-2xl text-white/70 text-base md:text-lg">
-    米麒麟工作室为你带来更稳定、更高速的网络体验工具。一键下载，快速上手，随时切换你的专属网络节点。
-  </p>
+        <button class="dl-close" id="dlClose" type="button" aria-label="关闭">✕</button>
 
-  <div class="mt-10 flex flex-wrap gap-4 justify-center">
-    <button onclick="openModal()" class="btn-cyber">
-      <i class="fa fa-download"></i> 立即下载
-    </button>
-    <a href="#tutorial" class="btn-cyber" style="border-color:rgba(168,85,247,.5);box-shadow:0 0 15px rgba(168,85,247,.4);">
-      <i class="fa fa-book"></i> 查看教程
-    </a>
-  </div>
+        <div class="dl-head">
+          <div class="dl-head-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M12 3v12"/>
+              <path d="M7 11l5 5 5-5"/>
+              <path d="M4 20h16"/>
+            </svg>
+          </div>
+          <h2 id="dlTitle">选择下载版本</h2>
+          <p>请选择你所在的服务器区域</p>
+        </div>
 
-  <div class="mt-16 grid grid-cols-3 gap-6 md:gap-10 max-w-3xl">
-    <div class="text-center">
-      <div class="text-3xl md:text-4xl font-extrabold text-cyber-blue">99.9%</div>
-      <div class="text-xs md:text-sm text-white/60 mt-1">稳定在线</div>
-    </div>
-    <div class="text-center">
-      <div class="text-3xl md:text-4xl font-extrabold text-cyber-purple">500+</div>
-      <div class="text-xs md:text-sm text-white/60 mt-1">优质节点</div>
-    </div>
-    <div class="text-center">
-      <div class="text-3xl md:text-4xl font-extrabold text-cyber-pink">24H</div>
-      <div class="text-xs md:text-sm text-white/60 mt-1">全天运行</div>
-    </div>
-  </div>
-</section>
+        <div class="dl-list">
 
-<!-- 下载区 -->
-<section id="download" class="relative z-10 py-20 px-6 md:px-14">
-  <div class="text-center mb-14">
-    <h2 class="text-3xl md:text-5xl font-extrabold">下载中心</h2>
-    <div class="title-line"></div>
-    <p class="text-white/60 mt-4 text-sm md:text-base">点击按钮，获取4个备用下载地址</p>
-  </div>
+          <!-- ===== PUBG 国际服 ===== -->
+          <!-- 把 href 换成国际服真实下载地址 -->
+          <a class="dl-opt" href="https://国际服下载地址.com" target="_blank" rel="noopener">
+            <div class="dl-badge global">GL</div>
+            <div class="dl-info">
+              <div class="dl-name">PUBG 国际服 <em>GLOBAL</em></div>
+              <div class="dl-desc">全球服务器 · 支持多语言 · 通用版本</div>
+            </div>
+            <div class="dl-arrow">
+              <svg viewBox="0 0 24 24"><path d="M5 12h13"/><path d="M13 6l6 6-6 6"/></svg>
+            </div>
+          </a>
 
-  <div class="flex justify-center">
-    <button onclick="openModal()" class="btn-cyber">
-      <i class="fa fa-download"></i> 打开下载链接
-    </button>
-  </div>
-</section>
+          <!-- ===== PUBG 台湾 ===== -->
+          <!-- 把 href 换成台湾服真实下载地址 -->
+          <a class="dl-opt" href="https://台湾服下载地址.com" target="_blank" rel="noopener">
+            <div class="dl-badge tw">TW</div>
+            <div class="dl-info">
+              <div class="dl-name">PUBG 台湾 <em>TAIWAN</em></div>
+              <div class="dl-desc">台服专属 · 低延迟 · 繁体中文</div>
+            </div>
+            <div class="dl-arrow">
+              <svg viewBox="0 0 24 24"><path d="M5 12h13"/><path d="M13 6l6 6-6 6"/></svg>
+            </div>
+          </a>
 
-<!-- 教程区 -->
-<section id="tutorial" class="relative z-10 py-20 px-6 md:px-14">
-  <div class="text-center mb-14">
-    <h2 class="text-3xl md:text-5xl font-extrabold">使用教程</h2>
-    <div class="title-line"></div>
-    <p class="text-white/60 mt-4 text-sm md:text-base">四步完成配置，快速开启高速网络体验</p>
-  </div>
+          <!-- ===== PUBG 越南 ===== -->
+          <!-- 把 href 换成越南服真实下载地址 -->
+          <a class="dl-opt" href="https://越南服下载地址.com" target="_blank" rel="noopener">
+            <div class="dl-badge vn">VN</div>
+            <div class="dl-info">
+              <div class="dl-name">PUBG 越南 <em>VIETNAM</em></div>
+              <div class="dl-desc">越南服务器 · 东南亚节点 · 稳定流畅</div>
+            </div>
+            <div class="dl-arrow">
+              <svg viewBox="0 0 24 24"><path d="M5 12h13"/><path d="M13 6l6 6-6 6"/></svg>
+            </div>
+          </a>
 
-  <div class="max-w-5xl mx-auto space-y-5">
-    <div class="card rounded-xl p-6 md:p-7 flex flex-col md:flex-row items-start gap-5">
-      <div class="step-num">01</div>
-      <div class="flex-1">
-        <h3 class="text-lg font-bold text-cyber-blue">下载并安装</h3>
-        <p class="text-white/70 text-sm mt-1">从下载弹窗里选择任意一个地址下载，完成安装后打开软件。</p>
+        </div>
+
+        <p class="dl-foot">如无法下载请联系客服获取最新地址</p>
+
       </div>
     </div>
-
-    <div class="card rounded-xl p-6 md:p-7 flex flex-col md:flex-row items-start gap-5">
-      <div class="step-num">02</div>
-      <div class="flex-1">
-        <h3 class="text-lg font-bold text-cyber-purple">导入配置</h3>
-        <p class="text-white/70 text-sm mt-1">点击“导入配置”，选择你下载的配置文件或粘贴订阅链接。</p>
-      </div>
-    </div>
-
-    <div class="card rounded-xl p-6 md:p-7 flex flex-col md:flex-row items-start gap-5">
-      <div class="step-num">03</div>
-      <div class="flex-1">
-        <h3 class="text-lg font-bold text-cyber-pink">选择节点</h3>
-        <p class="text-white/70 text-sm mt-1">根据网络情况选择延迟较低、速度较快的节点线路。</p>
-      </div>
-    </div>
-
-    <div class="card rounded-xl p-6 md:p-7 flex flex-col md:flex-row items-start gap-5">
-      <div class="step-num">04</div>
-      <div class="flex-1">
-        <h3 class="text-lg font-bold text-white">一键连接</h3>
-        <p class="text-white/70 text-sm mt-1">点击连接按钮，显示连接成功后即可开始使用。</p>
-      </div>
-    </div>
   </div>
-</section>
-
-<!-- 卡网链接区 -->
-<section id="links" class="relative z-10 py-20 px-6 md:px-14">
-  <div class="text-center mb-14">
-    <h2 class="text-3xl md:text-5xl font-extrabold">卡网链接</h2>
-    <div class="title-line"></div>
-    <p class="text-white/60 mt-4 text-sm md:text-base">点击下方链接，快速进入米麒麟工作室相关平台</p>
-  </div>
-
-  <div class="grid md:grid-cols-2 gap-6 max-w-5xl mx-auto">
-    <a href="#" class="card rounded-xl p-7 flex items-center gap-5 group">
-      <div class="w-14 h-14 rounded-lg bg-gradient-to-br from-cyber-blue to-cyber-purple flex items-center justify-center text-2xl shadow-neon-blue">
-        <i class="fa fa-link"></i>
-      </div>
-      <div>
-        <h3 class="text-lg font-bold">官方订阅链接</h3>
-        <p class="text-white/60 text-sm mt-1">获取最新配置与节点地址</p>
-      </div>
-      <i class="fa fa-arrow-right ml-auto text-cyber-blue group-hover:translate-x-2 transition"></i>
-    </a>
-
-    <a href="#" class="card rounded-xl p-7 flex items-center gap-5 group">
-      <div class="w-14 h-14 rounded-lg bg-gradient-to-br from-cyber-purple to-cyber-pink flex items-center justify-center text-2xl shadow-neon-purple">
-        <i class="fa fa-cloud"></i>
-      </div>
-      <div>
-        <h3 class="text-lg font-bold">备用入口链接</h3>
-        <p class="text-white/60 text-sm mt-1">主站无法访问时使用备用入口</p>
-      </div>
-      <i class="fa fa-arrow-right ml-auto text-cyber-purple group-hover:translate-x-2 transition"></i>
-    </a>
-
-    <a href="#" class="card rounded-xl p-7 flex items-center gap-5 group">
-      <div class="w-14 h-14 rounded-lg bg-gradient-to-br from-cyber-pink to-red-500 flex items-center justify-center text-2xl shadow-neon-pink">
-        <i class="fa fa-support"></i>
-      </div>
-      <div>
-        <h3 class="text-lg font-bold">客服与反馈</h3>
-        <p class="text-white/60 text-sm mt-1">遇到问题？联系米麒麟工作室团队</p>
-      </div>
-      <i class="fa fa-arrow-right ml-auto text-cyber-pink group-hover:translate-x-2 transition"></i>
-    </a>
-
-    <a href="#" class="card rounded-xl p-7 flex items-center gap-5 group">
-      <div class="w-14 h-14 rounded-lg bg-gradient-to-br from-green-400 to-cyber-blue flex items-center justify-center text-2xl shadow-neon-blue">
-        <i class="fa fa-users"></i>
-      </div>
-      <div>
-        <h3 class="text-lg font-bold">交流群链接</h3>
-        <p class="text-white/60 text-sm mt-1">加入用户社群，获取最新动态</p>
-      </div>
-      <i class="fa fa-arrow-right ml-auto text-green-400 group-hover:translate-x-2 transition"></i>
-    </a>
-  </div>
-</section>
-
-<!-- 页脚 -->
-<footer class="relative z-10 border-t border-cyber-blue/10 py-10 text-center text-white/50 text-sm">
-  <div class="flex items-center justify-center gap-3 mb-3">
-    <img id="logoImg2" src="https://doc.doubao.com/s/Vzm4S1y_7sI/" alt="米麒麟工作室 Logo" class="w-8 h-8 rounded border border-cyber-blue/40" />
-    <span class="text-white font-bold tracking-widest">米麒麟工作室</span>
-  </div>
-  <p>© 2025 MiQilin Studio. All Rights Reserved.</p>
-</footer>
 
 <script>
-  //弹窗控制
-  const modal = document.getElementById('downloadModal');
-  function openModal(){
-    modal.style.display = 'flex';
-  }
-  function closeModal(){
-    modal.style.display = 'none';
-  }
-  //点击遮罩关闭弹窗
-  modal.addEventListener('click',function(e){
-    if(e.target === modal) closeModal();
-  })
+/* ============================================================
+   1. 粒子星云背景
+   ============================================================ */
+(function () {
+  var canvas = document.getElementById('fx');
+  var ctx = canvas.getContext('2d');
+  var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
-  // 简单粒子效果
-  function createParticle() {
-    const p = document.createElement('div');
-    p.className = 'particle';
-    const size = Math.random() * 4 + 2;
-    p.style.width = size + 'px';
-    p.style.height = size + 'px';
-    p.style.left = Math.random() * 100 + '%';
-    p.style.top = Math.random() * 100 + '%';
-    p.style.background = Math.random() > 0.5 ? '#00d4ff' : '#a855f7';
-    document.querySelector('.grid-bg').appendChild(p);
-    setTimeout(() => p.remove(), 3000);
+  var W = 0, H = 0, dpr = 1;
+  var parts = [];
+  var mouse = { x: -99999, y: -99999 };
+  var raf = null;
+
+  function resize() {
+    dpr = Math.min(window.devicePixelRatio || 1, 2);
+    W = canvas.width = Math.floor(window.innerWidth * dpr);
+    H = canvas.height = Math.floor(window.innerHeight * dpr);
+    canvas.style.width = window.innerWidth + 'px';
+    canvas.style.height = window.innerHeight + 'px';
+    build();
   }
-  setInterval(createParticle, 400);
+
+  function build() {
+    var count = Math.round(Math.min(130, Math.max(45,
+      (window.innerWidth * window.innerHeight) / 16000)));
+    parts = [];
+    for (var i = 0; i < count; i++) {
+      parts.push({
+        x: Math.random() * W,
+        y: Math.random() * H,
+        r: (Math.random() * 1.7 + 0.6) * dpr,
+        vx: (Math.random() - 0.5) * 0.22 * dpr,
+        vy: (Math.random() - 0.5) * 0.22 * dpr,
+        a: Math.random() * 0.55 + 0.2,
+        p: Math.random() * Math.PI * 2,
+        gold: Math.random() < 0.78
+      });
+    }
+  }
+
+  function draw() {
+    ctx.clearRect(0, 0, W, H);
+
+    var linkDist = 118 * dpr;
+    var linkSq = linkDist * linkDist;
+    for (var i = 0; i < parts.length; i++) {
+      var p = parts[i];
+      for (var j = i + 1; j < parts.length; j++) {
+        var q = parts[j];
+        var dx = p.x - q.x, dy = p.y - q.y;
+        var d2 = dx * dx + dy * dy;
+        if (d2 < linkSq) {
+          var o = (1 - Math.sqrt(d2) / linkDist) * 0.15;
+          ctx.strokeStyle = 'rgba(247,201,92,' + o.toFixed(3) + ')';
+          ctx.lineWidth = dpr * 0.6;
+          ctx.beginPath();
+          ctx.moveTo(p.x, p.y);
+          ctx.lineTo(q.x, q.y);
+          ctx.stroke();
+        }
+      }
+    }
+
+    for (var k = 0; k < parts.length; k++) {
+      var pt = parts[k];
+
+      var mdx = pt.x - mouse.x, mdy = pt.y - mouse.y;
+      var md = Math.sqrt(mdx * mdx + mdy * mdy);
+      var repel = 150 * dpr;
+      if (md < repel && md > 0.01) {
+        var f = (1 - md / repel) * 1.1;
+        pt.x += (mdx / md) * f * dpr * 1.8;
+        pt.y += (mdy / md) * f * dpr * 1.8;
+      }
+
+      pt.x += pt.vx;
+      pt.y += pt.vy;
+      pt.p += 0.02;
+
+      if (pt.x < -30) pt.x = W + 30;
+      if (pt.x > W + 30) pt.x = -30;
+      if (pt.y < -30) pt.y = H + 30;
+      if (pt.y > H + 30) pt.y = -30;
+
+      var tw = pt.a * (0.62 + 0.38 * Math.sin(pt.p));
+      var col = pt.gold ? '255,224,150' : '175,145,255';
+
+      ctx.beginPath();
+      ctx.arc(pt.x, pt.y, pt.r * 4, 0, Math.PI * 2);
+      ctx.fillStyle = 'rgba(' + col + ',' + (tw * 0.1).toFixed(3) + ')';
+      ctx.fill();
+
+      ctx.beginPath();
+      ctx.arc(pt.x, pt.y, pt.r, 0, Math.PI * 2);
+      ctx.fillStyle = 'rgba(' + col + ',' + tw.toFixed(3) + ')';
+      ctx.fill();
+    }
+
+    raf = requestAnimationFrame(draw);
+  }
+
+  window.addEventListener('resize', function () {
+    clearTimeout(window.__rzT);
+    window.__rzT = setTimeout(resize, 180);
+  });
+
+  window.addEventListener('mousemove', function (e) {
+    mouse.x = e.clientX * dpr;
+    mouse.y = e.clientY * dpr;
+  }, { passive: true });
+
+  window.addEventListener('mouseleave', function () {
+    mouse.x = -99999;
+    mouse.y = -99999;
+  });
+
+  resize();
+  if (!reduce) {
+    draw();
+  } else {
+    draw();
+    cancelAnimationFrame(raf);
+  }
+})();
+
+/* ============================================================
+   2. 鼠标光晕跟随
+   ============================================================ */
+(function () {
+  var glow = document.getElementById('cursorGlow');
+  if (!glow) return;
+  if (window.matchMedia('(max-width: 560px)').matches) return;
+
+  var tx = window.innerWidth / 2, ty = window.innerHeight / 2;
+  var cx = tx, cy = ty;
+
+  window.addEventListener('mousemove', function (e) {
+    tx = e.clientX;
+    ty = e.clientY;
+    glow.classList.add('on');
+  }, { passive: true });
+
+  window.addEventListener('mouseleave', function () {
+    glow.classList.remove('on');
+  });
+
+  (function loop() {
+    cx += (tx - cx) * 0.11;
+    cy += (ty - cy) * 0.11;
+    glow.style.transform = 'translate3d(' + cx + 'px,' + cy + 'px,0)';
+    requestAnimationFrame(loop);
+  })();
+})();
+
+/* ============================================================
+   3. 下载弹窗开关
+   ============================================================ */
+(function () {
+  var modal   = document.getElementById('dlModal');
+  var openBtn = document.getElementById('openDownload');
+  var closeBtn= document.getElementById('dlClose');
+
+  function open() {
+    modal.classList.add('show');
+    document.body.style.overflow = 'hidden';
+  }
+  function close() {
+    modal.classList.remove('show');
+    document.body.style.overflow = '';
+  }
+
+  openBtn.addEventListener('click', open);
+  closeBtn.addEventListener('click', close);
+
+  /* 点击遮罩关闭 */
+  modal.addEventListener('click', function (e) {
+    if (e.target === modal) close();
+  });
+
+  /* Esc 关闭 */
+  document.addEventListener('keydown', function (e) {
+    if (e.key === 'Escape') close();
+  });
+})();
+
+/* ============================================================
+   4. 教程图片点击放大
+   ============================================================ */
+(function () {
+  var lb = document.getElementById('lightbox');
+  var lbImg = lb.querySelector('img');
+
+  document.querySelectorAll('.tut-img').forEach(function (img) {
+    img.addEventListener('click', function (e) {
+      e.stopPropagation();
+      lbImg.src = img.src;
+      lb.classList.add('show');
+    });
+  });
+
+  lb.addEventListener('click', function () {
+    lb.classList.remove('show');
+  });
+
+  document.addEventListener('keydown', function (e) {
+    if (e.key === 'Escape') lb.classList.remove('show');
+  });
+})();
 </script>
 
 </body>
